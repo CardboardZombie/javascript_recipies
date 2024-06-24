@@ -1,0 +1,117 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#game-area {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    transition: background-color 0.3s, border-color 0.3s;
+    position: relative; /* Add relative positioning */
+}
+
+#output {
+    height: 300px;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+#input-section {
+    display: flex;
+}
+
+#command {
+    flex: 1;
+    padding: 10px;
+}
+
+#submit {
+    padding: 10px 20px;
+}
+
+/* Dark mode styles */
+body.dark-mode {
+    background-color: #121212;
+    color: #eee;
+}
+
+#game-area.dark-mode {
+    border-color: #444;
+    background-color: #333;
+}
+
+#output.dark-mode {
+    border-color: #444;
+    background-color: #222;
+}
+
+/* Smaller toggle switch styles */
+.switch {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 17px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 13px;
+    width: 13px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(13px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 17px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Monster image styles */
+.monster-image {
+    width: 100%;
+    max-width: 300px;
+    display: block;
+    margin: 10px auto;
+}
