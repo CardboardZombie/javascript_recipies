@@ -1,19 +1,32 @@
 // Initial game state
 let gameState = {
-    currentRoom: 'living room',
+    currentRoom: 'outside',
     playerHealth: 100,
+    score: 0,
     monster: {
         health: 50,
         isAlive: true
     },
     rooms: {
+        'outside': {
+            description: 'You are outside. There is a door to the north.',
+            light: 'on',
+            monster: ''
+        },
+        'hallway': {
+            description: 'You are in the hallway. There are two doors to the west, one to the east.',
+            light: 'on',
+            monster: ''
+        },
         'living room': {
-            description: 'You are in the living room. There is a door to the north.',
-            light: 'on'
+            description: 'You are in the living room. There is a door to the east.',
+            light: 'on',
+            monster: ''
         },
         'kitchen': {
-            description: 'You are in the kitchen. There is a door to the south.',
-            light: 'off'
+            description: 'You are in the kitchen. There is a door to the west.',
+            light: 'off',
+            monster: ''
         }
     }
 };
@@ -38,6 +51,17 @@ function displayMonsterImage() {
     output.scrollTop = output.scrollHeight; // Scroll to bottom
 }
 
+// Function to update stats
+function updateStats() {
+    document.getElementById('health').textContent = gameState.playerHealth;
+    document.getElementById('score').textContent = gameState.score;
+
+     // Check for winning condition
+     if (gameState.score >= 30) {
+        displayWinPrompt();
+    }
+}
+
 // Function to process player commands
 function processCommand(command) {
     command = command.toLowerCase().trim();
@@ -48,6 +72,7 @@ function processCommand(command) {
     } else if (command === 'turn off light') {
         if (currentRoom.light === 'on') {
             currentRoom.light = 'off';
+            gameState.score += 10; // Increase score for turning off light
             displayMessage('You turned off the light.');
             monsterAttacks();
         } else {
@@ -60,38 +85,82 @@ function processCommand(command) {
         } else {
             displayMessage('The light is already on.');
         }
-    } else if (command === 'go north' && gameState.currentRoom === 'living room') {
-        gameState.currentRoom = 'kitchen';
-        displayMessage('You go north to the kitchen.');
-        displayMessage(gameState.rooms['kitchen'].description);
-    } else if (command === 'go south' && gameState.currentRoom === 'kitchen') {
+    } else if (command === 'go north' && gameState.currentRoom === 'outside') {
+        gameState.currentRoom = 'hallway';
+        displayMessage('You go north and enter the house.');
+        displayMessage(gameState.rooms['hallway'].description);
+    } else if (command === 'go west' && gameState.currentRoom === 'hallway') {
         gameState.currentRoom = 'living room';
-        displayMessage('You go south to the living room.');
+        displayMessage('You go west to the first door, the living room.');
         displayMessage(gameState.rooms['living room'].description);
+    } else if (command === 'go east' && gameState.currentRoom === 'living room') {
+        gameState.currentRoom = 'hallway';
+        displayMessage('You go east to the hallway.');
+        displayMessage(gameState.rooms['hallway'].description);
+    } else if (command === 'go east' && gameState.currentRoom === 'hallway') {
+        gameState.currentRoom = 'kitchen';
+        displayMessage('You go east to the kitchen.');
+        displayMessage(gameState.rooms['kitchen'].description);
+    } else if (command === 'go west' && gameState.currentRoom === 'kitchen') {
+        gameState.currentRoom = 'hallway';
+        displayMessage('You go west to the hallway.');
+        displayMessage(gameState.rooms['hallway'].description);
+    } else if (command === 'go south' && gameState.currentRoom === 'hallway') {
+        gameState.currentRoom = 'outside';
+        displayMessage('You go south, back outside the house.');
+        displayMessage(gameState.rooms['outside'].description);
     } else if (command === 'attack') {
         attackMonster();
     } else {
         displayMessage('I don\'t understand that command.');
     }
+
+    updateStats();
 }
 
-// Function to handle command submission
-function handleCommand() {
+// Function to handle the initial prompt
+function handleInitialPrompt(choice) {
+    if (choice === 'enter-house') {
+        gameState.currentRoom = 'hallway';
+        displayMessage('You enter the house.');
+        displayMessage(gameState.rooms['hallway'].description);
+    } else if (choice === 'turn-off-light') {
+        gameState.rooms['outside'].light = 'off';
+        gameState.score += 10; // Increase score for turning off light
+        displayMessage('You turned off the porch light.');
+    }
+
+    document.getElementById('initial-prompt').style.display = 'none';
+    document.getElementById('console').style.display = 'block';
+    document.getElementById('win-prompt').style.display = 'none';
+    updateStats();
+}
+
+// Function to display the win prompt
+function displayWinPrompt() {
+    document.getElementById('console').style.display = 'none';
+    document.getElementById('win-prompt').style.display = 'block';
+}
+
+// Event listeners for the initial prompt buttons
+document.getElementById('enter-house').addEventListener('click', () => handleInitialPrompt('enter-house'));
+document.getElementById('turn-off-light').addEventListener('click', () => handleInitialPrompt('turn-off-light'));
+
+// Event listener for the submit button
+document.getElementById('submit').addEventListener('click', () => {
     const commandInput = document.getElementById('command');
     const command = commandInput.value;
-    if (command.trim()) {
+    commandInput.value = '';
+    processCommand(command);
+});
+document.getElementById('command').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        const commandInput = document.getElementById('command');
+        const command = commandInput.value;
+        commandInput.value = '';
         processCommand(command);
-        commandInput.value = ''; // Clear input
     }
-}
-
-// Function to toggle theme
-function toggleTheme(event) {
-    const isChecked = event.target.checked;
-    document.body.classList.toggle('dark-mode', isChecked);
-    document.getElementById('game-area').classList.toggle('dark-mode', isChecked);
-    document.getElementById('output').classList.toggle('dark-mode', isChecked);
-}
+});
 
 // Function to handle monster attack
 function monsterAttacks() {
@@ -99,7 +168,6 @@ function monsterAttacks() {
         gameState.playerHealth -= 10;
         displayMessage('A monster attacks you! You lose 10 health points.');
         displayMonsterImage(); // Display the monster image
-        displayMessage(`Your health: ${gameState.playerHealth}`);
         if (gameState.playerHealth <= 0) {
             displayMessage('You have been defeated by the monster.');
         }
@@ -114,6 +182,7 @@ function attackMonster() {
         if (gameState.monster.health <= 0) {
             gameState.monster.isAlive = false;
             displayMessage('You have defeated the monster!');
+            gameState.score += 10; // Increase score for defeating the monster
         } else {
             displayMessage(`Monster's health: ${gameState.monster.health}`);
             monsterAttacks();
@@ -123,14 +192,23 @@ function attackMonster() {
     }
 }
 
-// Set up event listeners
-document.getElementById('submit').addEventListener('click', handleCommand);
-document.getElementById('command').addEventListener('keypress', function(event) {
-    if (event.key === 'Enter') {
-        handleCommand();
-    }
+// Event listener for the theme toggle switch
+document.getElementById('theme-toggle').addEventListener('change', (event) => {
+    document.body.classList.toggle('dark-mode', event.target.checked);
+    document.getElementById('game-area').classList.toggle('dark-mode', event.target.checked);
+    document.getElementById('output').classList.toggle('dark-mode', event.target.checked);
 });
-document.getElementById('theme-toggle').addEventListener('change', toggleTheme);
 
-// Initialize game
-displayMessage(gameState.rooms['living room'].description);
+// Event listeners for the win prompt buttons
+document.getElementById('play-more').addEventListener('click', () => {
+    document.getElementById('win-prompt').style.display = 'none';
+    document.getElementById('console').style.display = 'block';
+    gameState.score = 0;
+    gameState.playerHealth = 100;
+    gameState.currentRoom = 'outside';
+    displayMessage('You find yourself in front of an abandoned house with the porch light on. What do you do?');
+    updateStats();
+});
+document.getElementById('thumbs-up').addEventListener('click', () => {
+    alert('Thank you for playing!');
+});

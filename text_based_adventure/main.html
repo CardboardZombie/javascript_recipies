@@ -8,15 +8,36 @@
 </head>
 <body>
     <div id="game-area">
-        <h1>Text-Based Adventure Game</h1>
-        <label class="switch">
-            <input type="checkbox" id="theme-toggle">
-            <span class="slider round"></span>
-        </label>
-        <div id="output"></div>
-        <div id="input-section">
-            <input type="text" id="command" placeholder="Enter your command">
-            <button id="submit">Submit</button>
+        <h1>Eco-Warrior Console</h1>
+        <div id="top-panel">
+            <div id="control-panel">
+                <label class="switch">
+                    <input type="checkbox" id="theme-toggle">
+                    <span class="slider round"></span>
+                </label>
+                <span>Dark Mode</span>
+            </div>
+            <div id="stats">
+                <p>Health: <span id="health">100</span></p>
+                <p>Score: <span id="score">0</span></p>
+            </div>
+        </div>
+        <div id="initial-prompt">
+            <p>You find yourself in front of an abandoned house with the porch light on. What do you do?</p>
+            <button id="enter-house">Enter the House</button>
+            <button id="turn-off-light">Turn off the Light</button>
+        </div>
+        <div id="console" style="display: none;">
+            <div id="output"></div>
+            <div id="input-section">
+                <input type="text" id="command" placeholder="Enter your command">
+                <button id="submit">Submit</button>
+            </div>
+        </div>
+        <div id="win-prompt" style="display: none;">
+            <p>Congratulations! You've earned 30+ points. What would you like to do next?</p>
+            <button id="play-more">Play More</button>
+            <button id="thumbs-up">Give Thumbs Up</button>
         </div>
     </div>
     <script src="game.js"></script>

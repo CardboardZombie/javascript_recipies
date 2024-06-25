@@ -12,7 +12,68 @@ body {
     border: 1px solid #ccc;
     background-color: #fff;
     transition: background-color 0.3s, border-color 0.3s;
-    position: relative; /* Add relative positioning */
+}
+
+#top-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#control-panel {
+    display: flex;
+    align-items: center;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 17px;
+    margin-right: 10px; /* Adjust the margin to the right */
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 17px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 13px;
+    width: 13px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(13px);
+}
+
+#stats {
+    text-align: right;
 }
 
 #output {
@@ -38,7 +99,6 @@ body {
     padding: 10px 20px;
 }
 
-/* Dark mode styles */
 body.dark-mode {
     background-color: #121212;
     color: #eee;
@@ -54,61 +114,6 @@ body.dark-mode {
     background-color: #222;
 }
 
-/* Smaller toggle switch styles */
-.switch {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 30px;
-    height: 17px;
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: .4s;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 13px;
-    width: 13px;
-    left: 2px;
-    bottom: 2px;
-    background-color: white;
-    transition: .4s;
-}
-
-input:checked + .slider {
-    background-color: #2196F3;
-}
-
-input:checked + .slider:before {
-    transform: translateX(13px);
-}
-
-/* Rounded sliders */
-.slider.round {
-    border-radius: 17px;
-}
-
-.slider.round:before {
-    border-radius: 50%;
-}
-
-/* Monster image styles */
 .monster-image {
     width: 100%;
     max-width: 300px;
