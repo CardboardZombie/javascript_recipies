@@ -7,9 +7,13 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <h1>Eco-Warrior: Browser Edition</h1>
+    <div class="description">
+        Embark on an epic journey through the mystical lands of Eldoria. In this thrilling adventure game, you'll encounter mythical creatures, solve ancient puzzles, and discover hidden treasures. Use your wit and strength to overcome challenges and become the hero Eldoria needs. Every decision you make shapes your path and determines your fate. Are you ready to begin your quest?
+    </div>
     <div id="game-area">
-        <h1>Eco-Warrior Console</h1>
-        <div id="top-panel">
+        
+        <!-- <div id="top-panel">
             <div id="control-panel">
                 <label class="switch">
                     <input type="checkbox" id="theme-toggle">
@@ -20,6 +24,27 @@
             <div id="stats">
                 <p>Health: <span id="health">100</span></p>
                 <p>Score: <span id="score">0</span></p>
+            </div>
+        </div> -->
+        <div class="settings">
+            <!-- <div class="setting">
+                <label for="player-health">Player's Health:</label>
+                <input type="number" id="player-health" value="100" disabled>
+            </div>
+            <div class="setting">
+                <label for="player-score">Player's Score:</label>
+                <input type="number" id="player-score" value="0" disabled>
+            </div> -->
+            <div class="inline-settings">
+                <div class="setting">
+                    <label for="player-health">Player's Health:</label>
+                    <input type="number" id="player-health" value="100" disabled>
+                </div>
+                <div class="separator">|</div>
+                <div class="setting">
+                    <label for="player-score">Player's Score:</label>
+                    <input type="number" id="player-score" value="0" disabled>
+                </div>
             </div>
         </div>
         <div id="initial-prompt">
@@ -39,7 +64,25 @@
             <button id="play-more">Play More</button>
             <button id="thumbs-up">Give Thumbs Up</button>
         </div>
+        
+    </div>
+    <div class="settings">
+        <div class="setting">
+            <label for="dark-mode">Dark Mode:</label>
+            <label class="switch">
+                <input type="checkbox" id="theme-toggle">
+                <span class="slider round"></span>
+            </label>
+        </div>
     </div>
     <script src="game.js"></script>
 </body>
 </html>
+
+<!-- <div id="control-panel">
+    <label class="switch">
+        <input type="checkbox" id="theme-toggle">
+        <span class="slider round"></span>
+    </label>
+    <span>Dark Mode</span>
+</div> -->
