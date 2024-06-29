@@ -12,7 +12,7 @@ h1 {
     text-align: center;
 }
 
-button {
+/* button {
     display: block;
     width: 100%;
     padding: 10px;
@@ -26,7 +26,7 @@ button {
 }
 button:hover {
     background-color: #1e90ff;
-}
+} */
 
 .description {
     margin-bottom: 20px;
@@ -193,4 +193,34 @@ body.dark-mode {
     max-width: 300px;
     display: block;
     margin: 10px auto;
+}
+#succession{
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #4682b4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+#succession:hover {
+    background-color: #1e90ff;
+}
+#failure{
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #bc2222;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+#failure:hover {
+    background-color: #92021d;
 }

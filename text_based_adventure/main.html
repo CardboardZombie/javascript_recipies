@@ -7,34 +7,16 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Eco-Warrior: Browser Edition</h1>
+    <h1>The Adventure Begins...</h1>
     <div class="description">
-        Embark on an epic journey through the mystical lands of Eldoria. In this thrilling adventure game, you'll encounter mythical creatures, solve ancient puzzles, and discover hidden treasures. Use your wit and strength to overcome challenges and become the hero Eldoria needs. Every decision you make shapes your path and determines your fate. Are you ready to begin your quest?
+        <!-- Embark on an epic journey through the mystical lands of Eldoria. In this thrilling adventure game, you'll encounter mythical creatures, solve ancient puzzles, and discover hidden treasures. Use your wit and strength to overcome challenges and become the hero Eldoria needs. Every decision you make shapes your path and determines your fate. Are you ready to begin your quest? -->
+         <p>After a long day on the road, you crest a hill and see the lights of a town. According to maps and helpful locals you've consulted, this must be Langston. Though the last blush of sunset still colors the sky to the west, lamplight is already visible at the gate and in the streets.</p>
+         <p>In the dim twilight, you can clearly see that the dirt road you've been travelling transitions to cobblestones, and a simple stone wall rings the town. Even from the distance, you can see the timber-framed walls of the buildings in the town are well-maintainedwith fresh whitewashthat glow golden in the lamplight. It's a beautiful little town, a prosperous trading hub nestled among the fertile farmland and old-growth forest you've spent the last few days traversing</p>
+         <p>The stars are just starting to emerge as the lone howl of a wolf splits the silence off somewhere in the woods. Achorus of responding howls take up the call, some uncomfortably close. And getting closer.</p>
+         
     </div>
     <div id="game-area">
-        
-        <!-- <div id="top-panel">
-            <div id="control-panel">
-                <label class="switch">
-                    <input type="checkbox" id="theme-toggle">
-                    <span class="slider round"></span>
-                </label>
-                <span>Dark Mode</span>
-            </div>
-            <div id="stats">
-                <p>Health: <span id="health">100</span></p>
-                <p>Score: <span id="score">0</span></p>
-            </div>
-        </div> -->
         <div class="settings">
-            <!-- <div class="setting">
-                <label for="player-health">Player's Health:</label>
-                <input type="number" id="player-health" value="100" disabled>
-            </div>
-            <div class="setting">
-                <label for="player-score">Player's Score:</label>
-                <input type="number" id="player-score" value="0" disabled>
-            </div> -->
             <div class="inline-settings">
                 <div class="setting">
                     <label for="player-health">Health:</label>
@@ -48,9 +30,10 @@
             </div>
         </div>
         <div id="initial-prompt">
-            <p>You find yourself in front of an abandoned house with the porch light on. What do you do?</p>
-            <button id="enter-house">Enter the House</button>
-            <button id="turn-off-light">Turn off the Light</button>
+            <p>You pick up your pace to put more distance between you and the wilderness in the hope of a soft bed, a hot meal, and some work for an enterprising adevnturer. A town as prosperous as Langston looks like a place to do good, earn coin, and achieve glory. Maybe all three at once, so long as you aren't eaten by wolves between here and there.</p>
+            <p>Roll a Wisdom (Perception) check. If you get 10 or more, <bold>succeed</bold>. If you get less than 10, <bold>fail</bold>.</p>
+            <button id="succession">Succeed</button>
+            <button id="failure">Fail</button>
         </div>
         <div id="console" style="display: none;">
             <div id="output"></div>
@@ -78,11 +61,3 @@
     <script src="game.js"></script>
 </body>
 </html>
-
-<!-- <div id="control-panel">
-    <label class="switch">
-        <input type="checkbox" id="theme-toggle">
-        <span class="slider round"></span>
-    </label>
-    <span>Dark Mode</span>
-</div> -->
