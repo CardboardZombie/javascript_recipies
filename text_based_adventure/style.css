@@ -12,26 +12,20 @@ h1 {
     text-align: center;
 }
 
-/* button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    background-color: #4682b4;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-button:hover {
-    background-color: #1e90ff;
-} */
-
 .description {
     margin-bottom: 20px;
     font-size: 1em;
 }
+
+.prompt-description {
+    margin-bottom: 20px;
+    font-size: 1em;
+    font-family: monospace; /* Optional: Gives a typewriter-like appearance */
+    white-space: pre-wrap; /* Preserve whitespace */
+    max-height: 200px; 
+    overflow-y: auto;
+}
+
 .settings {
     background-color: #fff;
     border-radius: 10px;
@@ -86,6 +80,7 @@ button:hover {
     border: 1px solid #ccc;
     background-color: #fff;
     transition: background-color 0.3s, border-color 0.3s;
+    max-height: 500px;
 }
 
 #top-panel {

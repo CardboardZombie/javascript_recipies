@@ -31,6 +31,50 @@ let gameState = {
     }
 };
 
+const choices = {
+    400: { 
+        description: "",
+        success: { next: 27, text: "ChoiceOne" },
+        failure: { next: 3, text: "ChoiceTwo" }
+    },
+    0: { 
+        description: "You pick up your pace to put more distance between you and the wilderness in the hope of a soft bed, a hot meal, and some work for an enterprising adventurer. A town as prosperous as Langston looks like a place to do good, earn coin, and achieve glory. Maybe all three at once, so long as you aren't eaten by wolves between here and there. <br><br>Roll a Wisdom (Perception) check. If you get 10 or more, listen to your surroundings. If you get less than 10, continue forwards.",
+        success: { next: 23, text: "Listen" },
+        failure: { next: 11, text: "Move Up" }
+    },
+    1: { 
+        description: "Your hopes for a meal and friendly conversation are dashed with what you find in the marketplace. More specifically, you're disappointed with what you don't find.<br><br>It's empty, filled only with a mournful hush. Street vendors are closed, windows are shuttered. Lamplighters have still passed through to fill the square with warm pools of light, but everything feels muted under the weight of an oppressive sadness.<br><br>You're looking for someone - anyone - when a solitary figure in a white robe bustles out from a side street, nearly dropping a sheaf of papers. The robe's hood is down, so you can see that it's a young human woman with a light blond hair. Her robes bear sunburst motifs around the neck and collar and a similar symbol made of gold hangs from around her neck. This appears to be a sun cleric.<br><br>Call out to the cleric or follow her down the empty streets",
+        success: { next: 27, text: "Call out to Cleric" },
+        failure: { next: 3, text: "Follow her" }
+    },
+    4: { 
+        description: "\"Well then, lucky for you I was here,\" he says with a wide grin and a slap on the back hard enough to throw off your balance. He opens his mouth to speak again but nothing comes out until he unleashes a sneeze that makes his beard bristle. You wait for him to regain his composure.<br><br>\"You must be hungry then. Go straight down this road and you'll reach the town of Langston. Find The Pickled Hen and if anyone asks, tell them Roi Sunderhammer sent you.\"<br><br>You stammer out a thank you despite the adrenaline coursing through you.<br><br>\"Think nothing of it. I'm on my way there myself. Funeral you see, doing my druidic duty to the circel of life and all that.\" He guffaws as if he just told a joke. \"But before I do that, I'm going to have a bit of a chat with these naughty pups. they should know better.\"<br><br>Before you have a chance to respond, the dwarf lopes off toward the woods with a surprisingly graceful gait given his stocky build.<br><br>Between the darkness and another night on the road or a hot meal and a soft mattress, it's hardly even a decision to head towards the lights of Langston.",
+        success: { next: 1, text: "Go to Langston" },
+    },
+    11: { 
+        description: "You continue down the road, a growing sense of dread in the pit of your stomach. Looking around you, you see nothing in the trees or undergrowth on either side of the road even though you feel like you should.<br><br>You stop walking, pausing to listen to the dark woods around you. Without the sound of your footsteps, you can now hear a low rumbling growl and excited panting coming from around you.<br><br>All around you.<br><br>A large but scruffy wolf pads into the road in front of you, moonlight shining in its grey fur. Half a dozen more of the beasts step into view, sizing you up.<br><br>You're surrounded by a pack of hungry wolves. Your odds aren't good, but at least you can go down fighting.",
+        success: { next: 33, text: "Go Down Fighting" },
+    },
+    23: { 
+        description: "You hear something in the woods off to one side and spin in that direction. A pair of golden yellow eyes peers out out of the dark underbrush, soon joined by a second pair.<br><br>Turning around, you see more eyes gathering in the gloom around you. Before you even consider it as an option, a shaggy, dark grey wolf steps out onto the path behind you.<br><br>Hopelessly outnumbered, you can either square up to fight the pack of wolves or sprint for the town",
+        success: { next: 33, text: "Fight the Wolves" },
+        failure: { next: 40, text: "Sprint for the Town" }
+    },
+    33: { 
+        description: "You square up to defend yourself as the pack of hungry wolves starts to circle, looking for an opening to attack. There are at least ten of them, and something tells you more are waiting in the darkness of the tree.<br><br>It looks like an early end to your adventuring career, but you're determined not to give up without a fight.<br><br>You're just about to unleash your attack and go down fighting when you hear a bellow behing you on the road.<br><br>You turn around to see a bald dwarf dressed in rough-spun clothes and animal hides pointing at you from on top of a rise in the road. Or maybe past you. Moonlight shines off the skin of his head; his face is lit by small balls of fire dancing in the air over his outstretched palms.<br><br>\"Oh no you don\'t!\" he yells before, the flames flaring with his emotions. \"Get back, you lot!\"<br><br>The wolves immediately tuck their tails between their legs and lay their ears down flat. The apparent leader looks at you and whines.<br><br>\"Not a chance,\" the dwarf scoffs. \"Go on now.\"<br><br>The wolves slink quietly back into the woods, and you realize you are still poised to attack. The dwarf doesn't seem to notice as he approaches. He eyes you up and down, the silence between you stretches.<br><br>Until it breaks with a massive sneeze.<br><br>\"Sorry. You all right?\" he asks with a lopsided smile and a sniffle. \"Didn't have a chance to get a piece off you, did they?\"<br><br>You let him know that you're all in one piece and thank him for his intervention.",
+        success: { next: 4, text: "Speak with Dwarf" },
+    },
+    40: { 
+        description: "You take off down the road at a full sprint, running towards town as quickly as you can. You doubt it will be quick enough, but it will buy you time to think<br><br>When you dash, the woods to either side of you erupt with hungry wolves that take up the chase. You power through and get up over a rise in the road.<br><br>Then you nearly trip over a dwarf examining some roadside plant in the moonlight. The moonlight is shining off the bald top of his head and playing around the edges of his red beard. He's dressed simply in homespun cloth and animal skins. Your entrance has clearly startled him and he throws his arms out to embrace you.<br><br>\"Hey, hey!\" he cries out. \"Watch yourself, traveler. What's this all about?\"<br><br>Several wolves scramble into view but come to a skittering halt at the sight of the dwarf.<br><br>He wags a finger at them like a stern tutor, and in unison, the beasts whine and turn away. The whole pack slinks off into the woods again.",
+        success: { next: 4, text: "Speak with Dwarf" },
+    },
+    50: { 
+        description: "You find a hidden cave.",
+        success: { next: 1, text: "Explore the cave" },
+        failure: { next: 2, text: "Move on" }
+    }
+};
+
 // Function to display a message
 function displayMessage(message) {
     const output = document.getElementById('output');
@@ -38,6 +82,38 @@ function displayMessage(message) {
     messageElement.textContent = message;
     output.appendChild(messageElement);
     output.scrollTop = output.scrollHeight; // Scroll to bottom
+}
+
+function typeWriter(text, element, speed = 50) {
+    let i = 0;
+    let isTag = false;
+    let textBuffer = '';
+
+    function type() {
+        if (i < text.length) {
+            const char = text.charAt(i);
+
+            if (char === '<') {
+                isTag = true;
+            }
+
+            if (isTag) {
+                textBuffer += char;
+                if (char === '>') {
+                    isTag = false;
+                    element.innerHTML += textBuffer;
+                    textBuffer = '';
+                }
+            } else {
+                element.innerHTML += char;
+            }
+
+            i++;
+            setTimeout(type, isTag ? 0 : speed);
+        }
+    }
+
+    type();
 }
 
 // Function to display a monster image
@@ -118,21 +194,51 @@ function processCommand(command) {
     updateStats();
 }
 
-// Function to handle the initial prompt
-function handleInitialPrompt(choice) {
-    if (choice === 'enter-house') {
-        gameState.currentRoom = 'hallway';
-        displayMessage('You enter the house.');
-        displayMessage(gameState.rooms['hallway'].description);
-    } else if (choice === 'turn-off-light') {
-        gameState.rooms['outside'].light = 'off';
-        gameState.score += 10; // Increase score for turning off light
-        displayMessage('You turned off the porch light.');
-    }
+// // Function to handle the initial prompt
+// function handleInitialPrompt(choice) {
+//     if (choice === 'enter-house') {
+//         gameState.currentRoom = 'hallway';
+//         displayMessage('You enter the house.');
+//         displayMessage(gameState.rooms['hallway'].description);
+//     } else if (choice === 'turn-off-light') {
+//         gameState.rooms['outside'].light = 'off';
+//         gameState.score += 10; // Increase score for turning off light
+//         displayMessage('You turned off the porch light.');
+//     }
 
-    document.getElementById('initial-prompt').style.display = 'none';
-    document.getElementById('console').style.display = 'block';
-    document.getElementById('win-prompt').style.display = 'none';
+//     document.getElementById('initial-prompt').style.display = 'none';
+//     document.getElementById('console').style.display = 'block';
+//     document.getElementById('win-prompt').style.display = 'none';
+//     updateStats();
+// }
+
+function handleChoice(choiceNumber){
+    const choice = choices[choiceNumber];
+    if (choice) {
+        // Update the description
+        const descriptionElement = document.querySelector(".prompt-description");
+        descriptionElement.innerHTML = '';
+        typeWriter(choice.description, descriptionElement);
+
+
+        // Update the buttons with the next choices
+        const successButton = document.getElementById('succession');
+        const failureButton = document.getElementById('failure');
+
+        successButton.innerText = choice.success.text;
+        successButton.style.display = 'inline-block'; // Ensure the button is visible
+        successButton.onclick = () => handleChoice(choice.success.next);
+
+        if (choice.failure) {
+            failureButton.innerText = choice.failure.text;
+            failureButton.style.display = 'inline-block'; // Ensure the button is visible
+            failureButton.onclick = () => handleChoice(choice.failure.next);
+        } else {
+            failureButton.style.display = 'none'; // Hide the button if no failure option
+        }
+    } else {
+        console.log('No more choices available.');
+    }
     updateStats();
 }
 
@@ -143,8 +249,8 @@ function displayWinPrompt() {
 }
 
 // Event listeners for the initial prompt buttons
-document.getElementById('enter-house').addEventListener('click', () => handleInitialPrompt('enter-house'));
-document.getElementById('turn-off-light').addEventListener('click', () => handleInitialPrompt('turn-off-light'));
+document.getElementById('succession').addEventListener('click', () => handleInitialPrompt('succession'));
+document.getElementById('failure').addEventListener('click', () => handleInitialPrompt('failure'));
 
 // Event listener for the submit button
 document.getElementById('submit').addEventListener('click', () => {
@@ -212,3 +318,6 @@ document.getElementById('play-more').addEventListener('click', () => {
 document.getElementById('thumbs-up').addEventListener('click', () => {
     alert('Thank you for playing!');
 });
+
+// Initialize the game with the first choice
+handleChoice(0);
