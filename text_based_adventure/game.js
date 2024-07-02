@@ -199,8 +199,7 @@ function processCommand(command) {
 
         //updateStats();
     } else if (command === 'exit console') {
-        handleChoice(gameState.currentRoom);
-        document.getElementById('console').style.display = 'none';
+        transitionToChoicesMode(gameState.currentRoom);
     } else {
         displayMessage('I don\'t understand that command.');
     }
@@ -275,10 +274,29 @@ function transitionToConsoleMode(nextChoiceNumber) {
         document.getElementById('console').style.display = 'block';
         gameState.currentRoom = nextChoiceNumber;
 
+        //Check this is needed
         // Display the room description in the console mode
-        const descriptionElement = document.querySelector(".prompt-description");
-        descriptionElement.innerHTML = ''; // Clear the element's content before starting
-        typeWriter(choice.description, descriptionElement);
+        // const descriptionElement = document.querySelector(".prompt-description");
+        // descriptionElement.innerHTML = ''; // Clear the element's content before starting
+        // typeWriter(choice.description, descriptionElement);
+    }
+}
+
+function transitionToChoicesMode(nextChoiceNumber) {
+    const choice = choices[nextChoiceNumber];
+    if (choice) {
+        document.getElementById('console').style.display = 'none';
+        // Hide choice buttons and prompt window
+        document.getElementById('succession').style.display = 'block';
+        document.getElementById('failure').style.display = 'block';
+        document.querySelector('.prompt-description').style.display = 'block';
+
+        handleChoice(gameState.currentRoom);
+
+        // Display the room description in the console mode
+        // const descriptionElement = document.querySelector(".prompt-description");
+        // descriptionElement.innerHTML = ''; // Clear the element's content before starting
+        // typeWriter(choice.description, descriptionElement);
     }
 }
 
