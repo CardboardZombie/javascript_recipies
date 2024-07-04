@@ -218,6 +218,8 @@ function handleChoice(choiceNumber){
         // Update the description with typewriter effect
         const descriptionElement = document.querySelector(".prompt-description");
         descriptionElement.innerHTML = ''; // Clear the element's content before starting
+        successButton.style.display = 'none';
+        failureButton.style.display = 'none';
         typeWriter(choice.description, descriptionElement, () => {
             const isSingleChoice = choice.success.next === choice.failure?.next || !choice.failure;
             if (isSingleChoice) {

@@ -7,9 +7,14 @@ body {
     transition: background-color 0.3s, color 0.3s;
 }
 
-h1 {
-    color: #1e90ff;
-    text-align: center;
+body.dark-mode .settings {
+    background-color: #333; /* Dark background for dark mode */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); /* Darker shadow for dark mode */
+}
+
+body.dark-mode {
+    background-color: #121212;
+    color: #eee;
 }
 
 .description {
@@ -22,12 +27,15 @@ h1 {
     font-size: 1em;
     font-family: monospace; /* Optional: Gives a typewriter-like appearance */
     white-space: pre-wrap; /* Preserve whitespace */
-    max-height: 200px; 
-    overflow-y: auto;
-}
+} 
 
-.settings {
-    background-color: #fff;
+.navbar-settings {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #374151;
+    color: white;
+    padding: 10px 10px;
     border-radius: 10px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -35,103 +43,41 @@ h1 {
     transition: background-color 0.3s, box-shadow 0.3s;
 }
 
-body.dark-mode .settings {
-    background-color: #333; /* Dark background for dark mode */
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); /* Darker shadow for dark mode */
-}
-
-.setting {
+.game-container {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    padding: 15px;
-    border-bottom: 1px solid #ddd;
-    transition: background-color 0.3s, border-color 0.3s;
+    padding: 20px;
 }
 
-.setting:last-child {
-    border-bottom: none;
-}
+.stats {
 
-.setting label {
-    font-size: 1em;
-    color: #555;
-    transition: color 0.3s;
-}
-
-.setting input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-}
-
-.setting input[type="number"] {
-    font-size: 1em;
-    border: none;
-    text-align: right;
-    width: 60px;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.setting input[type="number"]:disabled {
-    background-color: transparent;
-    color: #555;
-}
-
-body.dark-mode .setting {
-    border-color: #555; /* Darker border for dark mode */
-}
-
-body.dark-mode .setting label {
-    color: #ccc; /* Lighter text color for dark mode */
-}
-
-body.dark-mode .setting input[type="number"]:disabled {
-    color: #ccc; /* Lighter disabled input color for dark mode */
-}
-
-/* Player Inspiration Setting */
-.player-inspiration {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100px;
+    justify-content: space-around;
+    width: 83%;
+    background-color: #374151;
+    color: white;
+    padding: 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.stat-item {
+    font-size: 1.25rem;
+    margin: 0 1rem;
 }
 
-.plus-sign {
-    position: relative;
-    width: 20px;
-    height: 20px;
+.heart {
+    color: rgb(55, 69, 103);
+    font-size: 24px;
+}
+.health-value{
+    font-size: 24px;
 }
 
-.plus-sign::before,
-.plus-sign::after {
-    content: '';
-    position: absolute;
-    background-color: #555;
-    transition: background-color 0.3s;
+.inspiration-symbol {
+    font-size: 28px;
+    color: #4CAF50;
 }
-
-.plus-sign::before {
-    width: 100%;
-    height: 4px;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-}
-
-.plus-sign::after {
-    width: 4px;
-    height: 100%;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-body.dark-mode .plus-sign::before,
-body.dark-mode .plus-sign::after {
-    background-color: #ccc;
-}
-
 
 #game-area {
     width: 80%;
@@ -140,7 +86,11 @@ body.dark-mode .plus-sign::after {
     border: 1px solid #ccc;
     background-color: #fff;
     transition: background-color 0.3s, border-color 0.3s;
-    max-height: 500px;
+}
+
+#game-area.dark-mode {
+    border-color: #444;
+    background-color: #333;
 }
 
 #top-panel {
@@ -215,6 +165,11 @@ input:checked + .slider:before {
     transition: background-color 0.3s, border-color 0.3s;
 }
 
+#output.dark-mode {
+    border-color: #444;
+    background-color: #222;
+}
+
 #input-section {
     display: flex;
 }
@@ -228,27 +183,13 @@ input:checked + .slider:before {
     padding: 10px 20px;
 }
 
-body.dark-mode {
-    background-color: #121212;
-    color: #eee;
-}
-
-#game-area.dark-mode {
-    border-color: #444;
-    background-color: #333;
-}
-
-#output.dark-mode {
-    border-color: #444;
-    background-color: #222;
-}
-
 .monster-image {
     width: 100%;
     max-width: 300px;
     display: block;
     margin: 10px auto;
 }
+
 .choice-buttons {
     display: flex;
     justify-content: space-between;
@@ -262,55 +203,90 @@ body.dark-mode {
     margin: 0 5px;
     padding: 15px 30px;
     font-size: 1em;
-    color: white;    
-    background-color: #555; /* Gray color for light mode */
-    border: none;
+    color: white;
+    background-color: #636363;
+    border: 1px solid #1a1a1a;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
 .choice-button:hover {
-    background-color: #777; /* Lighter gray on hover for light mode */
+    background-color: #7f7f7f; /* Lighter gray on hover for light mode */
 }
 
 body.dark-mode .choice-button {
-    background-color: #777; /* Lighter gray for dark mode */
+    background-color: #4d5054;
+    border: 1px solid #f4f4f4;
 }
 
 body.dark-mode .choice-button:hover {
-    background-color: #999; /* Even lighter gray on hover for dark mode */
+    background-color: #3c3c3c; /* Even lighter gray on hover for dark mode */
 }
 
-.navbar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #555;
-    color: white;
-    padding: 10px 10px;
-}
-.navbar .menu,
-.navbar .title,
-.navbar .settings {
+.navbar-settings .menu,
+.navbar-settings .title,
+.navbar-settings .settings {
     text-align: center;
 }
-.navbar .menu {
+.navbar-settings .menu {
     text-align: left;
+    font-size: 2rem;
     padding-left: 20px;
 }
-.navbar .title {
+.navbar-settings .title {
     text-align: center;
     width: 100%;
 }
-.navbar .settings {
+.navbar-settings .settings {
     text-align: right;
+    font-size: 2rem;
     padding-right: 20px;
 }
-.navbar a {
+.navbar-settings a {
     color: white;
     text-decoration: none;
 }
-.navbar a:hover {
+.navbar-settings a:hover {
     text-decoration: underline;
 }
+
+
+footer {
+    display: flex;
+    justify-content: center;
+    color: #f4f4f4;
+
+    align-items: center;
+    background-color: #374151;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 5px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.dark footer {
+    background: #111827;
+}
+
+.coffee-button {
+    margin: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    background: #515969;
+    color: #f4f4f4;
+    cursor: pointer;
+    text-decoration: none;
+}
+.coffee-button:hover {
+    background-color: #6b7280; /* Lighter gray on hover for light mode */
+}
+
+@media (min-width: 768px) {
+    #game-area {
+        /* font-size: 2rem; */
+    }
+}
+
+

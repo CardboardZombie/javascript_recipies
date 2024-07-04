@@ -7,77 +7,63 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="navbar">
-        <div class="menu">
-            <a href="#menu">☰</a>
-        </div>
-        <div class="title">
-            Chapter 1: The Adventure Begins...
-        </div>
-        <div class="page-settings">
-            <a href="#settings">⚙</a>
-        </div>
-    </div>
-    <div class="settings">
-        <div class="setting">
-            <label for="dark-mode">Dark Mode:</label>
+    <nav class="navbar-settings">
+        <div class="menu" >☰</div>
+        <div class="title" >Chapter 1: The Adventure Begins...</div>
+        <div class="page-settings" >
             <label class="switch">
                 <input type="checkbox" id="theme-toggle">
                 <span class="slider round"></span>
             </label>
         </div>
-    </div>
+    </nav>
     <!-- <h1>The Adventure Begins...</h1> -->
-    <div class="description">
-        <!-- Embark on an epic journey through the mystical lands of Eldoria. In this thrilling adventure game, you'll encounter mythical creatures, solve ancient puzzles, and discover hidden treasures. Use your wit and strength to overcome challenges and become the hero Eldoria needs. Every decision you make shapes your path and determines your fate. Are you ready to begin your quest? -->
-         <p>After a long day on the road, you crest a hill and see the lights of a town. According to maps and helpful locals you've consulted, this must be Langston. Though the last blush of sunset still colors the sky to the west, lamplight is already visible at the gate and in the streets.</p>
-         <p>In the dim twilight, you can clearly see that the dirt road you've been travelling transitions to cobblestones, and a simple stone wall rings the town. Even from the distance, you can see the timber-framed walls of the buildings in the town are well-maintained with fresh whitewash that glow golden in the lamplight. It's a beautiful little town, a prosperous trading hub nestled among the fertile farmland and old-growth forest you've spent the last few days traversing</p>
-         <p>The stars are just starting to emerge as the lone howl of a wolf splits the silence off somewhere in the woods. A chorus of responding howls take up the call, some uncomfortably close. And getting closer.</p>
-         
+    <div class="game-container">
+        <div class="description">
+            <!-- Embark on an epic journey through the mystical lands of Eldoria. In this thrilling adventure game, you'll encounter mythical creatures, solve ancient puzzles, and discover hidden treasures. Use your wit and strength to overcome challenges and become the hero Eldoria needs. Every decision you make shapes your path and determines your fate. Are you ready to begin your quest? -->
+             <p>After a long day on the road, you crest a hill and see the lights of a town. According to maps and helpful locals you've consulted, this must be Langston. Though the last blush of sunset still colors the sky to the west, lamplight is already visible at the gate and in the streets.</p>
+             <p>In the dim twilight, you can clearly see that the dirt road you've been travelling transitions to cobblestones, and a simple stone wall rings the town. Even from the distance, you can see the timber-framed walls of the buildings in the town are well-maintained with fresh whitewash that glow golden in the lamplight. It's a beautiful little town, a prosperous trading hub nestled among the fertile farmland and old-growth forest you've spent the last few days traversing</p>
+             <p>The stars are just starting to emerge as the lone howl of a wolf splits the silence off somewhere in the woods. A chorus of responding howls take up the call, some uncomfortably close. And getting closer.</p>
+             
+        </div>
+
+        <div class="stats">
+            <div class="health">
+                <span class="heart">❤️: </span>
+                <span id="health-value">0</span>
+            </div>
+            <div class="score">
+                
+            </div>
+            <div class="inspiration">
+                <span class="inspiration-symbol">+</span>
+            </div>
+        </div>
+        <div id="game-area">
+            <div id="story-prompt">
+                <p class="prompt-description"></p>
+                <div class="choice-buttons">
+                    <button id="succession" class="choice-button">Listen</button>
+                    <button id="failure" class="choice-button">Move Forward</button>
+                </div>
+            </div>
+            <div id="console" style="display: none;">
+                <div id="output"></div>
+                <div id="input-section">
+                    <input type="text" id="command" placeholder="Enter your command">
+                    <button id="submit">Submit</button>
+                </div>
+            </div>
+            <div id="win-prompt" style="display: none;">
+                <p>Congratulations! You've earned 30+ points. What would you like to do next?</p>
+                <button id="play-more">Play More</button>
+                <button id="thumbs-up">Give Thumbs Up</button>
+            </div>
+        </div>
     </div>
-    <div id="game-area">
-        <div class="settings">
-            <div class="inline-settings">
-                <div class="setting">
-                    <label for="player-health">Health:</label>
-                    <input type="number" id="player-health" value="100" disabled>
-                </div>
-                <div class="setting">
-                    <label for="player-inspiration">Inspiration:</label>
-                    <div id="player-inspiration" class="player-inspiration">
-                        <div class="plus-sign"></div>
-                        <div class="plus-sign"></div>
-                        <div class="plus-sign"></div>
-                    </div>
-                </div>
-                <div class="setting">
-                    <label for="player-score">Score:</label>
-                    <input type="number" id="player-score" value="0" disabled>
-                </div>
-            </div>
-        </div>
-        <div id="story-prompt">
-            <p class="prompt-description"></p>
-            <div class="choice-buttons">
-                <button id="succession" class="choice-button">Listen</button>
-                <button id="failure" class="choice-button">Move Forward</button>
-            </div>
-        </div>
-        <div id="console" style="display: none;">
-            <div id="output"></div>
-            <div id="input-section">
-                <input type="text" id="command" placeholder="Enter your command">
-                <button id="submit">Submit</button>
-            </div>
-        </div>
-        <div id="win-prompt" style="display: none;">
-            <p>Congratulations! You've earned 30+ points. What would you like to do next?</p>
-            <button id="play-more">Play More</button>
-            <button id="thumbs-up">Give Thumbs Up</button>
-        </div>
-        
-    </div>
-    
+    <footer>
+        <a href="https://www.paypal.com/donate?business=tdeeney19@gmail.com" target="_blank" class="coffee-button">Buy me a coffee?</a>
+    </footer>
     <script src="game.js"></script>
 </body>
 </html>
