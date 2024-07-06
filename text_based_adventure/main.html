@@ -9,7 +9,7 @@
 <body>
     <nav class="navbar-settings">
         <div class="menu" >☰</div>
-        <div class="title" >Chapter 1: The Adventure Begins...</div>
+        <div id="nav-title" class="title" >The Wolves of Langston</div>
         <div class="page-settings" >
             <label class="switch">
                 <input type="checkbox" id="theme-toggle">
@@ -21,30 +21,36 @@
     <div class="game-container">
         <div class="description">
             <!-- Embark on an epic journey through the mystical lands of Eldoria. In this thrilling adventure game, you'll encounter mythical creatures, solve ancient puzzles, and discover hidden treasures. Use your wit and strength to overcome challenges and become the hero Eldoria needs. Every decision you make shapes your path and determines your fate. Are you ready to begin your quest? -->
-             <p>After a long day on the road, you crest a hill and see the lights of a town. According to maps and helpful locals you've consulted, this must be Langston. Though the last blush of sunset still colors the sky to the west, lamplight is already visible at the gate and in the streets.</p>
-             <p>In the dim twilight, you can clearly see that the dirt road you've been travelling transitions to cobblestones, and a simple stone wall rings the town. Even from the distance, you can see the timber-framed walls of the buildings in the town are well-maintained with fresh whitewash that glow golden in the lamplight. It's a beautiful little town, a prosperous trading hub nestled among the fertile farmland and old-growth forest you've spent the last few days traversing</p>
-             <p>The stars are just starting to emerge as the lone howl of a wolf splits the silence off somewhere in the woods. A chorus of responding howls take up the call, some uncomfortably close. And getting closer.</p>
-             
+             <h2>Be the hero Langston needs.</h2>
+             <p><i>Something is killing people in Langston</i></p>
+             <p><i>You have arrived just in time to help this small town rid itself of a danger stalking the night. Investigate likely suspects and root out the unknown evil.</i></p>
+             <p><i>Meet unique characters in an original setting with a mix of mystery, action and exploration. Go on a classic fantasy quest that will challenge you and your character.</i></p>
         </div>
 
         <div class="stats">
             <div class="health">
-                <span class="heart">❤️: </span>
+                <span class="heart">❤️ </span>
                 <span id="health-value">0</span>
             </div>
             <div class="score">
-                
+                <span ><img src="https://cdn3.iconfinder.com/data/icons/smashicons-medieval-flat/57/15_-Gold_Pouch-_medieval_antique_old-512.png" class="score-icon"> </span>
+                <span id="score-value">0</span>
             </div>
             <div class="inspiration">
                 <span class="inspiration-symbol">+</span>
             </div>
         </div>
         <div id="game-area">
-            <div id="story-prompt">
+            <div id="start-game">
+                <div class="choice-buttons">
+                    <button id="start-btn" class="choice-button">Start Game</button>
+                </div>
+            </div>
+            <div id="story-prompt" style="display: none;">
                 <p class="prompt-description"></p>
                 <div class="choice-buttons">
-                    <button id="succession" class="choice-button">Listen</button>
-                    <button id="failure" class="choice-button">Move Forward</button>
+                    <button id="succession" style="display: none;" class="choice-button">Start Game</button>
+                    <button id="failure" style="display: none;" class="choice-button">Exit Game</button>
                 </div>
             </div>
             <div id="console" style="display: none;">

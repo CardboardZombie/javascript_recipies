@@ -7,19 +7,29 @@ body {
     transition: background-color 0.3s, color 0.3s;
 }
 
-body.dark-mode .settings {
-    background-color: #333; /* Dark background for dark mode */
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); /* Darker shadow for dark mode */
-}
-
 body.dark-mode {
     background-color: #121212;
     color: #eee;
 }
 
+body.dark-mode .choice-button {
+    background-color: #4d5054;
+    border: 1px solid #f4f4f4;
+}
+
+body.dark-mode .choice-button:hover {
+    background-color: #3c3c3c; /* Even lighter gray on hover for dark mode */
+}
+
+
+h2{
+    text-align: center;
+}
+
 .description {
     margin-bottom: 20px;
     font-size: 1em;
+    width: 83%;
 }
 
 .prompt-description {
@@ -43,6 +53,30 @@ body.dark-mode {
     transition: background-color 0.3s, box-shadow 0.3s;
 }
 
+.navbar-settings .menu {
+    text-align: left;
+    font-size: 2rem;
+    padding-left: 20px;
+}
+.navbar-settings .title {
+    text-align: center;
+    width: 100%;
+}
+.navbar-settings .settings {
+    text-align: right;
+    font-size: 2rem;
+    padding-right: 20px;
+}
+.navbar-settings a {
+    color: white;
+    text-decoration: none;
+}
+.navbar-settings a:hover {
+    text-decoration: underline;
+}
+
+
+
 .game-container {
     display: flex;
     flex-direction: column;
@@ -51,7 +85,6 @@ body.dark-mode {
 }
 
 .stats {
-
     display: flex;
     justify-content: space-around;
     width: 83%;
@@ -61,6 +94,7 @@ body.dark-mode {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 }
+
 .stat-item {
     font-size: 1.25rem;
     margin: 0 1rem;
@@ -68,9 +102,22 @@ body.dark-mode {
 
 .heart {
     color: rgb(55, 69, 103);
+}
+
+.heart, .health-value, .score-value, .score-icon, .inspiration-symbol {
     font-size: 24px;
 }
-.health-value{
+
+.score{
+    line-height: 24px;
+}
+
+.score-icon{
+    height: 24px;
+    width: auto;
+}
+
+.score-value{
     font-size: 24px;
 }
 
@@ -215,48 +262,12 @@ input:checked + .slider:before {
     background-color: #7f7f7f; /* Lighter gray on hover for light mode */
 }
 
-body.dark-mode .choice-button {
-    background-color: #4d5054;
-    border: 1px solid #f4f4f4;
-}
-
-body.dark-mode .choice-button:hover {
-    background-color: #3c3c3c; /* Even lighter gray on hover for dark mode */
-}
-
-.navbar-settings .menu,
-.navbar-settings .title,
-.navbar-settings .settings {
-    text-align: center;
-}
-.navbar-settings .menu {
-    text-align: left;
-    font-size: 2rem;
-    padding-left: 20px;
-}
-.navbar-settings .title {
-    text-align: center;
-    width: 100%;
-}
-.navbar-settings .settings {
-    text-align: right;
-    font-size: 2rem;
-    padding-right: 20px;
-}
-.navbar-settings a {
-    color: white;
-    text-decoration: none;
-}
-.navbar-settings a:hover {
-    text-decoration: underline;
-}
 
 
 footer {
     display: flex;
     justify-content: center;
     color: #f4f4f4;
-
     align-items: center;
     background-color: #374151;
     border-radius: 10px;
