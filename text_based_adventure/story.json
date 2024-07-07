@@ -4,13 +4,13 @@
 
         "0": { 
             "description": "After a long day on the road, you crest a hill and see the lights of a town. According to maps and helpful locals you've consulted, this must be Langston. Though the last blush of sunset still colors the sky to the west, lamplight is already visible at the gate and in the streets.<br><br>In the dim twilight, you can clearly see that the dirt road you've been travelling transitions to cobblestones, and a simple stone wall rings the town. Even from the distance, you can see the timber-framed walls of the buildings in the town are well-maintained with fresh whitewash that glow golden in the lamplight. It's a beautiful little town, a prosperous trading hub nestled among the fertile farmland and old-growth forest you've spent the last few days traversing<br><br>The stars are just starting to emerge as the lone howl of a wolf splits the silence off somewhere in the woods. A chorus of responding howls take up the call, some uncomfortably close. And getting closer.<br><br>You pick up your pace to put more distance between you and the wilderness in the hope of a soft bed, a hot meal, and some work for an enterprising adventurer. A town as prosperous as Langston looks like a place to do good, earn coin, and achieve glory. Maybe all three at once, so long as you aren't eaten by wolves between here and there. <br><br>Roll a Wisdom (Perception) check.",
-            "success": { "next": 23, "text": "Rolled 10 or more" },
+            "success": { "next": 23, "text": "Rolled 10 or higher" },
             "failure": { "next": 11, "text": "Rolled less than 10" }
         },
         "1": { 
             "description": "Your hopes for a meal and friendly conversation are dashed with what you find in the marketplace. More specifically, you're disappointed with what you don't find.<br><br>It's empty, filled only with a mournful hush. Street vendors are closed, windows are shuttered. Lamplighters have still passed through to fill the square with warm pools of light, but everything feels muted under the weight of an oppressive sadness.<br><br>You're looking for someone - anyone - when a solitary figure in a white robe bustles out from a side street, nearly dropping a sheaf of papers. The robe's hood is down, so you can see that it's a young human woman with a light blond hair. Her robes bear sunburst motifs around the neck and collar and a similar symbol made of gold hangs from around her neck. This appears to be a sun cleric.<br><br>Call out to the cleric or follow her down the empty streets",
-            "success":{ "next": 27, "text": "Call out to the Cleric" },
-            "failure":{ "next": 3, "text": "Follow the Cleric" }
+            "success":{ "next": 27, "text": "Call out to the Sun-Cleric" },
+            "failure":{ "next": 3, "text": "Follow the Sun-Cleric" }
         },
         "2": { 
             "description": "The man calms and walks away muttering about adventurers being up to no good. But he picks up a cup of wine from a tray and busies himself with drinking that instead of fighting you.<br><br>** Gain Inspiration **<br><br>As your would-be attacker walks off, you see that the half-orc who was speaking to him is staring at you. She approaches you.",
@@ -33,12 +33,12 @@
         },
         "6": {
             "description": "Mayor Anathram's dog is incredibly impressive in its training.<br><br>Roll a Wisdom (Animal Handling) check.",
-            "success":{ "next": 22, "text": "Rolled 10 or more" },
+            "success":{ "next": 22, "text": "Rolled 10 or higher" },
             "failure":{ "next": 47, "text": "Rolled less than 10" }
         },
         "7": { 
             "description": "There is something about the cleric's delivery of her service that maks it feel like she is holding back, but you can't tell what is bothering you as she does seem to earnestly care about the community under her charge.<br><br>The mayor strides up behind Solaine for her turn to speak, and the cleric notices her with a slight start before ceding her spot at the front of the room.",
-            "success": { "next": 1, "text": "Listen to the mayor speak" }
+            "success": { "next": 25, "text": "Listen to the Mayor speak" }
         },
         "8": { 
             "description": "The mayor calls a militia member in from outside with a little bell. The volunteer peacekeeper keeps one hand on the short club hanging at her belt as  she escorts you back to the inn if you need to gather your things. She then accompanies you to the edge of town and leaves you there without saying a word.<br><br><i>Your adventure is over. Keep whatever rewards you've gained and move on.</i>",
@@ -47,21 +47,89 @@
         },
         "9": { 
             "description": "** Gain Inspiration **<br><br>As Tomlin spoke, several young and even a few middle-aged women smiled and whispered to one another. Though no one seems happy about the passing of this Maybelline, it seems that the attractive young women are less sad than others.<br><br>It's clear that Tomlin is known for more than tinctures and decoctions here in Langston.<br><br>He steps aside to allow a red-bearded dwarf the floor to address the crowd.",
-            "success": { "next": 1, "text": "Listen to Roi speak" },
+            "success": { "next": 13, "text": "Listen to Roi speak" },
             "inspiration": true
         },
         "10": { 
             "description": "The druid is behaving oddly, but that could just as easily be explained by the strain of the situation. He seems like a happy, well-adjusted person but is somehow a bit off balance.<br><br>The next speaker in the ceremony is approaching. An unobtrusive young human woman in the vestments of a sun cleric steps up to the crowd to speak.",
-            "success": { "next": 1, "text": "Listen to Solaine speak" }
+            "success": { "next": 39, "text": "Listen to the young woman" }
         },
         "11": { 
             "description": "You continue down the road, a growing sense of dread in the pit of your stomach. Looking around you, you see nothing in the trees or undergrowth on either side of the road even though you feel like you should.<br><br>You stop walking, pausing to listen to the dark woods around you. Without the sound of your footsteps, you can now hear a low rumbling growl and excited panting coming from around you.<br><br>All around you.<br><br>A large but scruffy wolf pads into the road in front of you, moonlight shining in its grey fur. Half a dozen more of the beasts step into view, sizing you up.<br><br>You're surrounded by a pack of hungry wolves. Your odds aren't good, but at least you can go down fighting.",
             "success": { "next": 33, "text": "Go Down Fighting" }
         },
+        "12": { 
+            "description": "You're positive that there are details you're missing, so you turn your attention to what's happening around you.<br><br>Roll an Intelligence (Investigation) Check.",
+            "success": { "next": 9, "text": "Roled 10 or higher" },
+            "failure": { "next": 18, "text": "Rolled less than 10" }
+        },
+        "13": { 
+            "description": "The dwarf is dressed in hides and homespun cloth, while his hair and beard seem to be struggling to break free from the leather cords he's used to style them. He's clean now, but something in the dwarf's demeanor suggests this is his version of dressing up.<br><br>\"Welcome, people of Langston,\" he says with a warm smile that makes his eyes sparkle. \"As sad as I am to see Maybelline return to the Earth, I want to remind Langston to choose life. As you all know, I'm grateful my circle assigned me to Langston.\"<br><br>There'sa  murmur of assent in the crowd and a few raised glasses. \"And you have all made it so easy for me. You've respected the forest and its inhabitants, and in return, I have been happy to act as both spiritual counsel and guiding hand for the forces of nature around us. I will join you in greiving the loss of a wonderful member of this community, and I hope you will join me in welcoming her back into the cycle of life.\"<br><br>He mutters a spell as his hands begin to radiate a faint green glow, but he's interuppted by a sneezing fit, after which his beard and hair thicken and stand on end. He smooths his hair and regains his composure.<br><br>\"Excuse me,\" he says with a deep growl in his voice. He clears his throat and completes his spell, causing a splash of extraordinarily bright wildflowers to bloom on the dais on which the casket rests.<br><br>He nods in approval at his own work before turning to the crowd, raising a glass, and smiling broadly. \"To life!\"<br><br>He downs his drink along with others in the crowd, but you're more interested in the strange reaction the local druid had to the sneezing fit. You can try either an Arcana or Perception check to better understand what you've seen.",
+            "success": { "next": 38, "text": "Arcana Check" },
+            "failure": { "next": 14, "text": "Perception Check" }
+        },
+        "14": { 
+            "description": "You focus your senses on the bushy-haired druid, especially those odd changes that occured during his sneezing fit.<br><br>Roll a Wisdom (Perception) check.",
+            "success": { "next": 42, "text": "Rolled 10 or higher" },
+            "failure": { "next": 10, "text": "Rolled less than 10" }
+        },
+        "15": { 
+            "description": "He backs down, staring daggers at you but leaving you alone. A couple of wry laughs are audible from other attendees who saw the exchange, but the aggressively drunk man either doesn't hear or doesn't car.<br><br>** Gain Inspiration **<br><br>As your attempted assailant retreats, the half-orc he was talking to turns towrd you.",
+            "success": { "next": 44, "text": "Speak with the Half-Orc" },
+            "inspiration": true
+        },
+        "16": { 
+            "description": "** Gain Inspiration **<br><br>The Rathkananar Book of Funeral Rites is a standard text taught in many religions as a manual outlining the burial rituals of the common people. However, it does not include any prayers or hymns but instead describes the processes.<br><br>You don't recognise the specific hymn Solaine uses, but it could come from the Radiant Order. This sunworshipping sect is small and keeps its knowledge to itself.<br><br>The mayor positions herself behind Solaine and waits for the cleric to notice her. After a moment the cleric sees the mayor and cedes the floor to her.",
+            "success": { "next": 25, "text": "Listen to the Mayor speak" },
+            "inspiration": true
+        },
+        "17": { 
+            "description": "** Gain Inspiration **<br><br>The mayor made some glaring mistakes in her account of the battle she said she participated in.<br><br>The Battle of the Three Rivers was a coup by a neighbouring kingdom, not barbarian hoardes. And it was won by guerilla tactics from the local peasantry, who were the aggressors, not the victims.<br><br>But it's unclear if she's lying or just wrong, so this probably isn't the best conversation starter as the mayor approaches.",
+            "success": { "next": 30, "text": "Greet Mayor Anathram" },
+            "inspiration": true
+        },
+        "18": { 
+            "description": "Though you can't quite put your finger on what it is, Tomlin has an odd relationship with the town.Obviously, he is well-liked but there's more to it than that.<br><br>Before you can figure it out, a red-bearded dwarf takes over from the grieving fiancé.",
+            "success": { "next": 13, "text": "Listen to Roi speak" }
+        },
+        "19": { 
+            "description": "You find a window to peer into and see a packed room. It's almost impossible to guess how many people are inside, but it's at least a hundred. People seem to be speaking quietly to one another, though everyone seems to have a drink in their hand.<br><br>\"You a prowler?\" asks a timid voice. You spin on a young barmaid who seems to be throwing away some food scraps. She jumps more than you did as fear pinches her face...<br><br>You answer that you're a traveler and an adventurer.<br><br>\"Then you hsould probably go in,\" she says with a small smile. \"The mayor'll want a word with you after the service. And the folks of Langston are a nice bunch, even in the face of so much grief. In life, Maybelline was the nicest person you'd ever meet. She'd want everyone welcome at her funeral. Come on in\"<br><br>You follow the barmaid into the tavern.",
+            "success": { "next": 34, "text": "Head inside The Pickled Hen" }
+        },
+        "20": { 
+            "description": "You take an aggressive stance and scowl, telling the man that you're not in the habit of starting fights at funerals. But you don't mind finishing them.<br><br>Roll a Charisma (Intimidate) check.",
+            "success": { "next": 15, "text": "Rolled 10 or higher" },
+            "failure": { "next": 36, "text": "Rolled less than 10" }
+        },
+        "21": { 
+            "description": "You politely greet the mayor and the dog lays its massive head back down on its paws. It continues to watch you closely, however.<br><br>\"I am grateful for your service,\" she says. You assume she is being genuine, but it's impossible to tell for sure with her stony delivery. She outlines the problem she's having: a gruesome murder about a week ago. The town militia is fine against bandits or sheep rustlers, but this requires someone different. The poor girl was mangled as if bya wild beast, but she was found within town.<br>Besides, Roi keeps the woods free of monsters and supernatural hazards.<br><br>\"And besides,\" she explains. \"you're an outsider and therefore expendable. It's the mayor's role to protect the town, not every drifter that wanders in.<br><br>The town will pay 320 gold pieces to eliminate the threat. That fee is not negotiable, and Mayor Anathram gives you the impression it would be bad for your health to try.",
+            "success": { "next": 48, "text": "Accept the job" },
+            "failure": { "next": 5, "text": "Reject the job" }
+        },
+        "22": { 
+            "description": "The mastiff currently on the mayor's heels is immaculately trained as a military attack hound. In other words, the mayor's dog is a trained killer.<br><br>It's remarkably well-trained, but in all likelihood, it has killed before. Whether or not it will kill again will depend on whether or not it needs to. Or is commanded to.<br><br>You spare the beast a glance as the mayor approaches you.",
+            "success": { "next": 30, "text": "Greet Mayor Anathram" }
+        },
         "23": { 
             "description": "You hear something in the woods off to one side and spin in that direction. A pair of golden yellow eyes peers out out of the dark underbrush, soon joined by a second pair.<br><br>Turning around, you see more eyes gathering in the gloom around you. Before you even consider it as an option, a shaggy, dark grey wolf steps out onto the path behind you.<br><br>Hopelessly outnumbered, you can either square up to fight the pack of wolves or sprint for the town",
-            "success": { "next": 33, "text": "Fight the Wolves" },
-            "failure": { "next": 40, "text": "Sprint for the town" }
+            "success": { "next": 33, "text": "Fight the wolves" },
+            "failure": { "next": 40, "text": "Make a break for it" }
+        },
+        "24": { 
+            "description": "The hymn was lovely, but you feel that Solaine made an error somewhere.<br><br>Roll an Intelligence (Religion) check.",
+            "success": { "next": 16, "text": "Rolled a 10 or higher" },
+            "failure": { "next": 7, "text": "Rolled less than 10" }
+        },
+        "25": { 
+            "description": "As Solaine recedes into the background, the half-orc mayor stands rigid with her hands clasped behind her back. She cuts a powerful figure with her broad shoulders and battle scars, but she maintains an air of sophistication with a well-made suit in the noble style. An enormous mastiff pads up to her side and sits beside her, remaining equally still. Though her heritage stands out to you in the mostly human town of Langston, no one else seems to notice.<br><br>\"Sit, Buttercup,\" she says to the dog in a heavy accent. The mastiff immediately seats itself at her side. The mayor returns her attention to the crowd of attendees.<br><br>\"Tanya Anathram was a soldier before she was your mayor,\" she begins, laying a hand over her heart. \"Langston welcomed me, gave me a place to heal after the Battle of the Three Rivers. There I fought to defend people from a barbarian horde. And I will protect the people of Langston.\"<br><br>She looks out into the crowd, moving just her eyes as the rest of her remains perfectly still. Her huge dog could be a statue for all it moves.<br><br>\"There is a killer out there in the darkness,\"she says, and her eyes lock on yours. \"We do not know what it is, but it took one of our citizens under my protection. We will find whatever took this life and end the threat. This is my promise to you\"<br><br>Aripple of soft applause and angry muttering sweeps through the crowd. The dog's head tracks both sounds for a moment before glancing at the mayor returning to its vigil.<br><br>She turns to address the family of the deceased. \"I am so sorry for your loss,\" she says and then steps away from the casket and starts making her way through the crowd towards you.<br><br>As she makes her way to where you're standing, you can make either a History check or an Animal Handling check.",
+            "success": { "next": 37, "text": "History check" },
+            "failure": { "next": 6, "text": "Animal Handling Check" }
+        },
+        "26": { 
+            "description": "** Gain the benefits of a long rest **<br><br>You wake up in a soft bed to a hot breakfast cooling outside your door. This is much better living than camping by the road, so it's probably time to meet your benefactor.<br><br>The inn's common room is a bustle of activity as quiet townspeople load flowers from the funeral into a wagon in front of the inn. The body of the deceased is already gone. After weaving your way through the workers, you find yourself outside where passersby are deliberately ignoring the wagonful of blossoms. With the help of a few locals on the streets, you make your way to the town hall.<br><br>The town hall is a multi-story building but not much larger than the surrounding structures, it isn't made of the same timber walls as the rest of the town and is instead a much sturdier stone structure, so it likely predates the town's growth.<br><br>The door stands open and an aide greets you when you arrive. He shows you to the mayor in a large but simply appointed office in the back of the building. The room is dominated by a large dark-stained wood desk where Mayor Anathram is working with a quill and inkpot. There is also an unlit hearth on one wall and a couple of orderly bookshelves. There are no personal effects that you can see.<br><br>A cushion and a bowl of water are set up  next to the desk. The mayor's mastiff is lounging there watching you intently as you enter.<br><br>You can greet the mayor or pet the dog first.",
+            "success": { "next": 21, "text": "Greet Mayor Anathram" },
+            "failure": { "next": 35, "text": "Pet Buttercup First" },
+            "inspiration": true
         },
         "27": { 
             "description": "The cleric jolts and turns and you see a moment of fear as her hand reflexively snaps to her holy symbol. She looks either way down empty streets before breaking out in a wide, kind smile as she approaches.<br><br>\"Hello, and welcome,\" she says, her voice high and bright. \"Can I help you with something, traveler?\"<br><br>You ask her where she's going in such a hurry.<br><br>\"I am on my way to perform a young woman's last rites,\" she says, her kind smile still fixed to her lips. \"Such a sad day.\"<br><br>You ask if she is on her way to The Pickled Hen.<br><br>\"I am,\" she says with growing uncertainty. \"Did you...you know the deceased?\"<br><br>You say that you do not, but someone named Roi suggested you go to The Pickled Hen for lodging.<br><br>\"Ah, of course,\" she says with a sigh. \"A truly good dwarf, Roi. the funeral will be starting soon and I must be on my way. But I can show you the way if you'd like.\"<br><br>She walks beside you in silence, occasionally consulting the sheets in her hand and reading it to herself. After a few moments of awkwardly accompanying the young cleric, she shows you to an inn whose sign says it's The Pickled Hen.<br><br>The cleric absentmindedly opens the door and steps into the tavern at the ground floor. Having clearly forgotten you're even there, she closes it behind her.",
