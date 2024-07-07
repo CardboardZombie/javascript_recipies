@@ -34,10 +34,14 @@ h2{
 
 .prompt-description {
     margin-bottom: 20px;
-    font-size: 1em;
+    font-size: 1.5em;
     font-family: monospace; /* Optional: Gives a typewriter-like appearance */
     white-space: pre-wrap; /* Preserve whitespace */
 } 
+
+.prompt-description .italic {
+    font-style: italic;
+}
 
 .navbar-settings {
     display: flex;
@@ -121,9 +125,46 @@ h2{
     font-size: 24px;
 }
 
+.inspiration {
+    color: grey;
+    cursor: pointer;
+    pointer-events: none; /* Initially unclickable */
+    position: relative; /* Required for tooltip positioning */
+}
+
 .inspiration-symbol {
-    font-size: 28px;
-    color: #4CAF50;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.inspiration .tooltip {
+    visibility: hidden;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%; /* Position the tooltip above the symbol */
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+.inspiration .tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%; /* Arrow pointing down */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+}
+
+.inspiration.green:hover .tooltip {
+    visibility: visible;
 }
 
 #game-area {

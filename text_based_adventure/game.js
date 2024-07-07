@@ -24,37 +24,39 @@ async function loadStory() {
 
   function typeWriter(text, element, callback) {
     let i = 0;
-    let isTag = false;
-    let textBuffer = '';
     const speed = 25; // Speed in milliseconds
 
     function type() {
         if (i < text.length) {
-            const char = text.charAt(i);
-            if(char === '<'){
-                isTag = true;
-            }
-
-            if(isTag){
-                textBuffer += char;
-                if(char === '>'){
-                    isTag = false;
-                    element.innerHTML += textBuffer;
-                    textBuffer = '';
+            if (text.charAt(i) === '<') {
+                // Find the closing tag or move forward until '>'
+                const endIndex = text.indexOf('>', i);
+                if (endIndex !== -1) {
+                    // Append the entire tag
+                    const tag = text.substring(i, endIndex + 1);
+                    element.innerHTML += tag;
+                    i = endIndex + 1;
+                } else {
+                    // In case '>' is not found, handle as normal character
+                    element.innerHTML += text.charAt(i);
+                    i++;
                 }
-            }
-            else{
-                element.innerHTML += char;
+            } else {
+                // Append normal character
+                element.innerHTML += text.charAt(i);
+                i++;
             }
 
-            i++;
-            setTimeout(type, isTag? 0 : speed);
+            setTimeout(type, speed);
         } else if (callback) {
             callback();
         }
     }
+
     type();
 }
+
+
 
 function handleChoice(choiceNumber){
     const choice = choices[choiceNumber];
@@ -70,6 +72,25 @@ function handleChoice(choiceNumber){
         descriptionElement.innerHTML = ''; // Clear the element's content before starting
         successButton.style.display = 'none';
         failureButton.style.display = 'none';
+
+        // Check for inspiration
+        const inspirationElement = document.querySelector(".inspiration");
+        if (choice.inspiration) {
+            inspirationElement.style.color = '#4CAF50';
+            inspirationElement.style.pointerEvents = 'auto'; // Make it clickable
+            inspirationElement.classList.add('green');
+            inspirationElement.onclick = () => {
+                inspirationElement.style.color = 'grey';
+                inspirationElement.style.pointerEvents = 'none'; // Make it unclickable again
+                // Additional logic when inspiration is clicked
+                inspirationElement.classList.remove('green');
+                handleInspirationClick();
+            };
+        } else {
+            inspirationElement.style.color = 'grey';
+            inspirationElement.style.pointerEvents = 'none'; // Make it unclickable
+            inspirationElement.classList.remove('green');
+        }
 
         // console.log(choice.description);
         typeWriter(choice.description, descriptionElement, () => {
@@ -98,7 +119,11 @@ function handleChoice(choiceNumber){
 
 let choices;
 
-
+function handleInspirationClick() {
+    // Add your logic for what happens when the inspiration element is clicked
+    console.log('Gain Inspiration.');
+    // For example, you could add logic to increase a player's inspiration points
+}
 
 document.getElementById('start-btn').addEventListener('click', () => {
     loadStory().then(story => {
@@ -125,3 +150,4 @@ document.getElementById('theme-toggle').addEventListener('change', (event) => {
     document.getElementById('game-area').classList.toggle('dark-mode', event.target.checked);
     document.getElementById('output').classList.toggle('dark-mode', event.target.checked);
 });
+

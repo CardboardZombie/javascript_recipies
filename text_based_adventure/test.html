@@ -3,119 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Navigation Bar with Dark Mode</title>
+    <title>Typewriter Effect</title>
     <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #333;
-            color: white;
-            padding: 10px 20px;
-        }
-        .navbar .menu,
-        .navbar .title,
-        .navbar .settings {
-            flex: 1;
-        }
-        .navbar .menu {
-            text-align: left;
-            position: relative;
-        }
-        .navbar .title {
-            text-align: center;
-        }
-        .navbar .settings {
-            text-align: right;
-        }
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            padding: 0 10px;
-        }
-        .navbar a:hover {
-            text-decoration: underline;
-        }
-        .menu-dropdown {
-            display: none;
-            position: absolute;
-            left: 0;
-            top: 100%;
-            background-color: #444;
-            color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            z-index: 1;
-        }
-        .menu-dropdown a {
-            display: block;
-            padding: 10px;
-            color: white;
-            text-decoration: none;
-        }
-        .menu-dropdown a:hover {
-            background-color: #555;
-        }
-        .dark-mode {
-            background-color: #121212;
-            color: #e0e0e0;
-        }
+        .prompt-description {
+        margin-bottom: 20px;
+        font-size: 1.5em;
+        font-family: monospace; /* Optional: Gives a typewriter-like appearance */
+        white-space: pre-wrap; /* Preserve whitespace */
+    }
+
+    .prompt-description .italic {
+        font-style: italic;
+    }
+
     </style>
 </head>
 <body>
-    <div class="navbar">
-        <div class="menu">
-            <a href="javascript:void(0)" onclick="toggleMenu()">☰ Menu</a>
-            <div class="menu-dropdown" id="menuDropdown">
-                <a href="javascript:void(0)" onclick="toggleDarkMode()">Switch to Dark Mode</a>
-            </div>
-        </div>
-        <div class="title">
-            Chapter 1: Introduction
-        </div>
-        <div class="settings">
-            <a href="#settings">⚙ Settings</a>
-        </div>
-    </div>
-
-    <!-- Placeholder content to show the structure of the page -->
-    <div style="padding: 20px;">
-        <h1>Chapter 1: Introduction</h1>
-        <p>Welcome to Chapter 1. This is the introduction to our topic.</p>
-        <!-- Additional content can go here -->
-    </div>
+    <div class="prompt-description"></div>
+    <button onclick="startTyping()">Start Typing</button>
 
     <script>
-        function toggleMenu() {
-            const menuDropdown = document.getElementById('menuDropdown');
-            menuDropdown.style.display = menuDropdown.style.display === 'block' ? 'none' : 'block';
+        function startTyping() {
+            const text = 'The man calms and walks away muttering about adventurers being up to no good. But he picks up a cup of wine from a tray and busies himself with drinking that instead of fighting you.<br><br><i>Gain Inspiration</i><br><br>As your would-be attacker walks off, you see that the half-orc who was speaking to him is staring at you. She approaches you.';
+            const descriptionElement = document.querySelector('.prompt-description');
+            typeWriter(text, descriptionElement, () => {
+                console.log('Typing complete');
+            });
         }
 
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            const menuLink = document.querySelector('.menu-dropdown a');
-            if (document.body.classList.contains('dark-mode')) {
-                menuLink.textContent = 'Switch to Light Mode';
-            } else {
-                menuLink.textContent = 'Switch to Dark Mode';
-            }
-        }
+        function typeWriter(text, element, callback) {
+            let i = 0;
+            const speed = 25; // Speed in milliseconds
 
-        // Close the dropdown if the user clicks outside of it
-        window.onclick = function(event) {
-            if (!event.target.matches('.menu a')) {
-                const dropdowns = document.getElementsByClassName('menu-dropdown');
-                for (let i = 0; i < dropdowns.length; i++) {
-                    const openDropdown = dropdowns[i];
-                    if (openDropdown.style.display === 'block') {
-                        openDropdown.style.display = 'none';
+            function type() {
+                if (i < text.length) {
+                    if (text.charAt(i) === '<') {
+                        const endIndex = text.indexOf('>', i);
+                        if (endIndex !== -1) {
+                            const tag = text.substring(i, endIndex + 1);
+                            element.innerHTML += tag;
+                            i = endIndex + 1;
+
+                            // If it's an <i> tag, apply italics style
+                            if (tag.toLowerCase() === '<i>') {
+                                element.innerHTML += '<style= "font-stlye: italic;">';
+                            } else if (tag.toLowerCase() === '</i>') {
+                                element.innerHTML += '</style>';
+                            }
+                        } else {
+                            element.innerHTML += text.charAt(i);
+                            i++;
+                        }
+                    } else {
+                        element.innerHTML += text.charAt(i);
+                        i++;
                     }
+
+                    setTimeout(type, speed);
+                } else if (callback) {
+                    callback();
                 }
             }
+
+            type();
         }
     </script>
 </body>
