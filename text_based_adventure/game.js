@@ -86,12 +86,18 @@ function handleChoice(choiceNumber){
                 inspirationElement.classList.remove('green');
                 handleInspirationClick();
             };
-        } else {
+        } /*else {
             inspirationElement.style.color = 'grey';
             inspirationElement.style.pointerEvents = 'none'; // Make it unclickable
             inspirationElement.classList.remove('green');
-        }
+        }*/
 
+        var amount = document.querySelector(".coin");
+        if (choice.coin){
+            playerStats.score += amount;
+            document.getElementById('score-value').innerText = playerStats.score;
+        }
+        
         // console.log(choice.description);
         typeWriter(choice.description, descriptionElement, () => {
            
@@ -118,6 +124,9 @@ function handleChoice(choiceNumber){
 }
 
 let choices;
+var playerStats = {
+    score: 0
+};
 
 function handleInspirationClick() {
     // Add your logic for what happens when the inspiration element is clicked

@@ -7,70 +7,81 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <nav class="navbar-settings">
-        <div class="menu" >☰</div>
-        <div id="nav-title" class="title" >The Wolves of Langston</div>
-        <div class="page-settings" >
-            <label class="switch">
-                <input type="checkbox" id="theme-toggle">
-                <span class="slider round"></span>
-            </label>
-        </div>
-    </nav>
-    <!-- <h1>The Adventure Begins...</h1> -->
-    <div class="game-container">
-        <div class="description">
-            <!-- Embark on an epic journey through the mystical lands of Eldoria. In this thrilling adventure game, you'll encounter mythical creatures, solve ancient puzzles, and discover hidden treasures. Use your wit and strength to overcome challenges and become the hero Eldoria needs. Every decision you make shapes your path and determines your fate. Are you ready to begin your quest? -->
-             <h2>Be the hero Langston needs.</h2>
-             <p><i>Something is killing people in Langston</i></p>
-             <p><i>You have arrived just in time to help this small town rid itself of a danger stalking the night. Investigate likely suspects and root out the unknown evil.</i></p>
-             <p><i>Meet unique characters in an original setting with a mix of mystery, action and exploration. Go on a classic fantasy quest that will challenge you and your character.</i></p>
-        </div>
+    <div id="page-container">
 
-        <div class="stats">
-            <div class="health">
-                <span class="heart">❤️ </span>
-                <span id="health-value">0</span>
+    
+        <nav class="navbar-settings">
+            <div class="menu" >☰</div>
+            <div id="nav-title" class="title" >The Wolves of Langston</div>
+            <div class="page-settings" >
+                <label class="switch">
+                    <input type="checkbox" id="theme-toggle">
+                    <span class="slider round"></span>
+                </label>
             </div>
-            <div class="score">
-                <span ><img src="https://cdn3.iconfinder.com/data/icons/smashicons-medieval-flat/57/15_-Gold_Pouch-_medieval_antique_old-512.png" class="score-icon"> </span>
-                <span id="score-value">0</span>
+        </nav>
+        <!-- <h1>The Adventure Begins...</h1> -->
+        <div class="game-container">
+            <div class="description">
+                <!-- Embark on an epic journey through the mystical lands of Eldoria. In this thrilling adventure game, you'll encounter mythical creatures, solve ancient puzzles, and discover hidden treasures. Use your wit and strength to overcome challenges and become the hero Eldoria needs. Every decision you make shapes your path and determines your fate. Are you ready to begin your quest? -->
+                <h2>Be the hero Langston needs.</h2>
+                <p><i>Something is killing people in Langston</i></p>
+                <p><i>You have arrived just in time to help this small town rid itself of a danger stalking the night. Investigate likely suspects and root out the unknown evil.</i></p>
+                <p><i>Meet unique characters in an original setting with a mix of mystery, action and exploration. Go on a classic fantasy quest that will challenge you and your character.</i></p>
             </div>
-            <div class="inspiration">
-                <span class="inspiration-symbol">+</span>
-                <div class="tooltip">Apply advantage to one d20 roll. (single-use)</div>
+
+            <div class="stats">
+                <div class="stat">
+                    <label for="ac-input">AC:</label>
+                    <input type="number" id="ac-input" value="10">
+                </div>
+                <div class="health">
+                    <span class="heart">❤️ </span>
+                    <span id="health-value">0</span>
+                </div>
+                <div class="score">
+                    <span ><img src="https://cdn3.iconfinder.com/data/icons/smashicons-medieval-flat/57/15_-Gold_Pouch-_medieval_antique_old-512.png" class="score-icon"> </span>
+                    <span id="score-value">0</span>
+                </div>
+                <div class="stat">
+                    <button id="shop-btn">Shop</button>
+                </div>
+                <div class="inspiration">
+                    <span class="inspiration-symbol">+</span>
+                    <div class="tooltip">Apply advantage to one d20 roll. (single-use)</div>
+                </div>
+            </div>
+            <div id="game-area">
+                <div id="start-game">
+                    <div class="choice-buttons">
+                        <button id="start-btn" class="choice-button">Start Game</button>
+                    </div>
+                </div>
+                <div id="story-prompt" style="display: none;">
+                    <p class="prompt-description"></p>
+                    <div class="choice-buttons">
+                        <button id="succession" style="display: none;" class="choice-button">Start Game</button>
+                        <button id="failure" style="display: none;" class="choice-button">Exit Game</button>
+                    </div>
+                </div>
+                <div id="console" style="display: none;">
+                    <div id="output"></div>
+                    <div id="input-section">
+                        <input type="text" id="command" placeholder="Enter your command">
+                        <button id="submit">Submit</button>
+                    </div>
+                </div>
+                <div id="win-prompt" style="display: none;">
+                    <p>Congratulations! You've earned 30+ points. What would you like to do next?</p>
+                    <button id="play-more">Play More</button>
+                    <button id="thumbs-up">Give Thumbs Up</button>
+                </div>
             </div>
         </div>
-        <div id="game-area">
-            <div id="start-game">
-                <div class="choice-buttons">
-                    <button id="start-btn" class="choice-button">Start Game</button>
-                </div>
-            </div>
-            <div id="story-prompt" style="display: none;">
-                <p class="prompt-description"></p>
-                <div class="choice-buttons">
-                    <button id="succession" style="display: none;" class="choice-button">Start Game</button>
-                    <button id="failure" style="display: none;" class="choice-button">Exit Game</button>
-                </div>
-            </div>
-            <div id="console" style="display: none;">
-                <div id="output"></div>
-                <div id="input-section">
-                    <input type="text" id="command" placeholder="Enter your command">
-                    <button id="submit">Submit</button>
-                </div>
-            </div>
-            <div id="win-prompt" style="display: none;">
-                <p>Congratulations! You've earned 30+ points. What would you like to do next?</p>
-                <button id="play-more">Play More</button>
-                <button id="thumbs-up">Give Thumbs Up</button>
-            </div>
-        </div>
+        <footer>
+            <a href="https://www.paypal.com/donate?business=tdeeney19@gmail.com" target="_blank" class="coffee-button">Buy me a coffee?</a>
+        </footer>
     </div>
-    <footer>
-        <a href="https://www.paypal.com/donate?business=tdeeney19@gmail.com" target="_blank" class="coffee-button">Buy me a coffee?</a>
-    </footer>
     <script src="game.js"></script>
 </body>
 </html>
