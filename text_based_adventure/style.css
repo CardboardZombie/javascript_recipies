@@ -14,9 +14,6 @@ body {
     min-height: 100vh;
   }
   
-
-
-
 body.dark-mode {
     background-color: #121212;
     color: #eee;
@@ -30,7 +27,6 @@ body.dark-mode .choice-button {
 body.dark-mode .choice-button:hover {
     background-color: #3c3c3c; /* Even lighter gray on hover for dark mode */
 }
-
 
 h2{
     text-align: center;
@@ -89,8 +85,6 @@ h2{
 .navbar-settings a:hover {
     text-decoration: underline;
 }
-
-
 
 .game-container {
     display: flex;
@@ -316,8 +310,6 @@ input:checked + .slider:before {
     background-color: #7f7f7f; /* Lighter gray on hover for light mode */
 }
 
-
-
 footer {
     display: flex;
     justify-content: center;
@@ -358,5 +350,3 @@ footer {
         /* font-size: 2rem; */
     }
 }
-
-
