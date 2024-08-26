@@ -84,14 +84,30 @@ function handleChoice(choiceNumber){
 
 function disableButtons(){
     console.log('Disabling buttons');
-    document.getElementById('succession').disabled = true;
-    document.getElementById('failure').disabled = true;
+    const successButton = document.getElementById('succession');
+    const failureButton = document.getElementById('failure');
+
+    // Disable the buttons
+    successButton.disabled = true;
+    failureButton.disabled = true;
+
+    // Hide the buttons
+    successButton.style.display = 'none';
+    failureButton.style.display = 'none';
 }
 
 function enableButtons(){
     console.log('Enabling buttons');
-    document.getElementById('succession').disabled = false;
-    document.getElementById('failure').disabled = false;
+    const successButton = document.getElementById('succession');
+    const failureButton = document.getElementById('failure');
+
+    // Enable the buttons
+    successButton.disabled = false;
+    failureButton.disabled = false;
+
+    // Show the buttons
+    successButton.style.display = 'inline-block'; // or 'block', depending on your layout needs
+    failureButton.style.display = 'inline-block';
 }
 
 function updateButtons(choice) {
