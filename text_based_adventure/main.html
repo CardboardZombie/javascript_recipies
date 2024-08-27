@@ -43,8 +43,8 @@
                     <span ><img src="https://cdn3.iconfinder.com/data/icons/smashicons-medieval-flat/57/15_-Gold_Pouch-_medieval_antique_old-512.png" class="score-icon"> </span>
                     <span id="score-value">0</span>
                 </div>
-                <div class="stat">
-                    <button id="shop-btn">Shop</button>
+                <div class="shop">
+                    <span id="shop-btn" onclick="openStore()"><img src="https://cdn2.iconfinder.com/data/icons/travel-places-1/50/1F3EA-convenience-store-C-512.png" class="score-icon"></span>
                 </div>
                 <div class="inspiration">
                     <span class="inspiration-symbol">+</span>
@@ -76,6 +76,147 @@
                     <button id="play-more">Play More</button>
                     <button id="thumbs-up">Give Thumbs Up</button>
                 </div>
+                <div id="storeModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeStore()">✖</span>
+                        <h2>General Store</h2>
+                        <div class="tabs">
+                            <div class="tab active" data-tab="gear">Adventuring Gear</div>
+                            <div class="tab" data-tab="potions">Potions</div>
+                            <div class="tab" data-tab="tools">Tools</div>
+                            <div class="tab" data-tab="weapons">Weapons</div>
+                        </div>
+                        <div id="gear" class="tab-content active">
+                            <div class="modal-item">
+                                <span>Backpack</span>
+                                <button class="button" onclick="buyItem('Backpack', 2)">2 gp</button>
+                            </div>
+                            <div class="modal-item">
+                                <span>Bedroll</span>
+                                <button class="button" onclick="buyItem('Bedroll', 1.6)">16 sp</button>
+                            </div>
+                            <div class="modal-item">
+                                <span>Blanket</span>
+                                <button class="button" onclick="buyItem('Blanket', 0.5)">5 sp</button>
+                            </div>
+                            <div class="modal-item">
+                                <span>Bottle (glass)</span>
+                                <button class="button" onclick="buyItem('Bottle (glass)', 1)">1 gp</button>
+                            </div>
+                            <div class="modal-item">
+                                <span>Candle</span>
+                                <button class="button" onclick="buyItem('Candle', 0.01)">1 cp</button>
+                            </div>
+                            <div class="modal-item">
+                                <span>Clothes, common</span>
+                                <button class="button" onclick="buyItem('Clothes, common', 5)">5 gp</button>
+                            </div>
+                            <div class="modal-item">
+                                <span>Crowbar</span>
+                                <button class="button" onclick="buyItem('Crowbar', 2)">2 gp</button>
+                            </div>
+                            <div class="modal-item">
+                                <span>Hammer</span>
+                                <button class="button" onclick="buyItem('Hammer', 1)">1 gp</button>
+                            </div>
+                            <div class="modal-item">
+                                <span>Healer's kit</span>
+                                <button class="button" onclick="buyItem('Healer\'s kit', 4)">4 gp</button>
+                            </div>
+                            <div class="modal-item">
+                                <span>Lantern, hooded</span>
+                                <button class="button" onclick="buyItem('Lantern, hooded', 4)">4 gp</button>
+                            </div>
+                            <div class="modal-item">
+                                <span>Magnifying glass</span>
+                                <button class="button" onclick="buyItem('Magnifying glass', 100)">100 gp</button>
+                            </div>
+                            <div class="modal-item">
+                                <span>Oil (flask)</span>
+                                <button class="button" onclick="buyItem('Oil (flask)', 0.1)">1 sp</button>
+                            </div>
+                            <div class="modal-item">
+                                <span>Rations (1/day)</span>
+                                <button class="button" onclick="buyItem('Rations (1/day)', 0.5)">5 sp</button>
+                            </div>
+                            <div class="modal-item">
+                                <span>Rope, hempen (50ft)</span>
+                                <button class="button" onclick="buyItem('Rope, hempen (50ft)', 1)">1 gp</button>
+                            </div>
+                            <div class="modal-item">
+                                <span>Saddle, riding</span>
+                                <button class="button" onclick="buyItem('Saddle, riding', 10)">10 gp</button>
+                            </div>
+                            <div class="modal-item">
+                                <span>Soap</span>
+                                <button class="button" onclick="buyItem('Soap', 0.02)">2 cp</button>
+                            </div>
+                            <div class="modal-item">
+                                <span>Torch</span>
+                                <button class="button" onclick="buyItem('Torch', 0.01)">1 cp</button>
+                            </div>
+                            <div class="modal-item">
+                                <span>Waterskin</span>
+                                <button class="button" onclick="buyItem('Waterskin', 0.2)">2 sp</button>
+                            </div>
+                            <div class="modal-item">
+                                <span>Whetstone</span>
+                                <button class="button" onclick="buyItem('Whetstone', 0.01)">1 cp</button>
+                            </div>
+                        </div>
+                        <div id="potions" class="tab-content">
+                            <div class="modal-item">
+                                <span>Antitoxin</span>
+                                <button class="button" onclick="buyItem('Antitoxin', 25)">25 gp</button>
+                            </div>
+                            <div class="modal-item">
+                                <span>Potion of healing</span>
+                                <button class="button" onclick="buyItem('Potion of healing', 25)">25 gp</button>
+                            </div>
+                        </div>
+                        <div id="tools" class="tab-content">
+                            <div class="modal-item">
+                                <span>Alchemist's supplies</span>
+                                <button class="button" onclick="buyItem('Alchemist\'s supplies', 40)">40 gp</button>
+                            </div>
+                            <div class="modal-item">
+                                <span>Cook's utensils</span>
+                                <button class="button" onclick="buyItem('Cook\'s utensils', 1)">1 gp</button>
+                            </div>
+                            <div class="modal-item">
+                                <span>Herbalism Kit</span>
+                                <button class="button" onclick="buyItem('Herbalism Kit', 4)">4 gp</button>
+                            </div>
+                        </div>
+                        <div id="weapons" class="tab-content">
+                            <div class="modal-item">
+                                <span>Arrows (10)</span>
+                                <button class="button" onclick="buyItem('Arrows (10)', 1)">1 gp</button>
+                            </div>
+                            <div class="modal-item">
+                                <span>Shortbow</span>
+                                <button class="button" onclick="buyItem('Shortbow', 20)">20 gp</button>
+                            </div>
+                            <div class="modal-item">
+                                <span>Dagger</span>
+                                <button class="button" onclick="buyItem('Dagger', 2)">2 gp</button>
+                            </div>
+                            <div class="modal-item">
+                                <span>Shortsword</span>
+                                <button class="button" onclick="buyItem('Shortsword', 10)">10 gp</button>
+                            </div>
+                            <div class="modal-item">
+                                <span>Handaxe</span>
+                                <button class="button" onclick="buyItem('Handaxe', 5)">5 gp</button>
+                            </div>
+                            <div class="modal-item">
+                                <span>Shield</span>
+                                <button class="button" onclick="buyItem('Shield', 10)">10 gp</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
             </div>
         </div>
         <footer>

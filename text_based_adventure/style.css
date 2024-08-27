@@ -123,6 +123,10 @@ h2{
     line-height: 24px;
 }
 
+.shop{
+    line-height: 24px;
+}
+
 .score-icon{
     height: 24px;
     width: auto;
@@ -349,4 +353,85 @@ footer {
     #game-area {
         /* font-size: 2rem; */
     }
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    position: relative;
+    width: 80%;
+    max-width: 600px;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+.tabs {
+    display: flex;
+    margin-bottom: 20px;
+}
+.tab {
+    margin-right: 10px;
+    padding: 10px;
+    cursor: pointer;
+    background-color: #31384c;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+.tab:hover, .tab.active {
+    background-color: #1e222d;
+}
+.tab-content {
+    display: none;
+}
+.tab-content.active {
+    display: block;
+}
+.modal-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.button {
+    cursor: pointer;
+    background-color: #31384c;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+.button:hover {
+    background-color: #1e222d;
+}
+
+#shop-btn {
+    cursor: pointer;
+    background-color: #31384c;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+#shop-btn:hover {
+    background-color: #1e222d;
 }

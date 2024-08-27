@@ -1,7 +1,10 @@
 let choices;
 let playerStats = {
-    score: 0, // Initialise the score to 0
-    inspiration: false
+    health: 0,
+    armour_class: 0,
+    score: 0, 
+    inspiration: false, 
+    current_chapter: 1
 };
 
 async function loadStory() {
@@ -160,6 +163,40 @@ function updateScore(choice) {
         document.getElementById('score-value').innerText = playerStats.score;
     }
 }
+
+function openStore() {
+    document.getElementById('storeModal').style.display = 'flex';
+}
+
+function closeStore() {
+    document.getElementById('storeModal').style.display = 'none';
+}
+
+function buyItem(itemName, cost) {
+    const scoreElement = document.getElementById('score-value');
+    let currentScore = parseFloat(playerStats.score);
+    
+    if (currentScore >= cost) {
+        alert(`Add ${itemName} to your Inventory!`);
+        currentScore -= cost;
+        playerStats.score = currentScore.toFixed(2);
+   } else {
+        alert('Not enough GP to buy this item.');
+    }
+    scoreElement.textContent = currentScore.toFixed(2);
+}
+
+const tabs = document.querySelectorAll('.tab');
+const tabContents = document.querySelectorAll('.tab-content');
+
+tabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+        tabs.forEach(tab => tab.classList.remove('active'));
+        tabContents.forEach(content => content.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(this.getAttribute('data-tab')).classList.add('active');
+    });
+});
 
 document.getElementById('start-btn').addEventListener('click', () => {
     loadStory().then(story => {
