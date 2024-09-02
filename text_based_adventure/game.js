@@ -10,6 +10,7 @@ let game_stats = {
     settings: {
         chapter: 1,
         choice_number: 0,
+        shop: false,
         dark_mode: false
     }
 };
@@ -39,6 +40,7 @@ function loadGame() {
 function updateUI() {
     // Update the score display
     document.getElementById('score-value').innerText = game_stats.player.coin;
+    document.getElementById('health-value').innerText = game_stats.player.health;
 
     // Update the dark mode setting
     document.body.classList.toggle('dark-mode', game_stats.settings.dark_mode);
@@ -126,6 +128,11 @@ function handleChoice(choiceNumber){
     clearDescription();
     handleInspiration(choice);
     updateScore(choice);
+    updateStore(choice);
+
+    game_stats.settings.choice_number = choiceNumber; // Save the current choice
+    saveGame(); // Save the game state
+
     typeWriter(choice.description, document.querySelector(".prompt-description"), () => {
         setTimeout(() => {
             enableButtons();
@@ -209,6 +216,18 @@ function updateScore(choice) {
     }
 }
 
+
+function updateStore(choice){
+    if(choice.shop){
+        game_stats.settings.shop = true;
+        document.getElementById('store').style.display = 'block'; 
+    }else{
+        game_stats.settings.shop = false;
+        document.getElementById('store').style.display = 'none'; 
+    }
+    console.log(game_stats);
+}
+
 function openStore() {
     document.getElementById('storeModal').style.display = 'flex';
 }
@@ -217,30 +236,6 @@ function closeStore() {
     document.getElementById('storeModal').style.display = 'none';
 }
 
-// Save the game state whenever the player makes a choice
-function handleChoice(choiceNumber){
-    const choice = choices[choiceNumber];
-
-    if (!choice) {
-        console.log('No more choices available...');
-        return;
-    }
-
-    disableButtons();
-    clearDescription();
-    handleInspiration(choice);
-    updateScore(choice);
-
-    game_stats.settings.choice_number = choiceNumber; // Save the current choice
-    saveGame(); // Save the game state
-
-    typeWriter(choice.description, document.querySelector(".prompt-description"), () => {
-        setTimeout(() => {
-            enableButtons();
-            updateButtons(choice);
-        }, 500);
-    });
-}
 
 // Example of other interactions (e.g., buying an item) to save the state after an action
 function buyItem(itemName, cost) {
@@ -271,23 +266,9 @@ tabs.forEach(tab => {
     });
 });
 
-// Event listener for the "Start Game" button
-document.getElementById('start-btn').addEventListener('click', () => {
-    loadStory().then(story => {
-        if (story) {
-            document.getElementById('start-game').style.display = 'none';
-            document.getElementById('story-prompt').style.display = 'block';
-            loadChapter(story, 1).then(chapter => {
-                choices = chapter;
-                document.getElementById('nav-title').innerHTML = chapter["title"];
-                handleChoice(0);
-            }).catch(error => {
-                console.error('Failed to load chapter:', error);
-            });
-        }
-    }).catch(error => {
-        console.error('Failed to load story:', error);
-    });
+
+document.getElementById('start-btn').addEventListener('click', function() {
+    openModal('player-info-modal');
 });
 
 
@@ -312,3 +293,91 @@ document.getElementById('theme-toggle').addEventListener('change', (event) => {
     document.getElementById('output').classList.toggle('dark-mode', isDarkMode);
     saveGame(); // Save game state when the theme changes
 });
+
+
+// Function to open a modal
+function openModal(modalId) {
+    document.getElementById(modalId).style.display = 'block';
+}
+
+// Function to close a modal
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}
+
+// Function to start the game after player info is submitted
+function startGameWithPlayerInfo() {
+    const playerName = document.getElementById('player-name').value || 'Unnamed Hero';
+    const playerHealth = document.getElementById('player-health').value || 100;
+    const playerArmour = document.getElementById('player-armour').value || 10;
+    const playerCoin = document.getElementById('player-coin').value || 0;
+
+    // Initialize player stats
+    game_stats.player = {
+        name: playerName,
+        health: parseInt(playerHealth),
+        armour: parseInt(playerArmour),
+        coin: parseFloat(playerCoin),
+        inventory: []
+    };
+
+    // Close the modal
+    closeModal('player-info-modal');
+
+    // Update UI with player stats
+    updatePlayerProfile();
+    startGame(); // Start the game with the player's information
+}
+
+
+// Function to update the player's profile in the UI
+function updatePlayerProfile() {
+    document.getElementById('profile-name').textContent = `Name: ${game_stats.player.name}`;
+    document.getElementById('profile-health').textContent = `Health: ${game_stats.player.health}`;
+    document.getElementById('profile-armour').textContent = `Armour Class: ${game_stats.player.armour}`;
+    document.getElementById('profile-coin').textContent = `Coin: ${game_stats.player.coin} GP`;
+
+    // Display the profile and quit buttons
+    document.getElementById('profile-btn').style.display = 'block';
+    document.getElementById('quit-game-btn').style.display = 'block';
+}
+
+// Function to start the game with the current player's stats
+function startGame() {
+    document.getElementById('start-game').style.display = 'none';
+    document.getElementById('story-prompt').style.display = 'block';
+
+    // Display the initial game story or prompt
+    typeWriter('Welcome to the adventure, ' + game_stats.player.name + '. Your journey begins now...', document.querySelector(".prompt-description"));
+    document.getElementById('succession').style.display = 'block';
+
+    //Event listener for the "Start Game" button
+    document.getElementById('succession').addEventListener('click', () => {
+        updateUI();
+    });
+
+}
+
+
+
+  // Event listener for starting the story after player info is submitted
+document.getElementById('start-story-btn').addEventListener('click', function() {
+    startGameWithPlayerInfo();
+});
+
+// Function to quit the game and return to the main menu
+function quitGame() {
+    saveGame(); // Save the current game state
+    alert('Your game progress has been saved. Returning to the main menu.');
+
+    // Reset game UI
+    document.getElementById('player-info-modal').style.display = 'none';
+    document.getElementById('load-game-modal').style.display = 'none';
+    document.getElementById('start-game').style.display = 'block';
+    document.getElementById('story-prompt').style.display = 'none';
+    document.getElementById('console').style.display = 'none';
+
+    // Hide profile and quit buttons
+    document.getElementById('profile-btn').style.display = 'none';
+    document.getElementById('quit-game-btn').style.display = 'none';
+}

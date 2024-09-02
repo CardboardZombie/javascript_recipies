@@ -9,14 +9,13 @@
 <body>
     <div id="page-container">
         <nav class="navbar-settings">
-            <div id="menu-btn">☰</div>
+            <div id="menu-btn" style="display: none;">☰</div>
             <!-- Menu Items -->
-            <div id="menu">
-                <!-- Remove Start Game and Load Game buttons from the menu -->
+            <div id="menu" style="display: none;">
                 <div id="profile-btn" style="display:none;">Player Profile</div>
                 <div id="quit-game-btn" style="display:none;">Quit Game</div>
             </div>   
-            <div id="nav-title" class="title" >The Wolves of Langston</div>
+            <h1 id="nav-title" class="title" >The Wolves of Langston</h1>
             <div class="page-settings" >
                 <label class="switch">
                     <input type="checkbox" id="theme-toggle">
@@ -48,8 +47,8 @@
                     <span ><img src="https://cdn3.iconfinder.com/data/icons/smashicons-medieval-flat/57/15_-Gold_Pouch-_medieval_antique_old-512.png" class="score-icon"> </span>
                     <span id="score-value">0</span>
                 </div>
-                <div class="shop">
-                    <span id="shop-btn" onclick="openStore()"><img src="https://cdn2.iconfinder.com/data/icons/travel-places-1/50/1F3EA-convenience-store-C-512.png" class="score-icon"></span>
+                <div id="store" class="shop" style="display: none;">
+                    <span id="shop-btn" onclick="openStore()"><img src="https://cdn2.iconfinder.com/data/icons/travel-places-1/50/1F3EA-convenience-store-C-512.png" class="score-icon" ></span>
                 </div>
                 <div class="inspiration">
                     <span class="inspiration-symbol">+</span>
