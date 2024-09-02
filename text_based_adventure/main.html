@@ -8,10 +8,14 @@
 </head>
 <body>
     <div id="page-container">
-
-    
         <nav class="navbar-settings">
-            <div class="menu" >☰</div>
+            <div id="menu-btn">☰</div>
+            <!-- Menu Items -->
+            <div id="menu">
+                <!-- Remove Start Game and Load Game buttons from the menu -->
+                <div id="profile-btn" style="display:none;">Player Profile</div>
+                <div id="quit-game-btn" style="display:none;">Quit Game</div>
+            </div>   
             <div id="nav-title" class="title" >The Wolves of Langston</div>
             <div class="page-settings" >
                 <label class="switch">
@@ -22,6 +26,7 @@
         </nav>
         <!-- <h1>The Adventure Begins...</h1> -->
         <div class="game-container">
+
             <div class="description">
                 <!-- Embark on an epic journey through the mystical lands of Eldoria. In this thrilling adventure game, you'll encounter mythical creatures, solve ancient puzzles, and discover hidden treasures. Use your wit and strength to overcome challenges and become the hero Eldoria needs. Every decision you make shapes your path and determines your fate. Are you ready to begin your quest? -->
                 <h2>Be the hero Langston needs.</h2>
@@ -55,6 +60,40 @@
                 <div id="start-game">
                     <div class="choice-buttons">
                         <button id="start-btn" class="choice-button">Start Game</button>
+                        <button id="load-btn" class="choice-button">Load Game</button>
+                    </div>
+                    <!-- Modals for Start Game and Load Game -->
+                    <div id="player-info-modal" class="modal" style="display:none;">
+                        <div class="modal-content">
+                            <span class="close" onclick="closeModal('player-info-modal')">✖</span>
+                            <h3>Enter Player Info</h3>
+                            <label for="player-name">Name:</label>
+                            <input type="text" id="player-name">
+                            <label for="player-health">Health:</label>
+                            <input type="number" id="player-health" value="100">
+                            <label for="player-armour">Armour Class:</label>
+                            <input type="number" id="player-armour" value="10">
+                            <label for="player-coin">Starting Coin:</label>
+                            <input type="number" id="player-coin" value="0">
+                            <button id="start-story-btn">Start Story</button>
+                        </div>
+                    </div>
+
+                    <div id="load-game-modal" class="modal" style="display:none;">
+                        <div class="modal-content">
+                            <span class="close" onclick="closeModal('load-game-modal')">✖</span>
+                            <h3>Select Save File</h3>
+                            <div id="save-files"></div>
+                        </div>
+                    </div>
+
+                    <!-- Player Profile Pop-up (hidden by default) -->
+                    <div id="player-profile" style="display:none;">
+                        <h3>Player Profile</h3>
+                        <p id="profile-name"></p>
+                        <p id="profile-health"></p>
+                        <p id="profile-armour"></p>
+                        <p id="profile-coin"></p>
                     </div>
                 </div>
                 <div id="story-prompt" style="display: none;">

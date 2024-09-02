@@ -14,7 +14,7 @@ body {
     min-height: 100vh;
   }
   
-body.dark-mode {
+body.dark-mode{
     background-color: #121212;
     color: #eee;
 }
@@ -434,4 +434,37 @@ footer {
 
 #shop-btn:hover {
     background-color: #1e222d;
+}
+
+body.dark-mode .modal-content {
+    background-color: #333;
+    color: #eee;
+    border: 1px solid #444;
+}
+
+body.dark-mode .modal-item {
+    color: #ddd;
+}
+
+body.dark-mode .button {
+    background-color: #444;
+    color: #eee;
+}
+
+body.dark-mode .button:hover {
+    background-color: #555;
+}
+
+body.dark-mode .tab {
+    background-color: #444;
+    color: #eee;
+}
+
+body.dark-mode .tab:hover, 
+body.dark-mode .tab.active {
+    background-color: #555;
+}
+
+body.dark-mode .close {
+    color: #eee;
 }

@@ -1,25 +1,78 @@
 let choices;
-let playerStats = {
-    health: 0,
-    armour_class: 0,
-    score: 0, 
-    inspiration: false, 
-    current_chapter: 1
+let game_stats = {
+    player: {
+        health: 0,
+        armour_class: 0,
+        coin: 0,
+        inventory: [],
+        inspiration: false
+    },
+    settings: {
+        chapter: 1,
+        choice_number: 0,
+        dark_mode: false
+    }
 };
+
+// Save game state to localStorage
+function saveGame() {
+    localStorage.setItem('game_stats', JSON.stringify(game_stats));
+    console.log("Game saved!");
+}
+
+
+// Load game state from localStorage
+function loadGame() {
+    const savedGame = localStorage.getItem('game_stats');
+    if (savedGame) {
+        game_stats = JSON.parse(savedGame);
+        console.log("Game loaded!", game_stats);
+        return true;
+    } else {
+        console.log("No saved game found.");
+        return false;
+    }
+}
+
+
+// Function to update the UI based on loaded game state
+function updateUI() {
+    // Update the score display
+    document.getElementById('score-value').innerText = game_stats.player.coin;
+
+    // Update the dark mode setting
+    document.body.classList.toggle('dark-mode', game_stats.settings.dark_mode);
+    document.getElementById('game-area').classList.toggle('dark-mode', game_stats.settings.dark_mode);
+    document.getElementById('output').classList.toggle('dark-mode', game_stats.settings.dark_mode);
+
+    // Update chapter title and choices if applicable
+    loadStory().then(story => {
+        loadChapter(story, game_stats.settings.chapter).then(chapter => {
+            choices = chapter;
+            document.getElementById('nav-title').innerHTML = chapter["title"];
+            handleChoice(game_stats.settings.choice_number);
+        }).catch(error => {
+            console.error('Failed to load chapter:', error);
+        });
+    }).catch(error => {
+        console.error('Failed to load story:', error);
+    });
+}
+
 
 async function loadStory() {
     try {
-      let response = await fetch('story.json');
-      if (!response.ok) {
-        throw new Error('Network response was not ok ' + response.statusText);
-      }
-      let story = await response.json();
-      return story;
+        let response = await fetch('story.json');
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        let story = await response.json();
+        return story;
     } catch (error) {
-      console.error('Failed to load story:', error);
+        console.error('Failed to load story:', error);
     }
 }
-  
+
 async function loadChapter(story, chapterNumber) {
     let chapterKey = `chapter_${chapterNumber}`;
     console.log(chapterKey);
@@ -38,20 +91,16 @@ function typeWriter(text, element, callback) {
     function type() {
         if (i < text.length) {
             if (text.charAt(i) === '<') {
-                // Find the closing tag or move forward until '>'
                 const endIndex = text.indexOf('>', i);
                 if (endIndex !== -1) {
-                    // Append the entire tag
                     const tag = text.substring(i, endIndex + 1);
                     element.innerHTML += tag;
                     i = endIndex + 1;
                 } else {
-                    // In case '>' is not found, handle as normal character
                     element.innerHTML += text.charAt(i);
                     i++;
                 }
             } else {
-                // Append normal character
                 element.innerHTML += text.charAt(i);
                 i++;
             }
@@ -90,11 +139,9 @@ function disableButtons(){
     const successButton = document.getElementById('succession');
     const failureButton = document.getElementById('failure');
 
-    // Disable the buttons
     successButton.disabled = true;
     failureButton.disabled = true;
 
-    // Hide the buttons
     successButton.style.display = 'none';
     failureButton.style.display = 'none';
 }
@@ -104,12 +151,10 @@ function enableButtons(){
     const successButton = document.getElementById('succession');
     const failureButton = document.getElementById('failure');
 
-    // Enable the buttons
     successButton.disabled = false;
     failureButton.disabled = false;
 
-    // Show the buttons
-    successButton.style.display = 'inline-block'; // or 'block', depending on your layout needs
+    successButton.style.display = 'inline-block';
     failureButton.style.display = 'inline-block';
 }
 
@@ -132,17 +177,17 @@ function updateButtons(choice) {
 
 function clearDescription() {
     const descriptionElement = document.querySelector(".prompt-description");
-    descriptionElement.innerHTML = ''; // Clear the element's content
+    descriptionElement.innerHTML = '';
 }
 
 function handleInspiration(choice) {
     const inspirationElement = document.querySelector(".inspiration");
 
     if (choice.inspiration) {
-        playerStats.inspiration = true;
+        game_stats.player.inspiration = true;
     }
 
-    if (playerStats.inspiration) {
+    if (game_stats.player.inspiration) {
         inspirationElement.style.color = '#4CAF50';
         inspirationElement.style.pointerEvents = 'auto';
         inspirationElement.classList.add('green');
@@ -152,15 +197,15 @@ function handleInspiration(choice) {
             inspirationElement.style.pointerEvents = 'none';
             inspirationElement.classList.remove('green');
 
-            playerStats.inspiration = false;
+            game_stats.player.inspiration = false;
         };
     } 
 }
 
 function updateScore(choice) {
     if (choice.coin) {
-        playerStats.score += choice.coin;
-        document.getElementById('score-value').innerText = playerStats.score;
+        game_stats.player.coin += choice.coin;
+        document.getElementById('score-value').innerText = game_stats.player.coin;
     }
 }
 
@@ -172,18 +217,46 @@ function closeStore() {
     document.getElementById('storeModal').style.display = 'none';
 }
 
+// Save the game state whenever the player makes a choice
+function handleChoice(choiceNumber){
+    const choice = choices[choiceNumber];
+
+    if (!choice) {
+        console.log('No more choices available...');
+        return;
+    }
+
+    disableButtons();
+    clearDescription();
+    handleInspiration(choice);
+    updateScore(choice);
+
+    game_stats.settings.choice_number = choiceNumber; // Save the current choice
+    saveGame(); // Save the game state
+
+    typeWriter(choice.description, document.querySelector(".prompt-description"), () => {
+        setTimeout(() => {
+            enableButtons();
+            updateButtons(choice);
+        }, 500);
+    });
+}
+
+// Example of other interactions (e.g., buying an item) to save the state after an action
 function buyItem(itemName, cost) {
     const scoreElement = document.getElementById('score-value');
-    let currentScore = parseFloat(playerStats.score);
+    let currentScore = parseFloat(game_stats.player.coin);
     
     if (currentScore >= cost) {
         alert(`Add ${itemName} to your Inventory!`);
         currentScore -= cost;
-        playerStats.score = currentScore.toFixed(2);
-   } else {
+        game_stats.player.coin = currentScore.toFixed(2);
+        game_stats.player.inventory.push(itemName); // Add item to inventory
+    } else {
         alert('Not enough GP to buy this item.');
     }
     scoreElement.textContent = currentScore.toFixed(2);
+    saveGame(); // Save game state after purchase
 }
 
 const tabs = document.querySelectorAll('.tab');
@@ -198,6 +271,7 @@ tabs.forEach(tab => {
     });
 });
 
+// Event listener for the "Start Game" button
 document.getElementById('start-btn').addEventListener('click', () => {
     loadStory().then(story => {
         if (story) {
@@ -207,7 +281,6 @@ document.getElementById('start-btn').addEventListener('click', () => {
                 choices = chapter;
                 document.getElementById('nav-title').innerHTML = chapter["title"];
                 handleChoice(0);
-                // console.log('Chapter loaded:', chapter);
             }).catch(error => {
                 console.error('Failed to load chapter:', error);
             });
@@ -217,10 +290,25 @@ document.getElementById('start-btn').addEventListener('click', () => {
     });
 });
 
-  // Event listener for the theme toggle switch
-document.getElementById('theme-toggle').addEventListener('change', (event) => {
-    document.body.classList.toggle('dark-mode', event.target.checked);
-    document.getElementById('game-area').classList.toggle('dark-mode', event.target.checked);
-    document.getElementById('output').classList.toggle('dark-mode', event.target.checked);
+
+// Event listener for the "Load Game" button
+document.getElementById('load-btn').addEventListener('click', () => {
+    if (loadGame()) {
+        document.getElementById('start-game').style.display = 'none';
+        document.getElementById('story-prompt').style.display = 'block';
+        updateUI();
+    } else {
+        alert("No saved game found.");
+    }
 });
 
+
+// Event listener for the theme toggle switch
+document.getElementById('theme-toggle').addEventListener('change', (event) => {
+    const isDarkMode = event.target.checked;
+    game_stats.settings.dark_mode = isDarkMode; // Update the game state
+    document.body.classList.toggle('dark-mode', isDarkMode);
+    document.getElementById('game-area').classList.toggle('dark-mode', isDarkMode);
+    document.getElementById('output').classList.toggle('dark-mode', isDarkMode);
+    saveGame(); // Save game state when the theme changes
+});
