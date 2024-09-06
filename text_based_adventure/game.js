@@ -305,12 +305,56 @@ function closeModal(modalId) {
     document.getElementById(modalId).style.display = 'none';
 }
 
+function validatePlayerInfo() {
+    const playerHealthInput = document.getElementById('player-health');
+    const playerCoinInput = document.getElementById('player-coin');
+    const startButton = document.getElementById('start-story-btn');
+
+    const healthError = document.getElementById('health-error');
+    const coinError = document.getElementById('coin-error');
+
+    const MAX_HEALTH = 50;
+    const MAX_COIN = 200;
+
+    let valid = true;
+
+    // Validate health
+    if (parseInt(playerHealthInput.value) > MAX_HEALTH) {
+        healthError.style.display = 'inline';
+        valid = false;
+    } else {
+        healthError.style.display = 'none';
+    }
+
+    // Validate coin
+    if (parseFloat(playerCoinInput.value) > MAX_COIN) {
+        coinError.style.display = 'inline';
+        valid = false;
+    } else {
+        coinError.style.display = 'none';
+    }
+
+    // Enable or disable the Start button based on validity
+    startButton.disabled = !valid;
+}
+
+
 // Function to start the game after player info is submitted
 function startGameWithPlayerInfo() {
     const playerName = document.getElementById('player-name').value || 'Unnamed Hero';
     const playerHealth = document.getElementById('player-health').value || 100;
     const playerArmour = document.getElementById('player-armour').value || 10;
     const playerCoin = document.getElementById('player-coin').value || 0;
+
+    // Add limiters for coin and health
+    const MAX_HEALTH = 50;
+    const MAX_COIN = 200;
+
+    // Double-check input values before starting game
+    if (playerHealth > MAX_HEALTH || playerCoin > MAX_COIN) {
+        alert('Please correct the input values.');
+        return;
+    }
 
     // Initialize player stats
     game_stats.player = {
@@ -348,14 +392,8 @@ function startGame() {
     document.getElementById('story-prompt').style.display = 'block';
 
     // Display the initial game story or prompt
-    typeWriter('Welcome to the adventure, ' + game_stats.player.name + '. Your journey begins now...', document.querySelector(".prompt-description"));
-    document.getElementById('succession').style.display = 'block';
-
-    //Event listener for the "Start Game" button
-    document.getElementById('succession').addEventListener('click', () => {
-        updateUI();
-    });
-
+    //typeWriter('Welcome to the adventure, ' + game_stats.player.name + '. Your journey begins now...', document.querySelector(".prompt-description"));
+    updateUI();
 }
 
 
