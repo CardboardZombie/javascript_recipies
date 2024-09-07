@@ -1,0 +1,598 @@
+:root {
+    /* Light Mode Colors */
+    --color-bg-body: #ffffff;
+    --color-bg: #ffedd1;
+    --color-text: #333333;
+    --color-primary: #1A3636;
+    --color-secondary: #40534C;
+    --color-accent: #677D6A;
+    --color-highlight: #D6BD98;
+    --color-border: #ccc;
+    --color-hover: #7f7f7f;
+    --color-footer-bg: #374151;
+    --color-footer-text: #f4f4f4;
+  
+    /* Dark Mode Colors */
+    --dark-bg: #1A3636;
+    --dark-text: #eee;
+    --dark-primary: #40534C;
+    --dark-secondary: #677D6A;
+    --dark-border: #444;
+    --dark-hover: #555;
+    --dark-footer-bg: #111827;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: var(--color-bg-body);
+    color: var(--color-text);
+    transition: background-color 0.3s, color 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+
+body.dark-mode{
+    background-color: var(--dark-bg);
+    color: var(--dark-text);
+}
+
+#page-container {
+    position: relative;
+    margin: 0 auto;
+    min-height: calc(100vh - 3rem);  /* Subtract the footer height */
+    box-sizing: border-box;       /* Ensures padding is included in the height */
+    padding: 20px;                /* Padding won’t add extra height beyond 100vh */
+    background-color: var(--color-bg);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-footer-bg);
+    color: var(--color-footer-text);
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 3rem;
+    margin-bottom: 0;  /* No margin needed */
+}
+  
+  .navbar-settings {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-primary);
+    color: var(--color-footer-text);
+    padding: 10px 10px;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    height: 3rem;            /* Footer height */
+    transition: background-color 0.3s, box-shadow 0.3s;
+    
+    
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.navbar-settings a {
+    color: var(--color-footer-text);
+    text-decoration: none;
+}
+
+.navbar-settings a:hover {
+    text-decoration: underline;
+}
+
+body.dark-mode .navbar-settings {
+    background-color: var(--dark-primary);
+}
+
+.choice-button {
+    flex:1;
+    text-align: center;
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 1em;
+    color: var(--color-footer-text);
+    background-color: var(--color-secondary);
+    border: 1px solid var(--color-primary);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+
+    margin: 0 5px;
+}
+
+.choice-button:hover {
+    background-color: var(--color-hover);
+}
+
+body.dark-mode .choice-button {
+    background-color: var(--dark-primary);
+    border: 1px solid var(--dark-text);
+}
+
+body.dark-mode .choice-button:hover {
+    background-color: var(--dark-hover);
+}
+
+.modal-content {
+    background-color: var(--color-bg);
+    padding: 20px;
+    border-radius: 10px;
+
+
+    position: relative;
+    width: 80%;
+    max-width: 600px;
+}
+
+body.dark-mode .modal-content {
+    background-color: var(--dark-bg);
+    color: var(--dark-text);
+    border: 1px solid var(--dark-border);
+}
+
+
+
+body.dark-mode footer {
+    background-color: var(--dark-footer-bg);
+}
+
+/* Additional Elements */
+.game-container {
+    padding: 20px;
+    padding-bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Game Area */
+#game-area {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+body.dark-mode #game-area {
+    background-color: var(--dark-bg);
+    border-color: var(--dark-border);
+}
+
+#output {
+    height: 300px;
+    overflow-y: scroll;
+    border: 1px solid var(--color-border);
+    padding: 10px;
+    background-color: var(--color-bg);
+    transition: background-color 0.3s, border-color 0.3s;
+
+
+    margin-bottom: 10px;
+}
+
+body.dark-mode #output {
+    background-color: var(--dark-bg);
+    border-color: var(--dark-border);
+}
+
+.inspiration .tooltip {
+    visibility: hidden;
+    background-color: var(--color-primary);
+    color: var(--color-footer-text);
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    
+    
+    position: absolute;
+    z-index: 1;
+    bottom: 100%; /* Position the tooltip above the symbol */
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+.inspiration .tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%; /* Arrow pointing down */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+}
+
+.inspiration.green:hover .tooltip {
+    visibility: visible;
+}
+
+
+
+
+
+h2{
+    text-align: center;
+}
+
+.description {
+    margin-bottom: 20px;
+    font-size: 1em;
+    width: 85%;
+}
+
+.prompt-description {
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    font-family: monospace; /* Optional: Gives a typewriter-like appearance */
+    white-space: pre-wrap; /* Preserve whitespace */
+} 
+
+.prompt-description .italic {
+    font-style: italic;
+}
+
+
+
+.navbar-settings .menu {
+    text-align: left;
+    font-size: 2rem;
+    padding-left: 20px;
+}
+.navbar-settings .title {
+    text-align: center;
+    width: 100%;
+}
+.navbar-settings .settings {
+    text-align: right;
+    font-size: 2rem;
+    padding-right: 20px;
+}
+.navbar-settings a {
+    color: white;
+    text-decoration: none;
+}
+.navbar-settings a:hover {
+    text-decoration: underline;
+}
+
+
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    width: 83%;
+    background-color: var(--color-primary);
+    color: var(--color-footer-text);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+body.dark-mode .stats {
+    background-color: var(--dark-primary); /* Dark mode primary color */
+    color: var(--dark-text); /* Dark mode text color */
+}
+
+.stat-item {
+    font-size: 1.25rem;
+    margin: 0 1rem;
+}
+
+.heart, .health-value, .score-value, .score-icon, .inspiration-symbol {
+    font-size: 24px;
+}
+
+.score{
+    line-height: 24px;
+}
+
+.shop{
+    line-height: 24px;
+}
+
+.score-icon{
+    height: 24px;
+    width: auto;
+}
+
+.score-value{
+    font-size: 24px;
+}
+
+.inspiration {
+    color: grey;
+    cursor: pointer;
+    pointer-events: none; /* Initially unclickable */
+    position: relative; /* Required for tooltip positioning */
+}
+
+.inspiration-symbol {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+
+#top-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#control-panel {
+    display: flex;
+    align-items: center;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 17px;
+    margin-right: 10px; /* Adjust the margin to the right */
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 17px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 13px;
+    width: 13px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(13px);
+}
+
+#stats {
+    text-align: right;
+}
+
+
+#input-section {
+    display: flex;
+}
+
+#command {
+    flex: 1;
+    padding: 10px;
+}
+
+#submit {
+    padding: 10px 20px;
+}
+
+.monster-image {
+    width: 100%;
+    max-width: 300px;
+    display: block;
+    margin: 10px auto;
+}
+
+.choice-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+
+
+.choice-button:hover {
+    background-color: var(--color-hover); /* Use hover color from theme */
+}
+
+body.dark-mode .choice-button:hover {
+    background-color: var(--dark-hover); /* Use dark mode hover color */
+}
+
+
+.coffee-button {
+    margin: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    background: #515969;
+    color: #f4f4f4;
+    cursor: pointer;
+    text-decoration: none;
+}
+.coffee-button:hover {
+    background-color: #6b7280; /* Lighter gray on hover for light mode */
+}
+
+@media (min-width: 768px) {
+    #game-area {
+        /* font-size: 2rem; */
+    }
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+.tabs {
+    display: flex;
+    margin-bottom: 20px;
+}
+.tab {
+    margin-right: 10px;
+    padding: 10px;
+    cursor: pointer;
+    background-color: var(--color-primary);
+    color: var(--color-footer-text);
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+.tab:hover, .tab.active {
+    background-color: var(--color-hover);
+}
+
+body.dark-mode .tab {
+    background-color: var(--dark-primary);
+}
+
+body.dark-mode .tab:hover, 
+body.dark-mode .tab.active {
+    background-color: var(--dark-hover);
+}
+
+
+.tab-content {
+    display: none;
+}
+.tab-content.active {
+    display: block;
+}
+.modal-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+input[type="text"], input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    border: 1px solid var(--color-border);
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.button {
+    cursor: pointer;
+    background-color: var(--color-primary); /* Use primary theme color */
+    color: var(--color-footer-text);        /* Use footer text color */
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: var(--color-hover);   /* Use hover color from theme */
+}
+
+body.dark-mode .button {
+    background-color: var(--dark-primary);  /* Use primary dark theme color */
+    color: var(--dark-text);                /* Use dark mode text color */
+}
+
+body.dark-mode .button:hover {
+    background-color: var(--dark-hover);    /* Use dark mode hover color */
+}
+
+#shop-btn {
+    cursor: pointer;
+    background-color: #31384c;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+#shop-btn:hover {
+    background-color: #1e222d;
+}
+
+
+
+body.dark-mode .modal-item {
+    color: #ddd;
+}
+
+body.dark-mode .tab {
+    background-color: #444;
+    color: #eee;
+}
+
+body.dark-mode .tab:hover, 
+body.dark-mode .tab.active {
+    background-color: #555;
+}
+
+body.dark-mode .close {
+    color: #eee;
+}
+
+/* Dark mode styling */
+body.dark-mode .modal-content {
+    background-color: var(--dark-bg);
+    color: var(--dark-text);
+}
+
+body.dark-mode input[type="text"], 
+body.dark-mode input[type="number"] {
+    background-color: var(--dark-bg);
+    color: var(--dark-text);
+    border: 1px solid var(--dark-border);
+}
+
+body.dark-mode button {
+    background-color: var(--dark-primary);
+}
+
+body.dark-mode button:hover {
+    background-color: var(--dark-hover);
+}
+
+body.dark-mode .close {
+    color: var(--dark-text);
+}

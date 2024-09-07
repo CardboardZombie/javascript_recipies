@@ -1,16 +1,18 @@
 :root {
     /* Light Mode Colors */
-    --color-bg: #ffffff;
-    --color-text: #333333;
-    --color-primary: #1A3636;
-    --color-secondary: #40534C;
-    --color-accent: #677D6A;
-    --color-highlight: #D6BD98;
-    --color-border: #ccc;
-    --color-hover: #7f7f7f;
-    --color-footer-bg: #374151;
-    --color-footer-text: #f4f4f4;
-  
+    --color-bg-body: #c39f72; /* Background color matches the current primary */
+    --color-bg: #e0d5bf;     /* Light background color */
+    --color-text: #333333;   /* Default text color */
+    --color-secondary-text: #f4f4f4; /* Secondary text color */
+    --color-menu-bar: #1A3636; /* Primary green color */
+    --color-primary: #667762; /* Primary green color */
+    --color-secondary: #879e82; /* Secondary green color */
+    --color-accent: #c39f72; /* Accent color (updated) */
+    --color-highlight: #d5bf95; /* Highlight color (updated) */
+    --color-border: #566071; /* Border color */
+    --color-hover: #727f96;  /* Hover color */
+    --color-footer-bg: #1A3636; /* Footer background color */
+
     /* Dark Mode Colors */
     --dark-bg: #1A3636;
     --dark-text: #eee;
@@ -21,11 +23,12 @@
     --dark-footer-bg: #111827;
 }
 
+
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     margin: 0;
-    padding: 20px;
-    background-color: var(--color-bg);
+    background-color: var(--color-bg-body);
     color: var(--color-text);
     transition: background-color 0.3s, color 0.3s;
     display: flex;
@@ -39,43 +42,346 @@ body.dark-mode{
 
 #page-container {
     position: relative;
-    min-height: 100vh;
+    margin: 0 auto;
+    width: 80%;
+    min-height: calc(100vh - 3rem);  /* Subtract the footer height */
+    box-sizing: border-box;       /* Ensures padding is included in the height */
+    padding: 20px;                /* Padding won’t add extra height beyond 100vh */
+    padding-top: 80px;               /* Extra padding to account for the menubar */
+    background-color: var(--color-bg);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
-  
-  .navbar-settings {
+
+  footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--color-primary);
-    color: var(--color-footer-text);
-    padding: 10px 10px;
-    border-radius: 10px;
+    background-color: var(--color-footer-bg);
+    color: var(--color-secondary-text);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    height: 3rem;            /* Footer height */
     transition: background-color 0.3s, box-shadow 0.3s;
-    
-    
-    overflow: hidden;
+
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 3rem;
+    margin-bottom: 0;  /* No margin needed */
+}
+
+
+body.dark-mode footer {
+    background-color: var(--dark-footer-bg);
+}
+
+
+h2{
+    text-align: center;
+}
+
+
+
+.coffee-button {
+    margin: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    background: #515969;
+    color: var(--color-secondary-text);
+    cursor: pointer;
+    text-decoration: none;
+}
+.coffee-button:hover {
+    background-color: #6b7280; /* Lighter gray on hover for light mode */
+}
+
+/* Menu Bar */
+.menubar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-primary);
+    padding: 1rem;
+    color: var(--color-secondary-text);
+    position: fixed;
+    top: 0;
+    left: 0; /* Ensure it is aligned to the left */
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.menu-btn {
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--color-secondary-text);
+    cursor: pointer;
+    outline: none;
+    padding-left: 10px;
+}
+
+.game-title {
+    margin: 0;
+    font-size: 1.5rem;
+    text-align: center;
+    color: var(--color-secondary-text);
+    width: 100%;
+}
+
+/* Edit Profile Button */
+.edit-profile-btn {
+    font-size: 34px;
+    background: none;
+    border: none;
+    color: var(--color-secondary-text);
+    cursor: pointer;
+    outline: none;
+    margin: 0;
+    padding-right: 50px;
+}
+
+/* Slider Menu */
+.slider-menu {
+    position: fixed;
+    top: 0;
+    left: -250px; /* Initially hidden off-screen */
+    width: 250px;
+    height: 100vh;
+    background-color: var(--color-secondary);
+    padding-top: 60px; /* To account for the menubar */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    transition: left 0.3s ease; /* Smooth transition */
+}
+
+.slider-menu.menu-open {
+    left: 0; /* Slide in when open */
+}
+
+.slider-menu ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.slider-menu ul li {
+    padding: 1rem;
+    text-align: center;
+}
+
+.slider-menu ul li a {
+    color: var(--color-secondary-text);
+    text-decoration: none;
+    display: block;
+}
+/*Game Overview Section*/
+#game-overview {
+    background-color: var(--color-highlight); /* Use a highlight color for the background */
+    color: var(--color-text); /* Use the default text color */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
 }
 
-.navbar-settings a {
-    color: var(--color-footer-text);
-    text-decoration: none;
+#game-overview h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
 }
 
-.navbar-settings a:hover {
-    text-decoration: underline;
+#game-overview p {
+    line-height: 1.6;
 }
 
-body.dark-mode .navbar-settings {
-    background-color: var(--dark-primary);
+/*Modal CSS*/
+/* Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.4); /* Black background with opacity */
 }
 
-.choice-button {
+.modal-content {
+    background-color: var(--color-bg); /* Background color of the modal */
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%; /* Width of the modal */
+    max-width: 600px; /* Max width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.close-btn {
+    color: var(--color-text);
+    float: right;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: var(--color-hover); /* Change color on hover */
+}
+
+h2 {
+    margin-top: 0;
+}
+
+ul {
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2); /* Enlarge the checkbox */
+}
+input[type="text"], input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    border: 1px solid var(--color-bg-body);
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+#submit-profile-btn {
+    cursor: pointer;
+    background-color: var(--color-primary); /* Use primary theme color */
+    color: var(--color-secondary-text);        /* Use footer text color */
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    font-size: 1rem;
+}
+
+#submit-profile-btn:hover {
+    background-color: var(--color-menu-bar);   /* Use hover color from theme */
+}
+
+body.modal-open {
+    overflow: hidden; /* Disable scrolling */
+}
+
+.error-handling {
+    display: none;
+    font-size: 10px;
+    color: #D8000C;
+}
+
+/* Adventure User Interface */
+.adventure-ui {
+    margin-top: 20px;
+    background-color: var(--color-border);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 5px;
+    background-color: var(--color-menu-bar);
+    border-radius: 8px;
+}
+
+.stats div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--color-secondary-text);
+}
+
+.armour-class .shield-container {
+    width: 40px;
+    height: 40px;
+    background-image: url('https://pngfre.com/wp-content/uploads/Shield-5.png'); /* Low-poly shield image */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20%;
+}
+
+.health .heart-container {
+    width: 30px;
+    height: 25px;
+    background-image: url('https://static.vecteezy.com/system/resources/thumbnails/010/982/888/small/red-heart-shape-multi-layered-paper-cut-style-png.png'); /* Low-poly heart image */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30%;
+}
+
+.coin .coin-container {
+    width: 30px;
+    height: 30px;
+    background-image: url('https://cdn-icons-png.flaticon.com/512/1045/1045243.png');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30%;             
+}
+#coin-value{
+    font-size: 14px;
+    padding-top: 10px;
+    vertical-align: bottom;
+}
+
+.inspiration-symbol {
+    font-size: 1.5rem;
+    color: var(--color-highlight);
+}
+
+.tooltip {
+    visibility: hidden;
+    background-color: var(--color-accent);
+    color: var(--color-secondary-text);
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+}
+
+.inspiration:hover .tooltip {
+    visibility: visible;
+}
+
+.shop img {
+    width: 35px;
+    height: 35px;
+}
+
+.game-controls {
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    display: flex;            /* Enable flexbox */
+    justify-content: space-between;  /* Ensure equal space between buttons */
+    width: 100%;              /* Make sure the container takes the full width */
+}
+
+.control-btn {
     flex:1;
     text-align: center;
     display: inline-block;
+    margin-top: 20px;
     padding: 15px 30px;
     font-size: 1em;
     color: var(--color-footer-text);
@@ -89,471 +395,15 @@ body.dark-mode .navbar-settings {
     margin: 0 5px;
 }
 
-.choice-button:hover {
+.control-btn:hover {
     background-color: var(--color-hover);
 }
 
-body.dark-mode .choice-button {
+body.dark-mode .control-btn {
     background-color: var(--dark-primary);
     border: 1px solid var(--dark-text);
 }
 
-body.dark-mode .choice-button:hover {
+body.dark-mode .control-btn:hover {
     background-color: var(--dark-hover);
-}
-
-.modal-content {
-    background-color: var(--color-bg);
-    padding: 20px;
-    border-radius: 10px;
-
-
-    position: relative;
-    width: 80%;
-    max-width: 600px;
-}
-
-body.dark-mode .modal-content {
-    background-color: var(--dark-bg);
-    color: var(--dark-text);
-    border: 1px solid var(--dark-border);
-}
-
-/* Footer */
-footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--color-footer-bg);
-    color: var(--color-footer-text);
-    border-radius: 10px;
-    height: 3rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s, box-shadow 0.3s;
-
-
-    overflow: hidden;
-    margin-bottom: 5px;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 3rem;            /* Footer height */
-}
-
-body.dark-mode footer {
-    background-color: var(--dark-footer-bg);
-}
-
-/* Additional Elements */
-.game-container {
-    padding: 20px;
-    padding-bottom: 3rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* Game Area */
-#game-area {
-    width: 80%;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: var(--color-bg);
-    border: 1px solid var(--color-border);
-    transition: background-color 0.3s, border-color 0.3s;
-}
-
-body.dark-mode #game-area {
-    background-color: var(--dark-bg);
-    border-color: var(--dark-border);
-}
-
-#output {
-    height: 300px;
-    overflow-y: scroll;
-    border: 1px solid var(--color-border);
-    padding: 10px;
-    background-color: var(--color-bg);
-    transition: background-color 0.3s, border-color 0.3s;
-
-
-    margin-bottom: 10px;
-}
-
-body.dark-mode #output {
-    background-color: var(--dark-bg);
-    border-color: var(--dark-border);
-}
-
-.inspiration .tooltip {
-    visibility: hidden;
-    background-color: var(--color-primary);
-    color: var(--color-footer-text);
-    text-align: center;
-    border-radius: 5px;
-    padding: 5px;
-    
-    
-    position: absolute;
-    z-index: 1;
-    bottom: 100%; /* Position the tooltip above the symbol */
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-}
-
-.inspiration .tooltip::after {
-    content: "";
-    position: absolute;
-    top: 100%; /* Arrow pointing down */
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: black transparent transparent transparent;
-}
-
-.inspiration.green:hover .tooltip {
-    visibility: visible;
-}
-
-
-
-
-
-h2{
-    text-align: center;
-}
-
-.description {
-    margin-bottom: 20px;
-    font-size: 1em;
-    width: 85%;
-}
-
-.prompt-description {
-    margin-bottom: 20px;
-    font-size: 1.5em;
-    font-family: monospace; /* Optional: Gives a typewriter-like appearance */
-    white-space: pre-wrap; /* Preserve whitespace */
-} 
-
-.prompt-description .italic {
-    font-style: italic;
-}
-
-
-
-.navbar-settings .menu {
-    text-align: left;
-    font-size: 2rem;
-    padding-left: 20px;
-}
-.navbar-settings .title {
-    text-align: center;
-    width: 100%;
-}
-.navbar-settings .settings {
-    text-align: right;
-    font-size: 2rem;
-    padding-right: 20px;
-}
-.navbar-settings a {
-    color: white;
-    text-decoration: none;
-}
-.navbar-settings a:hover {
-    text-decoration: underline;
-}
-
-
-
-.stats {
-    display: flex;
-    justify-content: space-around;
-    width: 83%;
-    background-color: var(--color-primary);
-    color: var(--color-footer-text);
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-}
-
-body.dark-mode .stats {
-    background-color: var(--dark-primary); /* Dark mode primary color */
-    color: var(--dark-text); /* Dark mode text color */
-}
-
-.stat-item {
-    font-size: 1.25rem;
-    margin: 0 1rem;
-}
-
-.heart, .health-value, .score-value, .score-icon, .inspiration-symbol {
-    font-size: 24px;
-}
-
-.score{
-    line-height: 24px;
-}
-
-.shop{
-    line-height: 24px;
-}
-
-.score-icon{
-    height: 24px;
-    width: auto;
-}
-
-.score-value{
-    font-size: 24px;
-}
-
-.inspiration {
-    color: grey;
-    cursor: pointer;
-    pointer-events: none; /* Initially unclickable */
-    position: relative; /* Required for tooltip positioning */
-}
-
-.inspiration-symbol {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-
-#top-panel {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-#control-panel {
-    display: flex;
-    align-items: center;
-}
-
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 30px;
-    height: 17px;
-    margin-right: 10px; /* Adjust the margin to the right */
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: .4s;
-    border-radius: 17px;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 13px;
-    width: 13px;
-    left: 2px;
-    bottom: 2px;
-    background-color: white;
-    transition: .4s;
-    border-radius: 50%;
-}
-
-input:checked + .slider {
-    background-color: #2196F3;
-}
-
-input:checked + .slider:before {
-    transform: translateX(13px);
-}
-
-#stats {
-    text-align: right;
-}
-
-
-#input-section {
-    display: flex;
-}
-
-#command {
-    flex: 1;
-    padding: 10px;
-}
-
-#submit {
-    padding: 10px 20px;
-}
-
-.monster-image {
-    width: 100%;
-    max-width: 300px;
-    display: block;
-    margin: 10px auto;
-}
-
-.choice-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-
-
-.choice-button:hover {
-    background-color: var(--color-hover); /* Use hover color from theme */
-}
-
-body.dark-mode .choice-button:hover {
-    background-color: var(--dark-hover); /* Use dark mode hover color */
-}
-
-
-.coffee-button {
-    margin: 1rem;
-    padding: 0.5rem 1rem;
-    border-radius: 0.25rem;
-    background: #515969;
-    color: #f4f4f4;
-    cursor: pointer;
-    text-decoration: none;
-}
-.coffee-button:hover {
-    background-color: #6b7280; /* Lighter gray on hover for light mode */
-}
-
-@media (min-width: 768px) {
-    #game-area {
-        /* font-size: 2rem; */
-    }
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
-}
-
-
-.close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-}
-.tabs {
-    display: flex;
-    margin-bottom: 20px;
-}
-.tab {
-    margin-right: 10px;
-    padding: 10px;
-    cursor: pointer;
-    background-color: var(--color-primary);
-    color: var(--color-footer-text);
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-.tab:hover, .tab.active {
-    background-color: var(--color-hover);
-}
-
-body.dark-mode .tab {
-    background-color: var(--dark-primary);
-}
-
-body.dark-mode .tab:hover, 
-body.dark-mode .tab.active {
-    background-color: var(--dark-hover);
-}
-
-
-.tab-content {
-    display: none;
-}
-.tab-content.active {
-    display: block;
-}
-.modal-item {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-
-.button {
-    cursor: pointer;
-    background-color: var(--color-primary); /* Use primary theme color */
-    color: var(--color-footer-text);        /* Use footer text color */
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.button:hover {
-    background-color: var(--color-hover);   /* Use hover color from theme */
-}
-
-body.dark-mode .button {
-    background-color: var(--dark-primary);  /* Use primary dark theme color */
-    color: var(--dark-text);                /* Use dark mode text color */
-}
-
-body.dark-mode .button:hover {
-    background-color: var(--dark-hover);    /* Use dark mode hover color */
-}
-
-#shop-btn {
-    cursor: pointer;
-    background-color: #31384c;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-#shop-btn:hover {
-    background-color: #1e222d;
-}
-
-
-
-body.dark-mode .modal-item {
-    color: #ddd;
-}
-
-body.dark-mode .tab {
-    background-color: #444;
-    color: #eee;
-}
-
-body.dark-mode .tab:hover, 
-body.dark-mode .tab.active {
-    background-color: #555;
-}
-
-body.dark-mode .close {
-    color: #eee;
 }

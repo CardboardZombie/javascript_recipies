@@ -8,261 +8,138 @@
 </head>
 <body>
     <div id="page-container">
-        <nav class="navbar-settings">
-            <div id="menu-btn" style="display: none;">☰</div>
-            <!-- Menu Items -->
-            <div id="menu" style="display: none;">
-                <div id="profile-btn" style="display:none;">Player Profile</div>
-                <div id="quit-game-btn" style="display:none;">Quit Game</div>
-            </div>   
-            <h1 id="nav-title" class="title" >The Wolves of Langston</h1>
-            <div class="page-settings" >
-                <label class="switch">
-                    <input type="checkbox" id="theme-toggle">
-                    <span class="slider round"></span>
-                </label>
-            </div>
+        
+        <!-- Menubar -->
+        <header class="menubar">
+            <button class="menu-btn" id="menu-btn">&#9776;</button>
+            <h1 class="game-title">The Wolves of Langston</h1>
+            <button class="edit-profile-btn" id="edit-profile-btn">&#9997;</button>
+        </header>
+
+        <!-- Slider Menu -->
+        <nav class="slider-menu" id="slider-menu">
+            <ul>
+                <li><a href="#" id="menu-save-game-btn">Save Game</a></li>
+                <li><a href="#">Load Game</a></li>
+                <li><a href="#">Quit Game</a></li>
+                <li><a href="#">Dark Mode</a></li>
+                <li><a href="#" id="menu-btn-skillpoints">Skillpoints</a></li>
+                <li><a href="#">FAQs</a></li>
+            </ul>
         </nav>
-        <!-- <h1>The Adventure Begins...</h1> -->
-        <div class="game-container">
 
-            <div class="description">
-                <!-- Embark on an epic journey through the mystical lands of Eldoria. In this thrilling adventure game, you'll encounter mythical creatures, solve ancient puzzles, and discover hidden treasures. Use your wit and strength to overcome challenges and become the hero Eldoria needs. Every decision you make shapes your path and determines your fate. Are you ready to begin your quest? -->
-                <h2>Be the hero Langston needs.</h2>
-                <p><i>Something is killing people in Langston</i></p>
-                <p><i>You have arrived just in time to help this small town rid itself of a danger stalking the night. Investigate likely suspects and root out the unknown evil.</i></p>
-                <p><i>Meet unique characters in an original setting with a mix of mystery, action and exploration. Go on a classic fantasy quest that will challenge you and your character.</i></p>
+        <!-- Skill Points Modal -->
+        <div id="skillpoints-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h2>Skill Points</h2>
+                <ul style="list-style: none;">
+                    <li>
+                        <input type="checkbox" id="objective1">
+                        <label for="objective1">Get to Langston safely...</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="objective2">
+                        <label for="objective2">Learn about the danger stalking the small town...</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="objective3">
+                        <label for="objective3">Investigate the townsfolk...</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="objective4">
+                        <label for="objective4">Uncover the mystery...</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="objective5">
+                        <label for="objective5">Survive...</label>
+                    </li>
+                </ul>
             </div>
+        </div>
 
+        <!-- Player Info Modal -->
+        <div id="player-info-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" >&times;</span>
+                <h2>Player Information</h2>
+                <ul style="list-style: none;">
+                    <li>
+                        <label for="player-name">Name:</label>
+                        <span id="username-error" class="error-handling">Name cannot exceed 50 characters</span>
+                        <input type="text" id="player-name">
+                    </li>
+                    <li>
+                        <label for="player-health">Health:</label>
+                        <span id="health-error" class="error-handling">Health cannot exceed 50!</span>
+                        <input type="number" id="player-health" min="1" max="50">
+                    </li>
+                    <li>
+                        <label for="player-armour">Armour Class:</label>
+                        <input type="number" id="player-armour" value="10">
+                    </li>
+                    <li>
+                        <label for="player-coin">Starting Coin:</label>
+                        <span id="coin-error" class="error-handling">Coin cannot exceed 200!</span>
+                        <input type="number" id="player-coin" min="0" max="200">
+                    </li>
+                    <button id="submit-profile-btn">Submit</button>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Overview of the General Game Hook - to be updated when the Game Loads/Starts -->
+        <section class="game-overview">
+            
+            <h2>Be the hero Langston needs.</h2>
+            <p><i>Something is killing people in Langston...</i></p>
+            <p><i>You have arrived just in time to help this small town rid itself of a danger stalking the night. Investigate likely suspects and root out the unknown evil.</i></p>
+            <p><i>Meet unique characters in an original setting with a mix of mystery, action and exploration. Go on a classic fantasy quest that will challenge you and your character.</i></p>
+            <p><i>Your decisions will determine the outcome of your adventure, so choose wisely!</i></p>
+        </section>
+        <section class="adventure-ui">
             <div class="stats">
-                <!-- <div class="stat">
-                    <label for="ac-input">AC:</label>
-                    <input type="number" id="ac-input" value="10">
-                </div> -->
+                <!-- Armour Class (AC) -->
+                <div class="armour-class">
+                    <div class="shield-container">
+                        <span id="ac-value">10</span>
+                    </div>
+                </div>
+                <!-- Health -->
                 <div class="health">
-                    <span class="heart">❤️ </span>
-                    <span id="health-value">0</span>
+                    <div class="heart-container">
+                        <span id="health-value">0</span>
+                    </div>
                 </div>
-                <div class="score">
-                    <span ><img src="https://cdn3.iconfinder.com/data/icons/smashicons-medieval-flat/57/15_-Gold_Pouch-_medieval_antique_old-512.png" class="score-icon"> </span>
-                    <span id="score-value">0</span>
+                <!-- Score (Coins) -->
+                <div class="coin">
+                    <div class="coin-container">
+                        <span id="coin-value">0</span>
+                    </div>
                 </div>
+                <!-- Shop Button -->
                 <div id="store" class="shop" style="display: none;">
-                    <span id="shop-btn" onclick="openStore()"><img src="https://cdn2.iconfinder.com/data/icons/travel-places-1/50/1F3EA-convenience-store-C-512.png" class="score-icon" ></span>
+                    <span id="shop-btn" onclick="openStore()">
+                        <img src="https://cdn2.iconfinder.com/data/icons/travel-places-1/50/1F3EA-convenience-store-C-512.png" class="score-icon">
+                    </span>
                 </div>
+                <!-- Inspiration -->
                 <div class="inspiration">
                     <span class="inspiration-symbol">+</span>
                     <div class="tooltip">Apply advantage to one d20 roll. (single-use)</div>
                 </div>
             </div>
-            <div id="game-area">
-                <div id="start-game">
-                    <div class="choice-buttons">
-                        <button id="start-btn" class="choice-button">Start Game</button>
-                        <button id="load-btn" class="choice-button">Load Game</button>
-                    </div>
-                    <!-- Modals for Start Game and Load Game -->
-                    <div id="player-info-modal" class="modal" style="display:none;">
-                        <div class="modal-content">
-                            <span class="close" onclick="closeModal('player-info-modal')">✖</span>
-                            <h3>Enter Player Info</h3>
-                            <label for="player-name">Name:</label>
-                            <input type="text" id="player-name">
-                            <label for="player-health">Health:</label>
-                            <input type="number" id="player-health" value="100" min="1" max="50">
-                            <span id="health-error" style="color: red; display: none;">Health cannot exceed 50!</span>
-                            <label for="player-armour">Armour Class:</label>
-                            <input type="number" id="player-armour" value="10">
-                            <label for="player-coin">Starting Coin:</label>
-                            <input type="number" id="player-coin" value="0" min="0" max="200">
-                            <span id="coin-error" style="color: red; display: none;">Coin cannot exceed 200!</span>
-                            <button id="start-story-btn">Start Story</button>
-                        </div>
-                    </div>
-
-                    <div id="load-game-modal" class="modal" style="display:none;">
-                        <div class="modal-content">
-                            <span class="close" onclick="closeModal('load-game-modal')">✖</span>
-                            <h3>Select Save File</h3>
-                            <div id="save-files"></div>
-                        </div>
-                    </div>
-
-                    <!-- Player Profile Pop-up (hidden by default) -->
-                    <div id="player-profile" style="display:none;">
-                        <h3>Player Profile</h3>
-                        <p id="profile-name"></p>
-                        <p id="profile-health"></p>
-                        <p id="profile-armour"></p>
-                        <p id="profile-coin"></p>
-                    </div>
-                </div>
-                <div id="story-prompt" style="display: none;">
-                    <p class="prompt-description"></p>
-                    <div class="choice-buttons">
-                        <button id="succession" style="display: none;" class="choice-button">Start Game</button>
-                        <button id="failure" style="display: none;" class="choice-button">Exit Game</button>
-                    </div>
-                </div>
-                <div id="console" style="display: none;">
-                    <div id="output"></div>
-                    <div id="input-section">
-                        <input type="text" id="command" placeholder="Enter your command">
-                        <button id="submit">Submit</button>
-                    </div>
-                </div>
-                <div id="win-prompt" style="display: none;">
-                    <p>Congratulations! You've earned 30+ points. What would you like to do next?</p>
-                    <button id="play-more">Play More</button>
-                    <button id="thumbs-up">Give Thumbs Up</button>
-                </div>
-                <div id="storeModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close" onclick="closeStore()">✖</span>
-                        <h2>General Store</h2>
-                        <div class="tabs">
-                            <div class="tab active" data-tab="gear">Adventuring Gear</div>
-                            <div class="tab" data-tab="potions">Potions</div>
-                            <div class="tab" data-tab="tools">Tools</div>
-                            <div class="tab" data-tab="weapons">Weapons</div>
-                        </div>
-                        <div id="gear" class="tab-content active">
-                            <div class="modal-item">
-                                <span>Backpack</span>
-                                <button class="button" onclick="buyItem('Backpack', 2)">2 gp</button>
-                            </div>
-                            <div class="modal-item">
-                                <span>Bedroll</span>
-                                <button class="button" onclick="buyItem('Bedroll', 1.6)">16 sp</button>
-                            </div>
-                            <div class="modal-item">
-                                <span>Blanket</span>
-                                <button class="button" onclick="buyItem('Blanket', 0.5)">5 sp</button>
-                            </div>
-                            <div class="modal-item">
-                                <span>Bottle (glass)</span>
-                                <button class="button" onclick="buyItem('Bottle (glass)', 1)">1 gp</button>
-                            </div>
-                            <div class="modal-item">
-                                <span>Candle</span>
-                                <button class="button" onclick="buyItem('Candle', 0.01)">1 cp</button>
-                            </div>
-                            <div class="modal-item">
-                                <span>Clothes, common</span>
-                                <button class="button" onclick="buyItem('Clothes, common', 5)">5 gp</button>
-                            </div>
-                            <div class="modal-item">
-                                <span>Crowbar</span>
-                                <button class="button" onclick="buyItem('Crowbar', 2)">2 gp</button>
-                            </div>
-                            <div class="modal-item">
-                                <span>Hammer</span>
-                                <button class="button" onclick="buyItem('Hammer', 1)">1 gp</button>
-                            </div>
-                            <div class="modal-item">
-                                <span>Healer's kit</span>
-                                <button class="button" onclick="buyItem('Healer\'s kit', 4)">4 gp</button>
-                            </div>
-                            <div class="modal-item">
-                                <span>Lantern, hooded</span>
-                                <button class="button" onclick="buyItem('Lantern, hooded', 4)">4 gp</button>
-                            </div>
-                            <div class="modal-item">
-                                <span>Magnifying glass</span>
-                                <button class="button" onclick="buyItem('Magnifying glass', 100)">100 gp</button>
-                            </div>
-                            <div class="modal-item">
-                                <span>Oil (flask)</span>
-                                <button class="button" onclick="buyItem('Oil (flask)', 0.1)">1 sp</button>
-                            </div>
-                            <div class="modal-item">
-                                <span>Rations (1/day)</span>
-                                <button class="button" onclick="buyItem('Rations (1/day)', 0.5)">5 sp</button>
-                            </div>
-                            <div class="modal-item">
-                                <span>Rope, hempen (50ft)</span>
-                                <button class="button" onclick="buyItem('Rope, hempen (50ft)', 1)">1 gp</button>
-                            </div>
-                            <div class="modal-item">
-                                <span>Saddle, riding</span>
-                                <button class="button" onclick="buyItem('Saddle, riding', 10)">10 gp</button>
-                            </div>
-                            <div class="modal-item">
-                                <span>Soap</span>
-                                <button class="button" onclick="buyItem('Soap', 0.02)">2 cp</button>
-                            </div>
-                            <div class="modal-item">
-                                <span>Torch</span>
-                                <button class="button" onclick="buyItem('Torch', 0.01)">1 cp</button>
-                            </div>
-                            <div class="modal-item">
-                                <span>Waterskin</span>
-                                <button class="button" onclick="buyItem('Waterskin', 0.2)">2 sp</button>
-                            </div>
-                            <div class="modal-item">
-                                <span>Whetstone</span>
-                                <button class="button" onclick="buyItem('Whetstone', 0.01)">1 cp</button>
-                            </div>
-                        </div>
-                        <div id="potions" class="tab-content">
-                            <div class="modal-item">
-                                <span>Antitoxin</span>
-                                <button class="button" onclick="buyItem('Antitoxin', 25)">25 gp</button>
-                            </div>
-                            <div class="modal-item">
-                                <span>Potion of healing</span>
-                                <button class="button" onclick="buyItem('Potion of healing', 25)">25 gp</button>
-                            </div>
-                        </div>
-                        <div id="tools" class="tab-content">
-                            <div class="modal-item">
-                                <span>Alchemist's supplies</span>
-                                <button class="button" onclick="buyItem('Alchemist\'s supplies', 40)">40 gp</button>
-                            </div>
-                            <div class="modal-item">
-                                <span>Cook's utensils</span>
-                                <button class="button" onclick="buyItem('Cook\'s utensils', 1)">1 gp</button>
-                            </div>
-                            <div class="modal-item">
-                                <span>Herbalism Kit</span>
-                                <button class="button" onclick="buyItem('Herbalism Kit', 4)">4 gp</button>
-                            </div>
-                        </div>
-                        <div id="weapons" class="tab-content">
-                            <div class="modal-item">
-                                <span>Arrows (10)</span>
-                                <button class="button" onclick="buyItem('Arrows (10)', 1)">1 gp</button>
-                            </div>
-                            <div class="modal-item">
-                                <span>Shortbow</span>
-                                <button class="button" onclick="buyItem('Shortbow', 20)">20 gp</button>
-                            </div>
-                            <div class="modal-item">
-                                <span>Dagger</span>
-                                <button class="button" onclick="buyItem('Dagger', 2)">2 gp</button>
-                            </div>
-                            <div class="modal-item">
-                                <span>Shortsword</span>
-                                <button class="button" onclick="buyItem('Shortsword', 10)">10 gp</button>
-                            </div>
-                            <div class="modal-item">
-                                <span>Handaxe</span>
-                                <button class="button" onclick="buyItem('Handaxe', 5)">5 gp</button>
-                            </div>
-                            <div class="modal-item">
-                                <span>Shield</span>
-                                <button class="button" onclick="buyItem('Shield', 10)">10 gp</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        <footer>
-            <a href="https://www.paypal.com/donate?business=tdeeney19@gmail.com" target="_blank" class="coffee-button">Buy me a coffee?</a>
-        </footer>
+            <section class="game-controls">
+                <button id="new-game-btn" class="control-btn">New Game</button>
+                <button id="load-game-btn" class="control-btn">Continue...</button>
+            </section>
+        </section>
+        
+        
     </div>
+    <footer>
+        <a href="https://www.paypal.com/donate?business=tdeeney19@gmail.com" target="_blank" class="coffee-button">Buy me a coffee?</a>
+    </footer>
     <script src="game.js"></script>
 </body>
 </html>

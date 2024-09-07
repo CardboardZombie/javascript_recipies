@@ -1,6 +1,7 @@
 let choices;
 let game_stats = {
     player: {
+        name: "",
         health: 0,
         armour_class: 0,
         coin: 0,
@@ -15,407 +16,220 @@ let game_stats = {
     }
 };
 
-// Save game state to localStorage
+document.getElementById('menu-btn').addEventListener('click', () => {
+    document.getElementById('slider-menu').classList.toggle('menu-open');
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Modal elements
+    var skillpointsModal = document.getElementById('skillpoints-modal');
+    var playerInfoModal = document.getElementById('player-info-modal');
+
+    // Buttons
+    var skillpointsBtn = document.getElementById('menu-btn-skillpoints');
+    var menuSaveGameBtn = document.getElementById('menu-save-game-btn');
+    var editProfileBtn = document.getElementById('edit-profile-btn');
+    var closeBtns = document.getElementsByClassName('close-btn');
+    var submitProfileBtn = document.getElementById('submit-profile-btn');
+
+    var newGameBtn = document.getElementById('new-game-btn');
+
+    // Function to open a modal
+    function openModal(modalId) {
+        document.getElementById(modalId).style.display = 'block';
+    }
+
+    // Function to close a modal
+    function closeModal(modalId) {
+        var modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = 'none';
+            // Clear input fields if the player-info-modal is closed
+            if (modalId === 'player-info-modal') {
+                document.getElementById('player-name').value = game_stats.player.name || 'Fartknuckle';
+                document.getElementById('player-health').value = game_stats.player.health || 0;
+                document.getElementById('player-armour').value = game_stats.player.armour_class || 10;
+                document.getElementById('player-coin').value = game_stats.player.coin || 0;
+                document.getElementById('username-error').style.display = 'none';
+                document.getElementById('health-error').style.display = 'none';
+                document.getElementById('coin-error').style.display = 'none';
+            }
+        }
+    }
+
+    // Open Skill Points Modal
+    skillpointsBtn.addEventListener('click', function() {
+        openModal('skillpoints-modal');
+    });
+
+    // Open Player Info Modal
+    editProfileBtn.addEventListener('click', function() {
+        openModal('player-info-modal');
+    });
+
+    // Open the player info modal when New Game is clicked
+    menuSaveGameBtn.onclick = function() {
+        saveGame();
+        alert("Game Saved!");
+    };
+
+    newGameBtn.onclick = function() {
+        openModal('player-info-modal');
+    };
+
+    // Close modals when clicking on <span> (x)
+    Array.from(closeBtns).forEach(btn => {
+        btn.addEventListener('click', function() {
+            var parentModal = btn.closest('.modal');
+            if (parentModal) {
+                closeModal(parentModal.id);
+            }
+        });
+    });
+
+    // Close modals when clicking outside the modal
+    window.addEventListener('click', function(event) {
+        if (event.target.classList.contains('modal')) {
+            closeModal(event.target.id);
+        }
+    });
+
+    // Validate and submit player info
+    submitProfileBtn.addEventListener('click', function() {
+        var name = document.getElementById('player-name').value;
+        var health = document.getElementById('player-health').value;
+        var coin = document.getElementById('player-coin').value;
+
+        var usernameError = document.getElementById('username-error');
+        var healthError = document.getElementById('health-error');
+        var coinError = document.getElementById('coin-error');
+
+        // Reset errors
+        usernameError.display = 'none';
+        healthError.style.display = 'none';
+        coinError.style.display = 'none';
+
+        if(health > 50 || coin > 200 || name.length > 50) {
+            if(health > 50){
+                healthError.style.display = 'inline';
+            }
+            if (coin > 200) {
+                coinError.style.display = 'inline';
+            }
+            if(name.length > 50){
+                usernameError.style.display = 'inline';
+            } 
+        }
+        else{
+            // Handle valid data submission
+            game_stats.player = {
+                name: name,
+                health: parseInt(health),
+                armour: parseInt(document.getElementById('player-armour').value),
+                coin: parseFloat(coin)
+            };
+            closeModal('player-info-modal');
+            // Perform any additional actions, e.g., saving the data
+        }
+    });
+});
+
+// Save the game state to localStorage
 function saveGame() {
-    localStorage.setItem('game_stats', JSON.stringify(game_stats));
+    localStorage.setItem("gameState", JSON.stringify(game_stats));
     console.log("Game saved!");
 }
 
+// Export the game state to a JSON file
+function exportGame() {
+    const gameData = localStorage.getItem("gameState");
+    const blob = new Blob([gameData], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
 
-// Load game state from localStorage
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${game_stats.player.name}_game_save.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    console.log("Game exported!");
+}
+
+// Load a game save file from the user's computer
+function importGame(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+        const importedGameState = JSON.parse(e.target.result);
+        localStorage.setItem("gameState", JSON.stringify(importedGameState));
+        console.log("Game imported and saved!");
+        loadGame(); // Load the imported state into the game
+    };
+
+    reader.readAsText(file);
+}
+
+// Load the saved game state from localStorage
 function loadGame() {
-    const savedGame = localStorage.getItem('game_stats');
+    const savedGame = localStorage.getItem("gameState");
+
     if (savedGame) {
         game_stats = JSON.parse(savedGame);
         console.log("Game loaded!", game_stats);
-        return true;
+        // Update the game with loaded data (e.g., display player stats)
     } else {
         console.log("No saved game found.");
-        return false;
     }
 }
 
-
-// Function to update the UI based on loaded game state
-function updateUI() {
-    // Update the score display
-    document.getElementById('score-value').innerText = game_stats.player.coin;
-    document.getElementById('health-value').innerText = game_stats.player.health;
-
-    // Update the dark mode setting
-    document.body.classList.toggle('dark-mode', game_stats.settings.dark_mode);
-    document.getElementById('game-area').classList.toggle('dark-mode', game_stats.settings.dark_mode);
-    document.getElementById('output').classList.toggle('dark-mode', game_stats.settings.dark_mode);
-
-    // Update chapter title and choices if applicable
-    loadStory().then(story => {
-        loadChapter(story, game_stats.settings.chapter).then(chapter => {
-            choices = chapter;
-            document.getElementById('nav-title').innerHTML = chapter["title"];
-            handleChoice(game_stats.settings.choice_number);
-        }).catch(error => {
-            console.error('Failed to load chapter:', error);
-        });
-    }).catch(error => {
-        console.error('Failed to load story:', error);
-    });
-}
-
-
-async function loadStory() {
-    try {
-        let response = await fetch('story.json');
-        if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
+document.getElementById('new-game-btn').addEventListener('click', () => {
+    // Clear existing game state and start a new game
+    localStorage.removeItem('gameState');
+    alert('Starting a New Game...');
+    // You can reset the game state and update UI here
+    game_stats = {
+        player: {
+            name: "",
+            health: 10,
+            armour_class: 10,
+            coin: 10,
+            inventory: ['sword', 'shield'],
+            inspiration: false
+        },
+        settings: {
+            chapter: 1,
+            choice_number: 0,
+            shop: false,
+            dark_mode: false
         }
-        let story = await response.json();
-        return story;
-    } catch (error) {
-        console.error('Failed to load story:', error);
-    }
-}
-
-async function loadChapter(story, chapterNumber) {
-    let chapterKey = `chapter_${chapterNumber}`;
-    console.log(chapterKey);
-    let chapter = story[chapterKey];
-    if (!chapter) {
-        console.error('Chapter not found:', chapterNumber);
-        return null;
-    }
-    return chapter;
-}
-
-function typeWriter(text, element, callback) {
-    let i = 0;
-    const speed = 25; // Speed in milliseconds
-
-    function type() {
-        if (i < text.length) {
-            if (text.charAt(i) === '<') {
-                const endIndex = text.indexOf('>', i);
-                if (endIndex !== -1) {
-                    const tag = text.substring(i, endIndex + 1);
-                    element.innerHTML += tag;
-                    i = endIndex + 1;
-                } else {
-                    element.innerHTML += text.charAt(i);
-                    i++;
-                }
-            } else {
-                element.innerHTML += text.charAt(i);
-                i++;
-            }
-
-            setTimeout(type, speed);
-        } else if (callback) {
-            callback();
-        }
-    }
-
-    type();
-}
-
-function handleChoice(choiceNumber){
-    const choice = choices[choiceNumber];
-
-    if (!choice) {
-        console.log('No more choices available...');
-        return;
-    }
-
-    disableButtons();
-    clearDescription();
-    handleInspiration(choice);
-    updateScore(choice);
-    updateStore(choice);
-
-    game_stats.settings.choice_number = choiceNumber; // Save the current choice
-    saveGame(); // Save the game state
-
-    typeWriter(choice.description, document.querySelector(".prompt-description"), () => {
-        setTimeout(() => {
-            enableButtons();
-            updateButtons(choice);
-        }, 500);
-    });
-}
-
-function disableButtons(){
-    console.log('Disabling buttons');
-    const successButton = document.getElementById('succession');
-    const failureButton = document.getElementById('failure');
-
-    successButton.disabled = true;
-    failureButton.disabled = true;
-
-    successButton.style.display = 'none';
-    failureButton.style.display = 'none';
-}
-
-function enableButtons(){
-    console.log('Enabling buttons');
-    const successButton = document.getElementById('succession');
-    const failureButton = document.getElementById('failure');
-
-    successButton.disabled = false;
-    failureButton.disabled = false;
-
-    successButton.style.display = 'inline-block';
-    failureButton.style.display = 'inline-block';
-}
-
-function updateButtons(choice) {
-    const successButton = document.getElementById('succession');
-    const failureButton = document.getElementById('failure');
-
-    successButton.innerText = choice.success.text;
-    successButton.style.display = 'inline-block';
-    successButton.onclick = () => handleChoice(choice.success.next);
-
-    if (choice.failure) {
-        failureButton.innerText = choice.failure.text;
-        failureButton.style.display = 'inline-block';
-        failureButton.onclick = () => handleChoice(choice.failure.next);
-    } else {
-        failureButton.style.display = 'none';
-    }
-}
-
-function clearDescription() {
-    const descriptionElement = document.querySelector(".prompt-description");
-    descriptionElement.innerHTML = '';
-}
-
-function handleInspiration(choice) {
-    const inspirationElement = document.querySelector(".inspiration");
-
-    if (choice.inspiration) {
-        game_stats.player.inspiration = true;
-    }
-
-    if (game_stats.player.inspiration) {
-        inspirationElement.style.color = '#4CAF50';
-        inspirationElement.style.pointerEvents = 'auto';
-        inspirationElement.classList.add('green');
-
-        inspirationElement.onclick = () => {
-            inspirationElement.style.color = 'grey';
-            inspirationElement.style.pointerEvents = 'none';
-            inspirationElement.classList.remove('green');
-
-            game_stats.player.inspiration = false;
-        };
-    } 
-}
-
-function updateScore(choice) {
-    if (choice.coin) {
-        game_stats.player.coin += choice.coin;
-        document.getElementById('score-value').innerText = game_stats.player.coin;
-    }
-}
-
-
-function updateStore(choice){
-    if(choice.shop){
-        game_stats.settings.shop = true;
-        document.getElementById('store').style.display = 'block'; 
-    }else{
-        game_stats.settings.shop = false;
-        document.getElementById('store').style.display = 'none'; 
-    }
-    console.log(game_stats);
-}
-
-function openStore() {
-    document.getElementById('storeModal').style.display = 'flex';
-}
-
-function closeStore() {
-    document.getElementById('storeModal').style.display = 'none';
-}
-
-
-// Example of other interactions (e.g., buying an item) to save the state after an action
-function buyItem(itemName, cost) {
-    const scoreElement = document.getElementById('score-value');
-    let currentScore = parseFloat(game_stats.player.coin);
-    
-    if (currentScore >= cost) {
-        alert(`Add ${itemName} to your Inventory!`);
-        currentScore -= cost;
-        game_stats.player.coin = currentScore.toFixed(2);
-        game_stats.player.inventory.push(itemName); // Add item to inventory
-    } else {
-        alert('Not enough GP to buy this item.');
-    }
-    scoreElement.textContent = currentScore.toFixed(2);
-    saveGame(); // Save game state after purchase
-}
-
-const tabs = document.querySelectorAll('.tab');
-const tabContents = document.querySelectorAll('.tab-content');
-
-tabs.forEach(tab => {
-    tab.addEventListener('click', function() {
-        tabs.forEach(tab => tab.classList.remove('active'));
-        tabContents.forEach(content => content.classList.remove('active'));
-        tab.classList.add('active');
-        document.getElementById(this.getAttribute('data-tab')).classList.add('active');
-    });
-});
-
-
-document.getElementById('start-btn').addEventListener('click', function() {
-    openModal('player-info-modal');
-});
-
-
-// Event listener for the "Load Game" button
-document.getElementById('load-btn').addEventListener('click', () => {
-    if (loadGame()) {
-        document.getElementById('start-game').style.display = 'none';
-        document.getElementById('story-prompt').style.display = 'block';
-        updateUI();
-    } else {
-        alert("No saved game found.");
-    }
-});
-
-
-// Event listener for the theme toggle switch
-document.getElementById('theme-toggle').addEventListener('change', (event) => {
-    const isDarkMode = event.target.checked;
-    game_stats.settings.dark_mode = isDarkMode; // Update the game state
-    document.body.classList.toggle('dark-mode', isDarkMode);
-    document.getElementById('game-area').classList.toggle('dark-mode', isDarkMode);
-    document.getElementById('output').classList.toggle('dark-mode', isDarkMode);
-    saveGame(); // Save game state when the theme changes
-});
-
-
-// Function to open a modal
-function openModal(modalId) {
-    document.getElementById(modalId).style.display = 'block';
-}
-
-// Function to close a modal
-function closeModal(modalId) {
-    document.getElementById(modalId).style.display = 'none';
-}
-
-function validatePlayerInfo() {
-    const playerHealthInput = document.getElementById('player-health');
-    const playerCoinInput = document.getElementById('player-coin');
-    const startButton = document.getElementById('start-story-btn');
-
-    const healthError = document.getElementById('health-error');
-    const coinError = document.getElementById('coin-error');
-
-    const MAX_HEALTH = 50;
-    const MAX_COIN = 200;
-
-    let valid = true;
-
-    // Validate health
-    if (parseInt(playerHealthInput.value) > MAX_HEALTH) {
-        healthError.style.display = 'inline';
-        valid = false;
-    } else {
-        healthError.style.display = 'none';
-    }
-
-    // Validate coin
-    if (parseFloat(playerCoinInput.value) > MAX_COIN) {
-        coinError.style.display = 'inline';
-        valid = false;
-    } else {
-        coinError.style.display = 'none';
-    }
-
-    // Enable or disable the Start button based on validity
-    startButton.disabled = !valid;
-}
-
-
-// Function to start the game after player info is submitted
-function startGameWithPlayerInfo() {
-    const playerName = document.getElementById('player-name').value || 'Unnamed Hero';
-    const playerHealth = document.getElementById('player-health').value || 100;
-    const playerArmour = document.getElementById('player-armour').value || 10;
-    const playerCoin = document.getElementById('player-coin').value || 0;
-
-    // Add limiters for coin and health
-    const MAX_HEALTH = 50;
-    const MAX_COIN = 200;
-
-    // Double-check input values before starting game
-    if (playerHealth > MAX_HEALTH || playerCoin > MAX_COIN) {
-        alert('Please correct the input values.');
-        return;
-    }
-
-    // Initialize player stats
-    game_stats.player = {
-        name: playerName,
-        health: parseInt(playerHealth),
-        armour: parseInt(playerArmour),
-        coin: parseFloat(playerCoin),
-        inventory: []
     };
-
-    // Close the modal
-    closeModal('player-info-modal');
-
-    // Update UI with player stats
-    updatePlayerProfile();
-    startGame(); // Start the game with the player's information
-}
-
-
-// Function to update the player's profile in the UI
-function updatePlayerProfile() {
-    document.getElementById('profile-name').textContent = `Name: ${game_stats.player.name}`;
-    document.getElementById('profile-health').textContent = `Health: ${game_stats.player.health}`;
-    document.getElementById('profile-armour').textContent = `Armour Class: ${game_stats.player.armour}`;
-    document.getElementById('profile-coin').textContent = `Coin: ${game_stats.player.coin} GP`;
-
-    // Display the profile and quit buttons
-    document.getElementById('profile-btn').style.display = 'block';
-    document.getElementById('quit-game-btn').style.display = 'block';
-}
-
-// Function to start the game with the current player's stats
-function startGame() {
-    document.getElementById('start-game').style.display = 'none';
-    document.getElementById('story-prompt').style.display = 'block';
-
-    // Display the initial game story or prompt
-    //typeWriter('Welcome to the adventure, ' + game_stats.player.name + '. Your journey begins now...', document.querySelector(".prompt-description"));
-    updateUI();
-}
-
-
-
-  // Event listener for starting the story after player info is submitted
-document.getElementById('start-story-btn').addEventListener('click', function() {
-    startGameWithPlayerInfo();
+    saveGameState(); // Save the new game state
+    updateUI(); // Function to update your UI with the new game stats
 });
 
-// Function to quit the game and return to the main menu
-function quitGame() {
-    saveGame(); // Save the current game state
-    alert('Your game progress has been saved. Returning to the main menu.');
+document.getElementById('load-game-btn').addEventListener('click', () => {
+    // Load the game state from localStorage
+    const savedGame = localStorage.getItem('gameState');
+    if (savedGame) {
+        game_stats = JSON.parse(savedGame);
+        console.log(game_stats);
+        alert(`${game_stats.player.name} Loaded Successfully!`);
+        updateUI(); // Function to update your UI with loaded game stats
+    } else {
+        alert('No saved game found!');
+    }
+});
 
-    // Reset game UI
-    document.getElementById('player-info-modal').style.display = 'none';
-    document.getElementById('load-game-modal').style.display = 'none';
-    document.getElementById('start-game').style.display = 'block';
-    document.getElementById('story-prompt').style.display = 'none';
-    document.getElementById('console').style.display = 'none';
 
-    // Hide profile and quit buttons
-    document.getElementById('profile-btn').style.display = 'none';
-    document.getElementById('quit-game-btn').style.display = 'none';
+
+// Utility function to update the UI based on game state
+function updateUI() {
+    document.getElementById('health-value').textContent = game_stats.player.health;
+    document.getElementById('coin-value').textContent = game_stats.player.coin;
+    // Update other stats as needed
 }
+
+
+
