@@ -12,21 +12,32 @@
         <!-- Menubar -->
         <header class="menubar">
             <button class="menu-btn" id="menu-btn">&#9776;</button>
-            <h1 class="game-title">The Wolves of Langston</h1>
-            <button class="edit-profile-btn" id="edit-profile-btn">&#9997;</button>
+            <h1 class="game-title" id="nav-title">The Wolves of Langston</h1>
+            <!-- <img src="https://static-00.iconduck.com/assets.00/settings-icon-1964x2048-8nigtrtt.png" > -->
+            <button class="settings-btn" id="settings-btn">&#9881;</button>
         </header>
 
         <!-- Slider Menu -->
         <nav class="slider-menu" id="slider-menu">
             <ul>
-                <li><a href="#" id="menu-save-game-btn">Save Game</a></li>
-                <li><a href="#">Load Game</a></li>
-                <li><a href="#">Quit Game</a></li>
-                <li><a href="#">Dark Mode</a></li>
+                <li><a href="#" id="toggle-dark-mode">Dark Mode</a></li>
                 <li><a href="#" id="menu-btn-skillpoints">Skillpoints</a></li>
                 <li><a href="#">FAQs</a></li>
             </ul>
         </nav>
+        <!-- Settings Menu -->
+        <div id="settings-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h2>Settings</h2>
+                <ul style="list-style: none;">
+                    <button id="menu-save-game-btn" class="control-btn">Save Game</button>
+                    <button id="load-game-settings" class="control-btn">Load Game</button>
+                    <!-- <button id="delete-game" class="control-btn">Delete Game</button> -->
+                    <button id="quit-game" class="control-btn">Quit Game</button>
+                </ul>
+            </div>
+        </div>
 
         <!-- Skill Points Modal -->
         <div id="skillpoints-modal" class="modal">
@@ -98,11 +109,11 @@
             <p><i>Your decisions will determine the outcome of your adventure, so choose wisely!</i></p>
         </section>
         <section class="adventure-ui">
-            <div class="stats">
+            <div class="stats" id="stats" style="display: none;">
                 <!-- Armour Class (AC) -->
                 <div class="armour-class">
                     <div class="shield-container">
-                        <span id="ac-value">10</span>
+                        <span id="ac-value">0</span>
                     </div>
                 </div>
                 <!-- Health -->
@@ -128,10 +139,25 @@
                     <span class="inspiration-symbol">+</span>
                     <div class="tooltip">Apply advantage to one d20 roll. (single-use)</div>
                 </div>
+                <div class="player">
+                    <button class="edit-profile-btn" id="edit-profile-btn">&#9998;</button>
+                </div>
             </div>
-            <section class="game-controls">
+            <section class="game-controls" id="main-menu">
+                <button id="start-btn" class="control-btn">Start Game</button>
+            </section>
+            <section id="game-options-menu" style="display: none;">
                 <button id="new-game-btn" class="control-btn">New Game</button>
                 <button id="load-game-btn" class="control-btn">Continue...</button>
+                <button id="back-btn" class="control-btn">Back to Main Menu</button>
+            </section>
+            <section id="load-game-menu" style="display: none;">
+                <h2>Load Game</h2>
+                <div id="save-slots"></div>
+                <button id="back-to-options" class="control-btn">Back</button>
+            </section>
+            <section id="story-prompts" style="display: none;">
+                <h1>Let's Fucking Goooooo!</h1>
             </section>
         </section>
         
