@@ -100,6 +100,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('quit-game').addEventListener('click', () => {
         game_stats = null;
         hideElement(gameArea);
+        hideElement(gameOptions);
+        hideElement(loadGameMenu);
         document.getElementById('stats').style.display = 'none';
         showElement(mainMenu);
         closeModal('settings-modal');
@@ -108,6 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('load-game-settings').addEventListener('click', () => {
         hideElement(gameArea);
         document.getElementById('stats').style.display = 'none';
+        hideElement(gameOptions);
         showElement(loadGameMenu);
         closeModal('settings-modal');
         // updateSaveSlots();
@@ -162,13 +165,11 @@ document.addEventListener('DOMContentLoaded', function() {
             updateUI();
             
             // Perform any additional actions, e.g., saving the data
-            //saveGame();
             document.getElementById('stats').style.display = 'flex';
             startGame();
         }
     });
 });
-
 
 function loadGame(slot) {
     const save = JSON.parse(localStorage.getItem(`saveSlot${slot}`));
@@ -244,10 +245,6 @@ document.getElementById('start-btn').addEventListener('click', () => {
 
 document.getElementById('new-game-btn').addEventListener('click', () => {
     hideElement(gameOptions);
-    // Clear existing game state and start a new game
-    //localStorage.removeItem('gameState');
-    // You can reset the game state and update UI here
-    updateUI(); // Function to update your UI with the new game stats
     game_stats.settings = {
             chapter: 1,
             choice_number: 0,
@@ -272,8 +269,6 @@ document.getElementById('back-to-options').addEventListener('click', () => {
     hideElement(loadGameMenu);
     showElement(gameOptions);
 });
-
-
 
 // Utility function to update the UI based on game state
 function updateUI() {
@@ -301,8 +296,6 @@ document.getElementById('menu-save-game-btn').addEventListener('click', () => {
     }
 });
   
-
-  
 // document.getElementById('delete-game').addEventListener('click', () => {
 //     if (game_stats.player.name && game_stats) {
 //       for (let i = 1; i <= 3; i++) {
@@ -318,9 +311,4 @@ document.getElementById('menu-save-game-btn').addEventListener('click', () => {
 //     }
 // });
   
-
-  
 document.getElementById('toggle-dark-mode').addEventListener('click', toggleDarkMode);
-
-
-
