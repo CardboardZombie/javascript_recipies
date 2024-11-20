@@ -431,3 +431,50 @@ body.dark-mode .control-btn {
 body.dark-mode .control-btn:hover {
     background-color: var(--dark-hover);
 }
+
+.choice-buttons {
+    /* display: flex;
+    justify-content: center;
+    margin-top: 20px; */
+    display: flex;                /* Enable flexbox for layout */
+    justify-content: center;      /* Center buttons horizontally */
+    align-items: center;          /* Center buttons vertically */
+    gap: 10px;                    /* Space between buttons */
+    width: 100%;                  /* Make container span full width */
+}
+
+.choice-button {
+    flex:1;
+    text-align: center;
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 1em;
+    color: var(--color-footer-text);
+    background-color: var(--color-secondary);
+    border: 1px solid var(--color-primary);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 0 5px;
+    max-width: 250px;
+}
+
+.choice-button:hover {
+    background-color: var(--color-hover);
+}
+
+.prompt-description {
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    font-family: monospace; /* Optional: Gives a typewriter-like appearance */
+    white-space: pre-wrap; /* Preserve whitespace */
+} 
+
+body.dark-mode .choice-button {
+    background-color: var(--dark-primary);
+    border: 1px solid var(--dark-text);
+}
+
+body.dark-mode .choice-button:hover {
+    background-color: var(--dark-hover);
+}

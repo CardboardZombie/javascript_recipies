@@ -229,6 +229,110 @@ function updateSaveSlots() {
     }
 }
 
+// Function to display a message
+function displayMessage(message) {
+    const output = document.getElementById('output');
+    const messageElement = document.createElement('div');
+    output.appendChild(messageElement);
+
+    typeWriter(message, messageElement, () => {
+        output.scrollTop = output.scrollHeight; // Scroll to bottom
+    });
+    
+}
+
+function typeWriter(text, element, callback) {
+    let i = 0;
+    let isTag = false;
+    let textBuffer = '';
+    const speed = 25; // Speed in milliseconds
+
+    function type() {
+        if (i < text.length) {
+            const char = text.charAt(i);
+            if(char === '<'){
+                isTag = true;
+            }
+
+            if(isTag){
+                textBuffer += char;
+                if(char === '>'){
+                    isTag = false;
+                    element.innerHTML += textBuffer;
+                    textBuffer = '';
+                }
+            }
+            else{
+                element.innerHTML += char;
+            }
+
+            i++;
+            setTimeout(type, isTag? 0 : speed);
+        } else if (callback) {
+            callback();
+        }
+    }
+    type();
+}
+
+function handleChoice(choiceNumber){
+    const choice = choices[choiceNumber];
+    if (choice) {
+        // Disable buttons during typewriter effect
+        const successButton = document.getElementById('succession');
+        const failureButton = document.getElementById('failure');
+        successButton.disabled = true;
+        failureButton.disabled = true;
+
+        // Update the description with typewriter effect
+        const descriptionElement = document.querySelector(".prompt-description");
+        descriptionElement.innerHTML = ''; // Clear the element's content before starting
+        successButton.style.display = 'none';
+        failureButton.style.display = 'none';
+        typeWriter(choice.description, descriptionElement, () => {
+            const isSingleChoice = choice.success.next === choice.failure?.next || !choice.failure;
+            if (isSingleChoice) {
+                // Transition to console mode after the button is pressed
+                successButton.disabled = false;
+                successButton.innerText = choice.success.text;
+                successButton.style.display = 'inline-block';
+                successButton.onclick = () => {
+                    // Hide choice buttons and prompt window
+                    document.getElementById('succession').style.display = 'none';
+                    document.getElementById('failure').style.display = 'none';
+                    document.querySelector('.prompt-description').style.display = 'none';
+
+                    // Transition to console mode
+                    transitionToConsoleMode(choice.success.next);
+                };
+
+                // Hide the failure button if it's not used
+                failureButton.style.display = 'none';
+            } else {
+                // Enable buttons after typewriter effect is done
+                successButton.disabled = false;
+                failureButton.disabled = false;
+
+                // Update the buttons with the next choices
+                successButton.innerText = choice.success.text;
+                successButton.style.display = 'inline-block'; // Ensure the button is visible
+                successButton.onclick = () => handleChoice(choice.success.next);
+
+                if (choice.failure) {
+                    failureButton.innerText = choice.failure.text;
+                    failureButton.style.display = 'inline-block'; // Ensure the button is visible
+                    failureButton.onclick = () => handleChoice(choice.failure.next);
+                } else {
+                    failureButton.style.display = 'none'; // Hide the button if no failure option
+                }
+            }
+        });
+    } else {
+        console.log('No more choices available.');
+    }
+    //updateStats();
+}
+
 function startGame() {
     hideElement(mainMenu);
     hideElement(gameOptions);
@@ -275,7 +379,224 @@ function updateUI() {
     document.getElementById('health-value').textContent = game_stats.player.health;
     document.getElementById('coin-value').textContent = game_stats.player.coin;
     document.getElementById('ac-value').textContent = game_stats.player.armour_class;    // Update other stats as needed
+// Update chapter title and choices if applicable
+loadStory().then(story => {
+    loadChapter(story, game_stats.settings.chapter).then(chapter => {
+        choices = chapter;
+        document.getElementById('nav-title').innerHTML = chapter["title"];
+        handleChoice(game_stats.settings.choice_number);
+    }).catch(error => {
+        console.error('Failed to load chapter:', error);
+    });
+}).catch(error => {
+    console.error('Failed to load story:', error);
+});
 }
+
+
+async function loadStory() {
+try {
+    let response = await fetch('story.json');
+    if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+    }
+    let story = await response.json();
+    return story;
+} catch (error) {
+    console.error('Failed to load story:', error);
+}
+}
+
+async function loadChapter(story, chapterNumber) {
+let chapterKey = `chapter_${chapterNumber}`;
+console.log(chapterKey);
+let chapter = story[chapterKey];
+if (!chapter) {
+    console.error('Chapter not found:', chapterNumber);
+    return null;
+}
+return chapter;
+}
+
+function typeWriter(text, element, callback) {
+let i = 0;
+const speed = 25; // Speed in milliseconds
+
+function type() {
+    if (i < text.length) {
+        if (text.charAt(i) === '<') {
+            const endIndex = text.indexOf('>', i);
+            if (endIndex !== -1) {
+                const tag = text.substring(i, endIndex + 1);
+                element.innerHTML += tag;
+                i = endIndex + 1;
+            } else {
+                element.innerHTML += text.charAt(i);
+                i++;
+            }
+        } else {
+            element.innerHTML += text.charAt(i);
+            i++;
+        }
+
+        setTimeout(type, speed);
+    } else if (callback) {
+        callback();
+    }
+}
+
+type();
+}
+
+function handleChoice(choiceNumber){
+const choice = choices[choiceNumber];
+
+if (!choice) {
+    console.log('No more choices available...');
+    return;
+}
+
+disableButtons();
+clearDescription();
+handleInspiration(choice);
+updateScore(choice);
+updateStore(choice);
+
+game_stats.settings.choice_number = choiceNumber; // Save the current choice
+//saveGame(); // Save the game state
+
+typeWriter(choice.description, document.querySelector(".prompt-description"), () => {
+    setTimeout(() => {
+        enableButtons();
+        updateButtons(choice);
+    }, 500);
+});
+}
+
+function disableButtons(){
+console.log('Disabling buttons');
+const successButton = document.getElementById('succession');
+const failureButton = document.getElementById('failure');
+
+successButton.disabled = true;
+failureButton.disabled = true;
+
+successButton.style.display = 'none';
+failureButton.style.display = 'none';
+}
+
+function enableButtons(){
+console.log('Enabling buttons');
+const successButton = document.getElementById('succession');
+const failureButton = document.getElementById('failure');
+
+successButton.disabled = false;
+failureButton.disabled = false;
+
+successButton.style.display = 'inline-block';
+failureButton.style.display = 'inline-block';
+}
+
+function updateButtons(choice) {
+const successButton = document.getElementById('succession');
+const failureButton = document.getElementById('failure');
+
+successButton.innerText = choice.success.text;
+successButton.style.display = 'inline-block';
+successButton.onclick = () => handleChoice(choice.success.next);
+
+if (choice.failure) {
+    failureButton.innerText = choice.failure.text;
+    failureButton.style.display = 'inline-block';
+    failureButton.onclick = () => handleChoice(choice.failure.next);
+} else {
+    failureButton.style.display = 'none';
+}
+}
+
+function clearDescription() {
+const descriptionElement = document.querySelector(".prompt-description");
+descriptionElement.innerHTML = '';
+}
+
+function handleInspiration(choice) {
+    const inspirationElement = document.querySelector(".inspiration");
+
+    if (choice.inspiration) {
+        game_stats.player.inspiration = true;
+    }
+
+    if (game_stats.player.inspiration) {
+        inspirationElement.style.color = '#4CAF50';
+        inspirationElement.style.pointerEvents = 'auto';
+        inspirationElement.classList.add('green');
+
+        inspirationElement.onclick = () => {
+            inspirationElement.style.color = 'grey';
+            inspirationElement.style.pointerEvents = 'none';
+            inspirationElement.classList.remove('green');
+
+            game_stats.player.inspiration = false;
+        };
+    } 
+}
+
+function updateScore(choice) {
+    if (choice.coin) {
+        game_stats.player.coin += choice.coin;
+        document.getElementById('coin-value').innerText = game_stats.player.coin;
+    }
+}
+
+function updateStore(choice){
+    if(choice.shop){
+        game_stats.settings.shop = true;
+        document.getElementById('store').style.display = 'block'; 
+    }else{
+        game_stats.settings.shop = false;
+        document.getElementById('store').style.display = 'none'; 
+    }
+    console.log(game_stats);
+}
+
+function openStore() {
+    document.getElementById('storeModal').style.display = 'flex';
+}
+
+function closeStore() {
+    document.getElementById('storeModal').style.display = 'none';
+}
+
+
+// Example of other interactions (e.g., buying an item) to save the state after an action
+function buyItem(itemName, cost) {
+    const scoreElement = document.getElementById('score-value');
+    let currentScore = parseFloat(game_stats.player.coin);
+    
+    if (currentScore >= cost) {
+        alert(`Add ${itemName} to your Inventory!`);
+        currentScore -= cost;
+        game_stats.player.coin = currentScore.toFixed(2);
+        game_stats.player.inventory.push(itemName); // Add item to inventory
+    } else {
+        alert('Not enough GP to buy this item.');
+    }
+    scoreElement.textContent = currentScore.toFixed(2);
+    //saveGame(); // Save game state after purchase
+}
+
+const tabs = document.querySelectorAll('.tab');
+const tabContents = document.querySelectorAll('.tab-content');
+
+tabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+        tabs.forEach(tab => tab.classList.remove('active'));
+        tabContents.forEach(content => content.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(this.getAttribute('data-tab')).classList.add('active');
+    });
+});
+
 
 function toggleDarkMode() {
     document.body.classList.toggle('dark-mode');
