@@ -253,6 +253,18 @@ input[type="text"], input[type="number"] {
     box-sizing: border-box;
 }
 
+/* .save-slot {
+    border: 1px;
+    padding: 10px;
+    margin: 10px 0;
+    cursor: pointer;
+    background-color: #085381;
+    color: #fff;
+  }
+  .save-slot:hover {
+    background-color: #1e8899;
+  } */
+
 #submit-profile-btn {
     cursor: pointer;
     background-color: var(--color-primary); /* Use primary theme color */
@@ -383,18 +395,16 @@ body.modal-open {
 .game-controls {
     padding-top: 10px;
     padding-bottom: 10px;
-
-    display: flex;            /* Enable flexbox */
+    flex-direction: column;          /* Stack items vertically */
+    align-items: center;             /* Center the buttons horizontally */
+    display: flex;                   /* Enable flexbox */
     justify-content: space-between;  /* Ensure equal space between buttons */
-    width: 100%;              /* Make sure the container takes the full width */
+    width: 100%;                     /* Make sure the container takes the full width */
 }
 
 .control-btn {
     flex:1;
     text-align: center;
-    display: inline-block;
-    margin-top: 20px;
-    padding: 15px 30px;
     font-size: 1em;
     color: var(--color-footer-text);
     background-color: var(--color-secondary);
@@ -402,9 +412,11 @@ body.modal-open {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-
-
-    margin: 0 5px;
+    list-style: none;
+    display: list-item;
+    width: 200px;
+    margin: 10px auto;
+    padding: 10px;
 }
 
 .control-btn:hover {

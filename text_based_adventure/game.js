@@ -105,6 +105,14 @@ document.addEventListener('DOMContentLoaded', function() {
         closeModal('settings-modal');
     });
 
+    document.getElementById('load-game-settings').addEventListener('click', () => {
+        hideElement(gameArea);
+        document.getElementById('stats').style.display = 'none';
+        showElement(loadGameMenu);
+        closeModal('settings-modal');
+        // updateSaveSlots();
+    });
+
     // Close modals when clicking outside the modal
     window.addEventListener('click', function(event) {
         if (event.target.classList.contains('modal')) {
@@ -207,9 +215,9 @@ function updateSaveSlots() {
      //contains the number of save
       const save = JSON.parse(localStorage.getItem(`saveSlot${i}`));
       const slot = document.createElement('div');
-      slot.className = 'save-slot';
+      slot.className = 'control-btn';
       if (save) {
-        slot.innerHTML = `Slot ${i}: ${save.player} - ${save.date}`;
+        slot.innerHTML = `Slot ${i}: ${save.player}`;
         slot.onclick = function() {
             loadGame(i);
         };
@@ -239,14 +247,14 @@ document.getElementById('new-game-btn').addEventListener('click', () => {
     // Clear existing game state and start a new game
     //localStorage.removeItem('gameState');
     // You can reset the game state and update UI here
+    updateUI(); // Function to update your UI with the new game stats
     game_stats.settings = {
             chapter: 1,
             choice_number: 0,
             shop: false,
             dark_mode: false
     };
-    updateSaveSlots();
-    updateUI(); // Function to update your UI with the new game stats
+    
 });
 
 document.getElementById('load-game-btn').addEventListener('click', () => {
@@ -293,10 +301,7 @@ document.getElementById('menu-save-game-btn').addEventListener('click', () => {
     }
 });
   
-document.getElementById('load-game-settings').addEventListener('click', () => {
-    showElement(loadGameMenu);
-    updateSaveSlots();
-});
+
   
 // document.getElementById('delete-game').addEventListener('click', () => {
 //     if (game_stats.player.name && game_stats) {
