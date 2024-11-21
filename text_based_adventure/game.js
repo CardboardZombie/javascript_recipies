@@ -384,6 +384,7 @@ loadStory().then(story => {
     loadChapter(story, game_stats.settings.chapter).then(chapter => {
         choices = chapter;
         document.getElementById('nav-title').innerHTML = chapter["title"];
+        document.getElementById('player-title').innerHTML = game_stats.player.name;
         handleChoice(game_stats.settings.choice_number);
     }).catch(error => {
         console.error('Failed to load chapter:', error);
@@ -560,17 +561,17 @@ function updateStore(choice){
 }
 
 function openStore() {
-    document.getElementById('storeModal').style.display = 'flex';
+    document.getElementById('store-modal').style.display = 'flex';
 }
 
 function closeStore() {
-    document.getElementById('storeModal').style.display = 'none';
+    document.getElementById('store-modal').style.display = 'none';
 }
 
 
 // Example of other interactions (e.g., buying an item) to save the state after an action
 function buyItem(itemName, cost) {
-    const scoreElement = document.getElementById('score-value');
+    const scoreElement = document.getElementById('coin-value');
     let currentScore = parseFloat(game_stats.player.coin);
     
     if (currentScore >= cost) {

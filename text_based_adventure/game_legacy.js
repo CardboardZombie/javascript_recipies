@@ -37,7 +37,7 @@ let gameState = {
     }
 };
 
-const choices = {
+const choices_var = {
     400: { 
         description: "",
         success: { next: 27, text: "ChoiceOne" },

@@ -114,7 +114,7 @@
             "success": { "next": 30, "text": "Greet Mayor Anathram" }
         },
         "23": { 
-            "description": "You hear something in the woods off to one side and spin in that direction. A pair of golden yellow eyes peers out out of the dark underbrush, soon joined by a second pair.<br><br>Turning around, you see more eyes gathering in the gloom around you. Before you even consider it as an option, a shaggy, dark grey wolf steps out onto the path behind you.<br><br>Hopelessly outnumbered, you can either square up to fight the pack of wolves or sprint for the town",
+            "description": "You hear something in the woods off to one side and spin in that direction. A pair of golden yellow eyes peers out out of the dark underbrush, soon joined by a second pair.<br><br>Turning around, you see more eyes gathering in the gloom around you. Before you even consider it as an option, a shaggy, dark grey wolf steps out onto the path behind you.<br><br>Hopelessly outnumbered, you can either square up to fight the pack of wolves or sprint for the town.",
             "success": { "next": 33, "text": "Fight the wolves" },
             "failure": { "next": 40, "text": "Make a break for it" }
         },
