@@ -22,7 +22,7 @@
             <ul>
                 <li><a href="#" id="toggle-dark-mode">Dark Mode</a></li>
                 <li><a href="#" id="menu-btn-skillpoints">Skillpoints</a></li>
-                <li><a href="#">FAQs</a></li>
+                <li><a href="#" id="menu-btn-faqs">FAQs</a></li>
             </ul>
         </nav>
         <!-- Settings Menu -->
@@ -78,21 +78,22 @@
                     <li>
                         <label for="player-name">Name:</label>
                         <span id="username-error" class="error-handling">Name cannot exceed 50 characters</span>
-                        <input type="text" id="player-name">
+                        <input type="text" id="player-name" placeholder="Full Name...">
                     </li>
                     <li>
                         <label for="player-health">Health:</label>
                         <span id="health-error" class="error-handling">Health cannot exceed 50!</span>
-                        <input type="number" id="player-health" min="1" max="50">
+                        <input type="number" id="player-health" min="1" max="50" placeholder="Hit die roll + your Con Modifier">
                     </li>
                     <li>
                         <label for="player-armour">Armour Class:</label>
-                        <input type="number" id="player-armour" value="10">
+                        <span id="ac-error" class="error-handling">Armour class cannot exceed 20!</span>
+                        <input type="number" id="player-armour" min="5" max="20" placeholder="10 + your Dex Modifier">
                     </li>
                     <li>
                         <label for="player-coin">Starting Coin:</label>
                         <span id="coin-error" class="error-handling">Coin cannot exceed 200!</span>
-                        <input type="number" id="player-coin" min="0" max="200">
+                        <input type="number" id="player-coin" min="0.00" max="200.00" placeholder="Max 200.00 coins to start..">
                     </li>
                     <button id="submit-profile-btn">Submit</button>
                 </ul>
@@ -110,6 +111,9 @@
         </section>
         <section class="adventure-ui">
             <div class="stats" id="stats" style="display: none;">
+                <div class="player">
+                    <button class="edit-profile-btn" id="edit-profile-btn">&#9998;</button>
+                </div>
                 <!-- Armour Class (AC) -->
                 <div class="armour-class">
                     <div class="shield-container">
@@ -123,24 +127,20 @@
                     </div>
                 </div>
                 <!-- Score (Coins) -->
-                <div class="coin">
-                    <div class="coin-container">
-                        <span id="coin-value">0</span>
-                    </div>
+                <div class="coin-container">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1045/1045243.png" class="score-icon" alt="coin icon">
+                    <span id="coin-value">0</span>
+                </div>
+                <!-- Inspiration -->
+                <div class="inspiration">
+                    <span class="inspiration-symbol">&#9752;</span>
+                    <!-- <div class="tooltip">Roll Advantage (single-use)</div> -->
                 </div>
                 <!-- Shop Button -->
                 <div id="store" class="shop" style="display: none;">
                     <span id="shop-btn" onclick="openStore()">
                         <img src="https://cdn2.iconfinder.com/data/icons/travel-places-1/50/1F3EA-convenience-store-C-512.png" class="score-icon">
                     </span>
-                </div>
-                <!-- Inspiration -->
-                <div class="inspiration">
-                    <span class="inspiration-symbol">+</span>
-                    <div class="tooltip">Apply advantage to one d20 roll. (single-use)</div>
-                </div>
-                <div class="player">
-                    <button class="edit-profile-btn" id="edit-profile-btn">&#9998;</button>
                 </div>
             </div>
             <section id="main-menu" class="game-controls">
@@ -302,6 +302,23 @@
                         <button class="shop-btn" onclick="buyItem('Whetstone', 0.01)">1 cp</button>
                     </div>
                 </div> 
+            </div>
+        </div>
+
+        <div id="faq-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeStore()">&times;</span>
+                <h2>FAQs</h2>
+                <div class="tabs">
+                    <div class="tab active" data-tab="how-to-play">How to Play</div>
+                    <div class="tab" data-tab="how-to-save">Tools</div>
+                    <div class="tab" data-tab="how-to-dnd">Weapons</div>
+                </div>
+                <div id="how-to-play" class="tab-content active">
+                    <div class="modal-item">
+                        <p>Armour Class (AC) is calculated in two ways:<br>If you don't wear any armor it's 10 + your dex mod.<br>If you ARE wearing armor, you use the AC of the armor.</p>
+                    </div>
+                </div>
             </div>
         </div>
         

@@ -15,6 +15,8 @@ let game_stats = {
         dark_mode: false
     }
 };
+let timeoutId = null;
+let currentSaveSlot = null;
 
 const mainMenu = document.getElementById('main-menu');
 const gameOptions = document.getElementById('game-options-menu');
@@ -39,9 +41,10 @@ document.addEventListener('DOMContentLoaded', function() {
     var skillpointsModal = document.getElementById('skillpoints-modal');
     var playerInfoModal = document.getElementById('player-info-modal');
     var settingsModal = document.getElementById('settings-modal');
-
+    var faqModal = document.getElementById('faq-modal');
     // Buttons
     var skillpointsBtn = document.getElementById('menu-btn-skillpoints');
+    var faqBtn = document.getElementById('menu-btn-faqs');
     var settingsBtn = document.getElementById('settings-btn');
     var editProfileBtn = document.getElementById('edit-profile-btn');
     var closeBtns = document.getElementsByClassName('close-btn');
@@ -72,6 +75,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Open Skill Points Modal
     skillpointsBtn.addEventListener('click', function() {
         openModal('skillpoints-modal');
+    });
+
+    faqBtn.addEventListener('click', function() {
+        openModal('faq-modal');
     });
 
     settingsBtn.addEventListener('click', function() {
@@ -132,16 +139,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
         var usernameError = document.getElementById('username-error');
         var healthError = document.getElementById('health-error');
+        var armourError = document.getElementById('ac-error');
         var coinError = document.getElementById('coin-error');
 
         // Reset errors
         usernameError.display = 'none';
+        armourError.display = 'none';
         healthError.style.display = 'none';
         coinError.style.display = 'none';
 
-        if(health > 50 || coin > 200 || name.length > 50) {
+        if(health > 50 || armour > 20 || coin > 200 || name.length > 50) {
             if(health > 50){
                 healthError.style.display = 'inline';
+            }
+            if(armour > 20){
+                armourError.style.display = 'inline';
             }
             if (coin > 200) {
                 coinError.style.display = 'inline';
@@ -185,7 +197,7 @@ function loadGame(slot) {
         updateUI();
         document.getElementById('player-name').value = game_stats.player.name;
         document.getElementById('player-health').value = game_stats.player.health;
-        document.getElementById('player-coin').value = game_stats.player.coin;
+        document.getElementById('player-coin').value = game_stats.player.coin.toFixed(2);
         document.getElementById('player-armour').value = game_stats.player.armour_class;
         document.getElementById('stats').style.display = 'flex';
         startGame();
@@ -239,40 +251,6 @@ function displayMessage(message) {
         output.scrollTop = output.scrollHeight; // Scroll to bottom
     });
     
-}
-
-function typeWriter(text, element, callback) {
-    let i = 0;
-    let isTag = false;
-    let textBuffer = '';
-    const speed = 25; // Speed in milliseconds
-
-    function type() {
-        if (i < text.length) {
-            const char = text.charAt(i);
-            if(char === '<'){
-                isTag = true;
-            }
-
-            if(isTag){
-                textBuffer += char;
-                if(char === '>'){
-                    isTag = false;
-                    element.innerHTML += textBuffer;
-                    textBuffer = '';
-                }
-            }
-            else{
-                element.innerHTML += char;
-            }
-
-            i++;
-            setTimeout(type, isTag? 0 : speed);
-        } else if (callback) {
-            callback();
-        }
-    }
-    type();
 }
 
 function handleChoice(choiceNumber){
@@ -377,7 +355,7 @@ document.getElementById('back-to-options').addEventListener('click', () => {
 // Utility function to update the UI based on game state
 function updateUI() {
     document.getElementById('health-value').textContent = game_stats.player.health;
-    document.getElementById('coin-value').textContent = game_stats.player.coin;
+    document.getElementById('coin-value').textContent = game_stats.player.coin.toFixed(2);
     document.getElementById('ac-value').textContent = game_stats.player.armour_class;    // Update other stats as needed
 // Update chapter title and choices if applicable
 loadStory().then(story => {
@@ -419,34 +397,42 @@ if (!chapter) {
 return chapter;
 }
 
-function typeWriter(text, element, callback) {
-let i = 0;
-const speed = 25; // Speed in milliseconds
 
-function type() {
-    if (i < text.length) {
-        if (text.charAt(i) === '<') {
-            const endIndex = text.indexOf('>', i);
-            if (endIndex !== -1) {
-                const tag = text.substring(i, endIndex + 1);
-                element.innerHTML += tag;
-                i = endIndex + 1;
+function typeWriter(text, element, callback) {
+
+    // Clear the previous timeout if it exists
+    if (timeoutId !== null) {
+        clearTimeout(timeoutId);
+    }
+
+    let i = 0;
+    const speed = 25; // Speed in milliseconds
+    element.innerHTML = ""; // Clear any previous content before typing new text
+
+    function type() {
+        if (i < text.length) {
+            if (text.charAt(i) === '<') {
+                const endIndex = text.indexOf('>', i);
+                if (endIndex !== -1) {
+                    const tag = text.substring(i, endIndex + 1);
+                    element.innerHTML += tag;
+                    i = endIndex + 1;
+                } else {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                }
             } else {
                 element.innerHTML += text.charAt(i);
                 i++;
             }
-        } else {
-            element.innerHTML += text.charAt(i);
-            i++;
+
+            timeoutId = setTimeout(type, speed);
+        } else if (callback) {
+            callback();
         }
-
-        setTimeout(type, speed);
-    } else if (callback) {
-        callback();
     }
-}
 
-type();
+    type();
 }
 
 function handleChoice(choiceNumber){
@@ -521,22 +507,21 @@ descriptionElement.innerHTML = '';
 }
 
 function handleInspiration(choice) {
-    const inspirationElement = document.querySelector(".inspiration");
+    const inspirationElement = document.querySelector(".inspiration-symbol");
 
     if (choice.inspiration) {
         game_stats.player.inspiration = true;
     }
 
     if (game_stats.player.inspiration) {
-        inspirationElement.style.color = '#4CAF50';
+        inspirationElement.style.color = '#6D9C6F';
         inspirationElement.style.pointerEvents = 'auto';
-        inspirationElement.classList.add('green');
+        inspirationElement.style.animation= 'bounce 2s infinite 2s';
 
         inspirationElement.onclick = () => {
             inspirationElement.style.color = 'grey';
             inspirationElement.style.pointerEvents = 'none';
-            inspirationElement.classList.remove('green');
-
+            inspirationElement.style.animation= 'none';
             game_stats.player.inspiration = false;
         };
     } 
@@ -545,7 +530,7 @@ function handleInspiration(choice) {
 function updateScore(choice) {
     if (choice.coin) {
         game_stats.player.coin += choice.coin;
-        document.getElementById('coin-value').innerText = game_stats.player.coin;
+        document.getElementById('coin-value').innerText = game_stats.player.coin.toFixed(2);
     }
 }
 
@@ -572,7 +557,7 @@ function closeStore() {
 // Example of other interactions (e.g., buying an item) to save the state after an action
 function buyItem(itemName, cost) {
     const scoreElement = document.getElementById('coin-value');
-    let currentScore = parseFloat(game_stats.player.coin);
+    let currentScore = game_stats.player.coin;
     
     if (currentScore >= cost) {
         alert(`Add ${itemName} to your Inventory!`);
@@ -582,7 +567,9 @@ function buyItem(itemName, cost) {
     } else {
         alert('Not enough GP to buy this item.');
     }
-    scoreElement.textContent = currentScore.toFixed(2);
+    scoreElement.textContent = game_stats.player.coin;
+    console.log(game_stats.player.inventory);
+    console.log(game_stats.player.coin);
     //saveGame(); // Save game state after purchase
 }
 

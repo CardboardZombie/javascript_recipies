@@ -4,11 +4,9 @@
 
         "0": { 
             "description": "After a long day on the road, you crest a hill and see the lights of a town. According to maps and helpful locals you've consulted, this must be Langston. Though the last blush of sunset still colors the sky to the west, lamplight is already visible at the gate and in the streets.<br><br>In the dim twilight, you can clearly see that the dirt road you've been travelling transitions to cobblestones, and a simple stone wall rings the town. Even from the distance, you can see the timber-framed walls of the buildings in the town are well-maintained with fresh whitewash that glow golden in the lamplight. It's a beautiful little town, a prosperous trading hub nestled among the fertile farmland and old-growth forest you've spent the last few days traversing<br><br>The stars are just starting to emerge as the lone howl of a wolf splits the silence off somewhere in the woods. A chorus of responding howls take up the call, some uncomfortably close. And getting closer.<br><br>You pick up your pace to put more distance between you and the wilderness in the hope of a soft bed, a hot meal, and some work for an enterprising adventurer. A town as prosperous as Langston looks like a place to do good, earn coin, and achieve glory. Maybe all three at once, so long as you aren't eaten by wolves between here and there. <br><br>Roll a Wisdom (Perception) check.",
-            "success": { "next": 23, "text": "Rolled 10 or higher" },
+            "success": { "next": 48, "text": "Rolled 10 or higher" },
             "failure": { "next": 11, "text": "Rolled less than 10" },
-            "coin":20,
-            "inspiration": true,
-            "shop": true
+            "inspiration": true
         },
         "1": { 
             "description": "Your hopes for a meal and friendly conversation are dashed with what you find in the marketplace. More specifically, you're disappointed with what you don't find.<br><br>It's empty, filled only with a mournful hush. Street vendors are closed, windows are shuttered. Lamplighters have still passed through to fill the square with warm pools of light, but everything feels muted under the weight of an oppressive sadness.<br><br>You're looking for someone - anyone - when a solitary figure in a white robe bustles out from a side street, nearly dropping a sheaf of papers. The robe's hood is down, so you can see that it's a young human woman with a light blond hair. Her robes bear sunburst motifs around the neck and collar and a similar symbol made of gold hangs from around her neck. This appears to be a sun cleric.<br><br>Call out to the cleric or follow her down the empty streets",
