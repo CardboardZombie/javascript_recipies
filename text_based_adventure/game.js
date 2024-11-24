@@ -33,23 +33,22 @@ function hideElement(element) {
     element.style.display = 'none';
 }
 
+function closeMenuSlider(){
+    document.getElementById('slider-menu').classList.remove('menu-open'); // Disable dark mode
+}
+
 document.getElementById('menu-btn').addEventListener('click', () => {
     document.getElementById('slider-menu').classList.toggle('menu-open');
 });
 
 document.addEventListener('DOMContentLoaded', function() {
     // Modal elements
-    var skillpointsModal = document.getElementById('skillpoints-modal');
-    var playerInfoModal = document.getElementById('player-info-modal');
-    var settingsModal = document.getElementById('settings-modal');
-    var faqModal = document.getElementById('faq-modal');
     // Buttons
     var skillpointsBtn = document.getElementById('menu-btn-skillpoints');
     var faqBtn = document.getElementById('menu-btn-faqs');
     var settingsBtn = document.getElementById('settings-btn');
     var editProfileBtn = document.getElementById('edit-profile-btn');
     var closeBtns = document.getElementsByClassName('close-btn');
-    var menuSaveGameBtn = document.getElementById('menu-save-game-btn');
     var submitProfileBtn = document.getElementById('submit-profile-btn');
     var howToBtn = document.getElementById('how-to-play-btn');
     var newGameBtn = document.getElementById('new-game-btn');
@@ -69,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('username-error').style.display = 'none';
                 document.getElementById('health-error').style.display = 'none';
                 document.getElementById('coin-error').style.display = 'none';
-
+                document.getElementById('ac-error').style.display = 'none';
 
                 console.log(`Stats View ${document.getElementById('stats').style.display}`)
                 if(document.getElementById('stats').style.display == 'none'){
@@ -150,17 +149,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('load-game-settings').addEventListener('click', () => {
         hideElement(gameArea);
+        hideElement(mainMenu);
         document.getElementById('stats').style.display = 'none';
         hideElement(gameOptions);
         showElement(loadGameMenu);
         closeModal('settings-modal');
-        // updateSaveSlots();
+        updateSaveSlots();
     });
 
     // Close modals when clicking outside the modal
     window.addEventListener('click', function(event) {
         if (event.target.classList.contains('modal')) {
             closeModal(event.target.id);
+        }
+        if (event.target.id !== 'menu-btn' && event.target.classList.contains('toggle-dark-mode') === false) {
+            closeMenuSlider();
         }
         console.log(`closed ${event.target.id}`);
         
@@ -332,7 +335,7 @@ document.getElementById('menu-save-game-btn').addEventListener('click', () => {
                 const save = JSON.parse(savedData);
                 if (save.player === game_stats.player.name) {
                     saveGame(i); // Overwrite the slot
-                    alert(`Game saved by overwriting existing save slot ${i}.`);
+                    alert(`Slot ${i}: ${game_stats.player.name} updated.`);
                     return;
                 }
             }
@@ -342,7 +345,7 @@ document.getElementById('menu-save-game-btn').addEventListener('click', () => {
         for (let i = 1; i <= 3; i++) {
             if (!localStorage.getItem(`saveSlot${i}`)) {
                 saveGame(i); // Use the first available slot
-                alert(`Game saved in slot ${slot}`);
+                alert(`Slot ${i}: ${game_stats.player.name} created.`);
                 return;
             }
         }
@@ -358,7 +361,7 @@ function deleteSave(slot) {
     if (localStorage.getItem(`saveSlot${slot}`)) {
         localStorage.removeItem(`saveSlot${slot}`);
         document.getElementById(`save-slot-${slot}`).innerHTML = `Slot ${slot}: Empty`;
-        alert(`Save slot ${slot} has been deleted.`);
+        alert(`Slot ${slot}: ${game_stats.player.name} deleted.`);
         updateSaveSlots();
     } else {
         alert(`Save slot ${slot} is already empty.`);
@@ -659,10 +662,14 @@ function handleInspiration(choice) {
         inspirationElement.style.animation= 'bounce 2s infinite 2s';
 
         inspirationElement.onclick = () => {
-            inspirationElement.style.color = 'grey';
-            inspirationElement.style.pointerEvents = 'none';
-            inspirationElement.style.animation= 'none';
-            game_stats.player.inspiration = false;
+            const userConfirmed = confirm("Are you sure you want to use Inspiration?\n(This is a single-use advantage to your current roll)");
+            if (userConfirmed) {
+                // User clicked "OK"
+                inspirationElement.style.color = 'grey';
+                inspirationElement.style.pointerEvents = 'none';
+                inspirationElement.style.animation= 'none';
+                game_stats.player.inspiration = false;
+            }
         };
     } 
 }

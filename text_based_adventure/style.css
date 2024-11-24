@@ -344,6 +344,7 @@ body.modal-open {
 .inspiration-symbol {
     font-size: 35px;
     color: grey;
+    cursor: pointer;
 }
 
 .tooltip {
