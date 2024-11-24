@@ -33,7 +33,7 @@
                 <ul style="list-style: none;">
                     <button id="menu-save-game-btn" class="control-btn">Save Game</button>
                     <button id="load-game-settings" class="control-btn">Load Game</button>
-                    <!-- <button id="delete-game" class="control-btn">Delete Game</button> -->
+                    <button id="delete-game" class="control-btn">Delete Game</button>
                     <button id="quit-game" class="control-btn">Quit Game</button>
                 </ul>
             </div>
@@ -72,7 +72,7 @@
         <!-- Player Info Modal -->
         <div id="player-info-modal" class="modal">
             <div class="modal-content">
-                <span class="close-btn" >&times;</span>
+                <span id="close-player-modal" class="close-btn" >&times;</span>
                 <h2>Player Information</h2>
                 <ul style="list-style: none;">
                     <li>
@@ -149,10 +149,11 @@
             <section id="game-options-menu" class="game-controls" style="display: none;">
                 <button id="new-game-btn" class="control-btn">New Game</button>
                 <button id="load-game-btn" class="control-btn">Continue...</button>
+                <button id="how-to-play-btn" class="control-btn">How to Play</button>
                 <button id="back-btn" class="control-btn">Exit Game</button>
             </section>
             <section id="load-game-menu" style="display: none;">
-                <h2>Load Game</h2>
+                <h2 id="load-game-title" style="color: white">Load Game</h2>
                 <div id="save-slots"></div>
                 <button id="back-to-options" class="control-btn">Back</button>
             </section>
@@ -311,13 +312,45 @@
                 <h2>FAQs</h2>
                 <div class="tabs">
                     <div class="tab active" data-tab="how-to-play">How to Play</div>
-                    <div class="tab" data-tab="how-to-save">Tools</div>
-                    <div class="tab" data-tab="how-to-dnd">Weapons</div>
+                    <div class="tab" data-tab="whats-needed">What You'll Need</div>
+                    <div class="tab" data-tab="how-to-dnd">How to DnD</div>
                 </div>
                 <div id="how-to-play" class="tab-content active">
-                    <div class="modal-item">
-                        <p>Armour Class (AC) is calculated in two ways:<br>If you don't wear any armor it's 10 + your dex mod.<br>If you ARE wearing armor, you use the AC of the armor.</p>
-                    </div>
+                    <h3>How to Play</h3>
+                    <p>As you read, you will have to follow prompts to progress through the story toward your goal. The adventure is broken down into sections within chapters. You will need to make choices to navigate your path.</p>
+                    <h3>The Goal</h3>
+                    <p>Though the exact goal will vary based on the story, your goal as the player will always be to reach the end of the adventure in one piece.</p>
+                    <p>Know that there will be obstacles and hazards in your path that will challenge (or even kill) your character. You will have to use your character's abilities - and your own wits - to overcome them to reach the story's goal.</p>
+                    <h3>About You</h3>
+                    <p>You are the hero of this solo adventure. But who are you? I honestly don't know.<br>This is written to be played by whatever character you want. There are no restrictions. That means you could play a new character just getting started, or you could use this adventure as a DM-approved downtime activity between sessions.</p>
+                    <p>The story has been made in such a way that any character can succeed. Of course, some adventures will be easier or harder based on your character, but your choices as the player will help guide your character through their challenges.</p>
+                    <p>The only real restriction or guide-to-playing included is that the stories lean towards heroism. This story has been written for Tier 1 (levels 1 to 4) characters to play. This means that certain parts will be challenging for a level 1 character but most will be very easy for a level 4 character.</p>
+                    <h3>After The Adeventure</h3>
+                    <p>Over the course of this adventure, your character will receive various rewards in terms of treasure, items and experience. These rewards are designed in such a way that you can take them on to another solo adventure or even join a tabletop session if your DM allows.</p>
+                    <p>Your character's adventure doesn't have to end here, but instead treat this solo adventure as just one part of your epic journey.</p>
+                    <p>Whichever direction you take when you're done, your character can keep whatever levels and treasure you've found along the way.</p>
+                </div>
+                <div id="whats-needed" class="tab-content">
+                    <h3>What You'll Need</h3>
+                    <p>To play this solo adventure, you'll need the following:</p>
+                    <p>
+                        <ul style="padding-left: 20px;">
+                            <li>A 5e character of level 1 or 2</li>
+                            <li>A set of dice</li>
+                            <li>An understanding of the basic rules of <a href="https://www.dndbeyond.com/sources/basic-rules">Dungeons & Dragons 5th Edition</a></li>
+                        </ul>
+                    </p>
+                </div>
+                <div id="how-to-dnd" class="tab-content">
+                    <h3>Rolling Dice</h3>
+                    <p>Many sections don't give you the choice but instead require you to roll some kind of check (usually a skill check).</p>
+                    <p>The choice is based on the results of a skill check. For example: Roll a Strength (Athletics) Check - You would roll a 20-sided dice (d20) and then add your Athletics skill bonus as it appears on your character sheet.</p>
+                    <p>Other situations may call on you to roll dice for random effects like saving throws against negative effects, being damaged by your environment, or randomizing certin events in the story. These will be prompted as needed.</p>
+                    <h3>Advantage and Disadvantage</h3>
+                    <p>Some effects apply Advantage or Disadvantage to your d20 dice rolls. In both, you roll the d20 two times. When you have Advantage, you choose the better of the two. Conversely, Disadvantage forces you to choose the worse result of the two.</p>
+                    <h3>&#9752; Inspiration &#9752;</h3>
+                    <p>Inspiration is a single-use point that allows you to apply advantage to one d20 roll. You can only use inspiration when the &#9752; symbol is <span style="color: green">&#9752;</span> by clicking it in the stats-menu.</p>
+                    <p>Since you are playing alone without the benefit of a party to support you, this is a little reward that can come in useful when you are on the right track to be used later on for when you're in a tough spot.</p>
                 </div>
             </div>
         </div>

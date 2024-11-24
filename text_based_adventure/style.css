@@ -514,6 +514,11 @@ body.modal-open {
     font-size: 1.5rem;
 }
 
+#load-game-menu {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 #game-overview p {
     line-height: 1.6;
 }

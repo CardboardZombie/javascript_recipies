@@ -12,7 +12,8 @@ let game_stats = {
         chapter: 1,
         choice_number: 0,
         shop: false,
-        dark_mode: false
+        dark_mode: false,
+        skillpoints: [false, false, false, false, false]
     }
 };
 let timeoutId = null;
@@ -50,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var closeBtns = document.getElementsByClassName('close-btn');
     var menuSaveGameBtn = document.getElementById('menu-save-game-btn');
     var submitProfileBtn = document.getElementById('submit-profile-btn');
-
+    var howToBtn = document.getElementById('how-to-play-btn');
     var newGameBtn = document.getElementById('new-game-btn');
 
     // Function to open a modal
@@ -68,9 +69,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('username-error').style.display = 'none';
                 document.getElementById('health-error').style.display = 'none';
                 document.getElementById('coin-error').style.display = 'none';
+
+
+                console.log(`Stats View ${document.getElementById('stats').style.display}`)
+                if(document.getElementById('stats').style.display == 'none'){
+                    showElement(gameOptions);
+                }
+            }
+            if(modalId === 'skillpoints-modal' && game_stats.player.name){
+                for(var i = 0; i < 5; i++){
+                    const checkbox = document.getElementById(`objective${i+1}`);
+                    if (checkbox.checked) {
+                        game_stats.settings.skillpoints[i] = true;
+                    }
+                }
             }
         }
     }
+
+    howToBtn.addEventListener('click', function(){
+        openModal('faq-modal');
+    });
 
     // Open Skill Points Modal
     skillpointsBtn.addEventListener('click', function() {
@@ -92,6 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     newGameBtn.onclick = function() {
         openModal('player-info-modal');
+        
     };
 
     // Close modals when clicking on <span> (x)
@@ -112,6 +132,20 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('stats').style.display = 'none';
         showElement(mainMenu);
         closeModal('settings-modal');
+        document.getElementById('nav-title').innerHTML = 'The Wolves of Langston';
+        document.getElementById('player-title').innerHTML = 'Be the hero Langston needs.';
+        document.getElementById('player-health').value = '';
+        document.getElementById('player-armour').value = '';
+        document.getElementById('player-coin').value = '';
+        document.getElementById('player-name').value = '';
+
+        for(var i = 1; i < 6; i++){
+            const checkbox = document.getElementById(`objective${i}`);
+            if (checkbox) {
+                checkbox.checked = false; // Uncheck the checkbox
+                console.log("Checkbox has been reset.");
+            }
+        }
     });
 
     document.getElementById('load-game-settings').addEventListener('click', () => {
@@ -128,6 +162,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (event.target.classList.contains('modal')) {
             closeModal(event.target.id);
         }
+        console.log(`closed ${event.target.id}`);
+        
     });
 
     // Validate and submit player info
@@ -147,7 +183,9 @@ document.addEventListener('DOMContentLoaded', function() {
         armourError.display = 'none';
         healthError.style.display = 'none';
         coinError.style.display = 'none';
-
+        console.log(health);
+        console.log(name);
+        console.log(armour);
         if(health > 50 || armour > 20 || coin > 200 || name.length > 50) {
             if(health > 50){
                 healthError.style.display = 'inline';
@@ -162,9 +200,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 usernameError.style.display = 'inline';
             } 
         }
+        else if(health == '' || armour == '' || coin == '' || name == ''){
+            if(health == null){
+                healthError.style.display = 'inline';
+            }
+            if(armour == null){
+                armourError.style.display = 'inline';
+            }
+            if (coin == null) {
+                coinError.style.display = 'inline';
+            }
+            if(name == null){
+                usernameError.style.display = 'inline';
+            } 
+        }
         else{
             closeModal('player-info-modal');
             // Handle valid data submission
+            console.log(game_stats.player);
             game_stats.player = {
                     name: name,
                     health: parseInt(health),
@@ -183,6 +236,30 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+async function loadStory() {
+    try {
+        let response = await fetch('story.json');
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        let story = await response.json();
+        return story;
+    } catch (error) {
+        console.error('Failed to load story:', error);
+    }
+    }
+    
+async function loadChapter(story, chapterNumber) {
+    let chapterKey = `chapter_${chapterNumber}`;
+    console.log(chapterKey);
+    let chapter = story[chapterKey];
+    if (!chapter) {
+        console.error('Chapter not found:', chapterNumber);
+        return null;
+    }
+    return chapter;
+}
+
 function loadGame(slot) {
     const save = JSON.parse(localStorage.getItem(`saveSlot${slot}`));
     
@@ -191,7 +268,7 @@ function loadGame(slot) {
 
         game_stats = save.state;
         console.log(game_stats.player.name);
-        console.log(game_stats.player.health);
+        console.log(game_stats.settings);
         console.log("Game loaded!", game_stats);
         console.log("Get ready to pick up where you left off!");
         updateUI();
@@ -200,6 +277,17 @@ function loadGame(slot) {
         document.getElementById('player-coin').value = game_stats.player.coin.toFixed(2);
         document.getElementById('player-armour').value = game_stats.player.armour_class;
         document.getElementById('stats').style.display = 'flex';
+
+        for(var i = 0; i< 5; i++){
+            const checkbox = document.getElementById(`objective${i+1}`);
+            if (game_stats.settings.skillpoints[i]) {
+                checkbox.checked = true; 
+                console.log("Skillpoints have been loaded.");
+            }
+        }
+
+        setDarkMode(game_stats.settings.dark_mode);
+
         startGame();
     } else {
         alert('No save data found in this slot.');
@@ -213,14 +301,7 @@ function saveGame(slot) {
       date: new Date().toLocaleString()
     };
     localStorage.setItem(`saveSlot${slot}`, JSON.stringify(save));
-    alert(`Game saved in slot ${slot}`);
 }
-
-// function deleteGame(slot) {
-//     localStorage.removeItem(`saveSlot${slot}`);
-//     alert(`Save in slot ${slot} deleted`);
-//     updateSaveSlots();
-// }
 
 function updateSaveSlots() {
     saveSlots.innerHTML = '';
@@ -228,6 +309,7 @@ function updateSaveSlots() {
      //contains the number of save
       const save = JSON.parse(localStorage.getItem(`saveSlot${i}`));
       const slot = document.createElement('div');
+      slot.id = `save-slot-${i}`;
       slot.className = 'control-btn';
       if (save) {
         slot.innerHTML = `Slot ${i}: ${save.player}`;
@@ -240,6 +322,79 @@ function updateSaveSlots() {
       saveSlots.appendChild(slot);
     }
 }
+
+document.getElementById('menu-save-game-btn').addEventListener('click', () => {
+    if (game_stats.player.name && game_stats) {
+        // Check for an existing save with the same player name
+        for (let i = 1; i <= 3; i++) {
+            const savedData = localStorage.getItem(`saveSlot${i}`);
+            if (savedData) {
+                const save = JSON.parse(savedData);
+                if (save.player === game_stats.player.name) {
+                    saveGame(i); // Overwrite the slot
+                    alert(`Game saved by overwriting existing save slot ${i}.`);
+                    return;
+                }
+            }
+        }
+
+        // Check for an open slot if no matching player name was found
+        for (let i = 1; i <= 3; i++) {
+            if (!localStorage.getItem(`saveSlot${i}`)) {
+                saveGame(i); // Use the first available slot
+                alert(`Game saved in slot ${slot}`);
+                return;
+            }
+        }
+
+        // If no slots are free and no matches were found, alert the user
+        alert('All save slots are full. Please delete a save to continue.');
+    } else {
+        alert('No active game to save.');
+    }
+});
+
+function deleteSave(slot) {
+    if (localStorage.getItem(`saveSlot${slot}`)) {
+        localStorage.removeItem(`saveSlot${slot}`);
+        document.getElementById(`save-slot-${slot}`).innerHTML = `Slot ${slot}: Empty`;
+        alert(`Save slot ${slot} has been deleted.`);
+        updateSaveSlots();
+    } else {
+        alert(`Save slot ${slot} is already empty.`);
+    }
+}
+
+document.getElementById('delete-game').addEventListener('click', () => {
+    if (game_stats.player.name) {
+        let saveFound = false;
+
+        // Loop through all save slots to find a match by player name
+        for (let i = 1; i <= 3; i++) {
+            const savedData = localStorage.getItem(`saveSlot${i}`);
+            if (savedData) {
+                const save = JSON.parse(savedData);
+
+                // Check if the player name matches the current player's name
+                if (save.player === game_stats.player.name) {
+                    localStorage.removeItem(`saveSlot${i}`);
+                    alert(`Save for player "${game_stats.player.name}" deleted from slot ${i}.`);
+                    saveFound = true;
+                    break; // Exit the loop after deletion
+                }
+            }
+        }
+
+        // Notify if no matching save was found
+        if (!saveFound) {
+            alert(`No save found for player "${game_stats.player.name}".`);
+        }
+    } else {
+        alert('No active player to delete a save for.');
+    }
+});
+
+
 
 // Function to display a message
 function displayMessage(message) {
@@ -327,11 +482,22 @@ document.getElementById('start-btn').addEventListener('click', () => {
 
 document.getElementById('new-game-btn').addEventListener('click', () => {
     hideElement(gameOptions);
-    game_stats.settings = {
+    game_stats = {
+        player: {
+            name: "",
+            health: 0,
+            armour_class: 0,
+            coin: 0,
+            inventory: [],
+            inspiration: false
+        },
+        settings: {
             chapter: 1,
             choice_number: 0,
             shop: false,
-            dark_mode: false
+            dark_mode: false,
+            skillpoints: [false, false, false, false, false]
+        }
     };
     
 });
@@ -371,32 +537,6 @@ loadStory().then(story => {
     console.error('Failed to load story:', error);
 });
 }
-
-
-async function loadStory() {
-try {
-    let response = await fetch('story.json');
-    if (!response.ok) {
-        throw new Error('Network response was not ok ' + response.statusText);
-    }
-    let story = await response.json();
-    return story;
-} catch (error) {
-    console.error('Failed to load story:', error);
-}
-}
-
-async function loadChapter(story, chapterNumber) {
-let chapterKey = `chapter_${chapterNumber}`;
-console.log(chapterKey);
-let chapter = story[chapterKey];
-if (!chapter) {
-    console.error('Chapter not found:', chapterNumber);
-    return null;
-}
-return chapter;
-}
-
 
 function typeWriter(text, element, callback) {
 
@@ -552,8 +692,6 @@ function openStore() {
 function closeStore() {
     document.getElementById('store-modal').style.display = 'none';
 }
-
-
 // Example of other interactions (e.g., buying an item) to save the state after an action
 function buyItem(itemName, cost) {
     const scoreElement = document.getElementById('coin-value');
@@ -587,37 +725,21 @@ tabs.forEach(tab => {
 
 
 function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
+    // Toggle the dark-mode class on the body
+    const isDarkMode = document.body.classList.toggle('dark-mode');
+    // Update the game state
+    if(game_stats){
+        game_stats.settings.dark_mode = isDarkMode;
+    }
+    console.log(`Dark mode is now ${isDarkMode ? 'enabled' : 'disabled'}.`);
 }
 
-document.getElementById('menu-save-game-btn').addEventListener('click', () => {
-    if (game_stats.player.name && game_stats) {
-      for (let i = 1; i <= 3; i++) {
-        console.log(i);
-        if (!localStorage.getItem(`saveSlot${i}`)) {
-          saveGame(i);
-          return;
-        }
-      }
-      alert('All save slots are full. Please delete a save to continue.');
+function setDarkMode(enable){
+    if (enable) {
+        document.body.classList.add('dark-mode'); // Enable dark mode
     } else {
-      alert('No active game to save.');
+        document.body.classList.remove('dark-mode'); // Disable dark mode
     }
-});
-  
-// document.getElementById('delete-game').addEventListener('click', () => {
-//     if (game_stats.player.name && game_stats) {
-//       for (let i = 1; i <= 3; i++) {
-//         const save = JSON.parse(localStorage.getItem(`saveSlot${i}`));
-//         if (save && save.player.name === game_stats.player.name) {
-//           deleteGame(i);
-//           return;
-//         }
-//       }
-//       alert('No save found for the current player.');
-//     } else {
-//       alert('No active game to delete.');
-//     }
-// });
+}
   
 document.getElementById('toggle-dark-mode').addEventListener('click', toggleDarkMode);
