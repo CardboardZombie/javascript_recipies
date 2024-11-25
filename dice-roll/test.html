@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            #dice-container {
+                text-align: center;
+                margin-top: 20px;
+            }
+
+            #d6-dice-animation {
+                width: 50px;
+                height: 50px;
+                margin: 0 auto;
+                background: lightgray;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 24px;
+                border-radius: 8px;
+                animation: none; /* Placeholder for animation */
+            }
+
+            #dice-animation {
+                width: 100px;
+                height: 100px;
+                display: block;
+                margin: 0 auto;
+                transform-origin: center;
+                animation: none; /* Placeholder for animation */
+            }
+
+            @keyframes roll {
+                0% { transform: rotateX(0) rotateY(0); }
+                25% { transform: rotateX(90deg) rotateY(0); }
+                50% { transform: rotateX(90deg) rotateY(90deg); }
+                75% { transform: rotateX(180deg) rotateY(90deg); }
+                100% { transform: rotateX(180deg) rotateY(180deg); }
+            }
+            #dice-animation.rolling {
+                animation: roll 1.5s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="dice-container">
+            <svg id="dice-animation" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="50,5 90,25 90,75 50,95 10,75 10,25" fill="#2d89ef" stroke="#000" stroke-width="2"></polygon>
+                <text x="50%" y="50%" text-anchor="middle" fill="white" font-size="20px" dy=".3em">20</text>
+            </svg>
+            <p id="dice-result"></p>
+            <button id="roll-dice-btn">Roll Dice</button>
+        </div>
+        <script>
+            document.getElementById('roll-dice-btn').addEventListener('click', () => {
+                const diceAnimation = document.getElementById('dice-animation');
+                const diceResultText = document.querySelector('#dice-animation text');
+                const diceResult = document.getElementById('dice-result');
+
+                // Clear previous result and start rolling animation
+                diceResultText.textContent = '';
+                //diceAnimation.textContent = ''; // Clear content
+                diceAnimation.classList.add('rolling');
+
+                // Simulate dice roll after animation
+                setTimeout(() => {
+                    diceAnimation.classList.remove('rolling'); // Stop animation
+                    const result = rollDice(20); // Roll a d20
+                    diceResultText.textContent = result; // Update SVG with result
+                    diceResult.textContent = `You rolled a ${result}!`; // Show result
+                }, 1500); // Match duration with the animation timing
+            });
+
+            function rollDice(sides = 20) {
+                return Math.floor(Math.random() * sides) + 1;
+            }
+        </script>
+    </body>
+</html>

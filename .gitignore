@@ -1,2 +1,4 @@
 
 text_based_adventure/story.json
+*.png
+dice-roll/.DS_Store
