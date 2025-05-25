@@ -1,0 +1,10 @@
+{
+  "title": "The Wolves of Langston",
+  "author": "Tadhg Deeney",
+  "original_author": "Obvious Mimic",
+  "chapters": [
+    { "number": 1, "filename": "chapter_1.json", "unlocked": true },
+    { "number": 2, "filename": "chapter_2.json", "unlocked": false }
+  ],
+  "description": "A mystery-adventure solo story set in a forest town where not everything is what it seems..."
+}

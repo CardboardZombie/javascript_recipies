@@ -1,3 +1,35 @@
+// import { showElement, hideElement, openModal, closeModal, updateUI } from './ui.js';
+// import { game_stats, loadGame, saveGame, deleteSave } from './game_state.js';
+// import { setupEventListeners } from './event_listeners.js';
+// import { typeWriter, toggleDarkMode, setDarkMode } from './utils.js';
+
+// let choices;
+// let timeoutId = null;
+// let currentSaveSlot = null;
+
+// const mainMenu = document.getElementById('main-menu');
+// const gameOptions = document.getElementById('game-options-menu');
+// const loadGameMenu = document.getElementById('load-game-menu');
+// const gameArea = document.getElementById('story-prompts');
+// const saveSlots = document.getElementById('save-slots');
+
+// setupEventListeners();
+
+// document.getElementById('toggle-dark-mode').addEventListener('click', toggleDarkMode);
+
+// function startGame() {
+//     hideElement(mainMenu);
+//     showElement(gameArea);
+//     updateUI(game_stats, choices);
+// }
+
+// // Make functions accessible in the global scope if needed
+// window.startGame = startGame;
+// window.loadGame = loadGame;
+// window.saveGame = saveGame;
+// window.deleteSave = deleteSave;
+// window.updateSaveSlots = updateSaveSlots;
+
 let choices;
 let game_stats = {
     player: {
