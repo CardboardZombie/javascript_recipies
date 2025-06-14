@@ -1,29 +1,34 @@
 // renderStoreUI.js
 
+// renderStoreUI.js
+
 import { storeItems } from './storeData.js';
 
-export function renderGearTab() {
-  const gearTab = document.getElementById('gear');
-  if (!gearTab) return;
+export function renderStoreTabs() {
+  Object.keys(storeItems).forEach(tabName => {
+    const tabContainer = document.getElementById(tabName);
+    if (!tabContainer) return;
 
-  gearTab.innerHTML = ''; // Clear existing HTML
+    tabContainer.innerHTML = ''; // Clear old content
 
-  storeItems.gear.forEach(item => {
-    const itemContainer = document.createElement('div');
-    itemContainer.classList.add('modal-item');
+    storeItems[tabName].forEach(item => {
+      const itemContainer = document.createElement('div');
+      itemContainer.classList.add('modal-item');
 
-    const nameSpan = document.createElement('span');
-    nameSpan.classList.add('shop-description');
-    nameSpan.textContent = item.name;
+      const nameSpan = document.createElement('span');
+      nameSpan.classList.add('shop-description');
+      nameSpan.textContent = item.name;
 
-    const button = document.createElement('button');
-    button.classList.add('shop-btn');
-    button.setAttribute('data-item', item.name);
-    button.setAttribute('data-cost', item.cost);
-    button.textContent = item.label;
+      const button = document.createElement('button');
+      button.classList.add('shop-btn');
+      button.setAttribute('data-item', item.name);
+      button.setAttribute('data-cost', item.cost);
+      button.textContent = item.label;
 
-    itemContainer.appendChild(nameSpan);
-    itemContainer.appendChild(button);
-    gearTab.appendChild(itemContainer);
+      itemContainer.appendChild(nameSpan);
+      itemContainer.appendChild(button);
+      tabContainer.appendChild(itemContainer);
+    });
   });
 }
+

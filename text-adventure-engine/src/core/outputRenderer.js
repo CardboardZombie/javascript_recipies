@@ -42,7 +42,7 @@ export const OutputRenderer = (() => {
     }
 
     if (scene.shop) {
-      storeElem.style.display = scene.shop ? 'block' : 'none';
+      storeElem.style.display = scene.shop ? 'flex' : 'none';
     }
     // Optional: Render updated stats if needed
     updateStats();

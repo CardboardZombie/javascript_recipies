@@ -4,13 +4,12 @@ import { StateManager } from './core/stateManager.js';
 import { StoryEngine } from './core/storyEngine.js';
 import { OutputRenderer } from './core/outputRenderer.js';
 import { InputHandler } from './core/inputHandler.js';
-import { Store } from './modules/store.js';
-import { renderGearTab } from './modules/renderStoreUI.js';
+import { renderStoreTabs } from './modules/renderStoreUI.js';
 
 
 
 async function initGame() {
-  renderGearTab(); // Call this before InputHandler.setup()
+  renderStoreTabs(); // Call this before InputHandler.setup()
 
   // Boot up the state manager (loads from localStorage if present)
   StateManager.init();

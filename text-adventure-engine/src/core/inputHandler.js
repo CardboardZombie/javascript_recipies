@@ -15,11 +15,40 @@ function bindShopButtons() {
   });
 }
 
+function setupTabSwitching() {
+  const tabs = document.querySelectorAll('.tab');
+  const contents = document.querySelectorAll('.tab-content');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      // Remove active from all tabs
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+
+      // Hide all tab content
+      contents.forEach(content => {
+        content.classList.remove('active');
+        content.style.display = 'none';
+      });
+
+      // Show selected tab content
+      const targetId = tab.getAttribute('data-tab');
+      const target = document.getElementById(targetId);
+      if (target) {
+        target.classList.add('active');
+        target.style.display = 'block';
+      }
+    });
+  });
+}
+
+
 export const InputHandler = (() => {
   let choiceCallback = () => {};
 
   function setup(callback) {
     bindShopButtons();
+    setupTabSwitching();
     choiceCallback = callback;
 
     // === MAIN MENU FLOW ===
@@ -38,11 +67,14 @@ export const InputHandler = (() => {
       const health = parseInt(document.getElementById('player-health').value, 10);
       const ac = parseInt(document.getElementById('player-armour').value, 10);
       const coin = parseFloat(document.getElementById('player-coin').value);
-
+      if (!name || isNaN(health) || isNaN(ac) || isNaN(coin)) {
+        alert('Please fill out all fields correctly.');
+        return;
+      }
       // TODO: Add validation later
       StateManager.setPlayerData({ name, health, ac, coin });
       OutputRenderer.updateStats();
-
+      document.getElementById('stats').style.display = 'flex';
       hideAllMenus();
       OutputRenderer.renderScene(StoryEngine.getCurrentScene());
     });

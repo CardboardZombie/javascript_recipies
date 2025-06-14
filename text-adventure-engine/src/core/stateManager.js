@@ -42,7 +42,10 @@ export const StateManager = (() => {
   }
 
   function addCoin(amount) {
-    state.coin += amount;
+    state.coin = Math.round((state.coin + amount) * 100) / 100; // Round to 2 decimal places
+    if (state.coin < 0) {
+      state.coin = 0; // Prevent negative coins
+    }
     save();
   }
 
