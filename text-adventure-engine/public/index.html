@@ -160,8 +160,8 @@
             <section id="story-prompts" style="display: none;">
                 <p class="prompt-description"></p>
                 <div class="choice-buttons">
-                    <button id="succession" style="display: none;" class="choice-button">Start Game</button>
-                    <button id="failure" style="display: none;" class="choice-button">Exit Game</button>
+                    <button id="succession" style="display: none;" class="choice-button">Success</button>
+                    <button id="failure" style="display: none;" class="choice-button">Fail</button>
                 </div>
             </section>
         </section>
@@ -169,136 +169,8 @@
             <div class="modal-content">
                 <span class="close-btn">&times;</span>
                 <h2>General Store</h2>
-                <div class="tabs">
-                    <div class="tab active" data-tab="potions">Potions</div>
-                    <div class="tab" data-tab="tools">Tools</div>
-                    <div class="tab" data-tab="weapons">Weapons</div>
-                    <div class="tab" data-tab="gear">Adventuring Gear</div>
-                </div>
-                <div id="potions" class="tab-content active">
-                    <div class="modal-item">
-                        <span class="shop-description">Antitoxin</span>
-                        <button class="shop-btn" data-item="Antitoxin" data-cost="25">25 gp</button>
-                    </div>
-                    <div class="modal-item">
-                        <span class="shop-description">Potion of healing</span>
-                        <button class="shop-btn" data-item="Potion of healing" data-cost="25">25 gp</button>
-                    </div>
-                </div>
-                <div id="tools" class="tab-content">
-                    <div class="modal-item">
-                        <span class="shop-description">Alchemist's supplies</span>
-                        <button class="shop-btn" data-item="Alchemist's supplies" data-cost="40">40 gp</button>
-                    </div>
-                    <div class="modal-item">
-                        <span class="shop-description">Cook's utensils</span>
-                        <button class="shop-btn" data-item="Cook's utensils" data-cost="1">1 gp</button>
-                    </div>
-                    <div class="modal-item">
-                        <span class="shop-description">Herbalism Kit</span>
-                        <button class="shop-btn" data-item="Herbalism Kit" data-cost="4">4 gp</button>
-                    </div>
-                </div>
-                <div id="weapons" class="tab-content">
-                    <div class="modal-item">
-                        <span class="shop-description">Arrows (10)</span>
-                        <button class="shop-btn" data-item="Arrows (10)" data-cost="1">1 gp</button>
-                    </div>
-                    <div class="modal-item">
-                        <span class="shop-description">Shortbow</span>
-                        <button class="shop-btn" data-item="Shortbow" data-cost="20">20 gp</button>
-                    </div>
-                    <div class="modal-item">
-                        <span class="shop-description">Dagger</span>
-                        <button class="shop-btn" data-item="Dagger" data-cost="2">2 gp</button>
-                    </div>
-                    <div class="modal-item">
-                        <span class="shop-description">Shortsword</span>
-                        <button class="shop-btn" data-item="Shortsword" data-cost="10">10 gp</button>
-                    </div>
-                    <div class="modal-item">
-                        <span class="shop-description">Handaxe</span>
-                        <button class="shop-btn" data-item="Handaxe" data-cost="5">5 gp</button>
-                    </div>
-                    <div class="modal-item">
-                        <span class="shop-description">Shield</span>
-                        <button class="shop-btn" data-item="Shield" data-cost="10">10 gp</button>
-                    </div>
-                </div>
-                <div id="gear" class="tab-content">
-                    <div class="modal-item">
-                        <span class="shop-description">Backpack</span>
-                        <button class="shop-btn" data-item="Backpack" data-cost="2">2 gp</button>
-                    </div>
-                    <div class="modal-item">
-                        <span class="shop-description">Bedroll</span>
-                        <button class="shop-btn" data-item="Bedroll" data-cost="1.6">16 sp</button>
-                    </div>
-                    <div class="modal-item">
-                        <span class="shop-description">Blanket</span>
-                        <button class="shop-btn" data-item="Blanket" data-cost="0.5">5 sp</button>
-                    </div>
-                    <div class="modal-item">
-                        <span class="shop-description">Bottle (glass)</span>
-                        <button class="shop-btn" data-item="Bottle (glass)" data-cost="1">1 gp</button>
-                    </div>
-                    <div class="modal-item">
-                        <span class="shop-description">Candle</span>
-                        <button class="shop-btn" data-item="Candle" data-cost="0.01">1 cp</button>
-                    </div>
-                    <div class="modal-item">
-                        <span class="shop-description">Crowbar</span>
-                        <button class="shop-btn" data-item="Crowbar" data-cost="2">2 gp</button>
-                    </div>
-                    <div class="modal-item">
-                        <span class="shop-description">Hammer</span>
-                        <button class="shop-btn" onclick="buyItem('Hammer', 1)">1 gp</button>
-                    </div>
-                    <div class="modal-item">
-                        <span class="shop-description">Healer's kit</span>
-                        <button class="shop-btn" onclick="buyItem('Healer\'s kit', 4)">4 gp</button>
-                    </div>
-                    <div class="modal-item">
-                        <span class="shop-description">Lantern, hooded</span>
-                        <button class="shop-btn" onclick="buyItem('Lantern, hooded', 4)">4 gp</button>
-                    </div>
-                    <div class="modal-item">
-                        <span class="shop-description">Magnifying glass</span>
-                        <button class="shop-btn" onclick="buyItem('Magnifying glass', 100)">100 gp</button>
-                    </div>
-                    <div class="modal-item">
-                        <span class="shop-description">Oil (flask)</span>
-                        <button class="shop-btn" onclick="buyItem('Oil (flask)', 0.1)">1 sp</button>
-                    </div>
-                    <div class="modal-item">
-                        <span class="shop-description">Rations (1/day)</span>
-                        <button class="shop-btn" onclick="buyItem('Rations (1/day)', 0.5)">5 sp</button>
-                    </div>
-                    <div class="modal-item">
-                        <span class="shop-description">Rope, hempen (50ft)</span>
-                        <button class="shop-btn" onclick="buyItem('Rope, hempen (50ft)', 1)">1 gp</button>
-                    </div>
-                    <div class="modal-item">
-                        <span class="shop-description">Saddle, riding</span>
-                        <button class="shop-btn" onclick="buyItem('Saddle, riding', 10)">10 gp</button>
-                    </div>
-                    <div class="modal-item">
-                        <span class="shop-description">Soap</span>
-                        <button class="shop-btn" onclick="buyItem('Soap', 0.02)">2 cp</button>
-                    </div>
-                    <div class="modal-item">
-                        <span class="shop-description">Torch</span>
-                        <button class="shop-btn" onclick="buyItem('Torch', 0.01)">1 cp</button>
-                    </div>
-                    <div class="modal-item">
-                        <span class="shop-description">Waterskin</span>
-                        <button class="shop-btn" onclick="buyItem('Waterskin', 0.2)">2 sp</button>
-                    </div>
-                    <div class="modal-item">
-                        <span class="shop-description">Whetstone</span>
-                        <button class="shop-btn" onclick="buyItem('Whetstone', 0.01)">1 cp</button>
-                    </div>
-                </div>
+                <div class="tabs"></div>
+                <div class="tab-contents"></div>
             </div>
         </div>
 

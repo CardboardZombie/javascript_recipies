@@ -1,7 +1,13 @@
 // StoryEngine.js
 
 let storyData = {};
-let currentSceneIndex = 0;
+let currentSceneId = 0;
+
+function setSceneId(id) {
+  console.log('[STORY ENGINE] Updating scene ID to', id);
+  currentSceneId = id;
+}
+
 
 export const StoryEngine = (() => {
   async function loadChapter(storyId, chapterFilename) {
@@ -11,7 +17,9 @@ export const StoryEngine = (() => {
     const data = await res.json();
     const chapterKey = Object.keys(data)[0];
     storyData = data[chapterKey];
-    currentSceneIndex = 0;
+    console.log("[STORY ENGINE] Loaded chapter:", chapterKey);
+    console.log("[STORY ENGINE] Story data:", storyData);
+    currentSceneId = 0;
     return getCurrentScene();
   } catch (err) {
     console.error("Failed to load chapter:", err);
@@ -20,13 +28,13 @@ export const StoryEngine = (() => {
 }
 
   function getCurrentScene() {
-    return storyData[currentSceneIndex];
+    return storyData[String(currentSceneId)];
   }
 
   function goToScene(index) {
     if (storyData.hasOwnProperty(index)) {
       currentSceneIndex = index;
-      return storyData[currentSceneIndex];
+      return storyData[String(currentSceneId)];
     }
     return null;
   }
@@ -41,14 +49,15 @@ export const StoryEngine = (() => {
   }
 
   function getCurrentSceneIndex() {
-    return currentSceneIndex;
+    return currentSceneId;
   }
 
   return {
     loadChapter,
     getCurrentScene,
     advance,
-    getCurrentSceneIndex
+    getCurrentSceneIndex,
+    setSceneId
   };
 })();
 

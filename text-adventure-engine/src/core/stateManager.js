@@ -8,13 +8,14 @@ export const StateManager = (() => {
     ac: 0,
     coin: 0,
     inspiration: false,
-    currentScene: 0
+    currentScene: 0,
+    choices: []
   };
 
   function init() {
-    const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+    const saved = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
     if (saved) {
-      state = JSON.parse(saved);
+      state = saved;
     }
   }
 
@@ -49,6 +50,11 @@ export const StateManager = (() => {
     save();
   }
 
+  function addChoice(choiceType, nextId) {
+    state.choices.push({ choice: choiceType, scene: nextId });
+    save(); // re-save to localStorage
+  }
+
   function toggleInspiration() {
     state.inspiration = !state.inspiration;
     save();
@@ -65,7 +71,8 @@ export const StateManager = (() => {
       ac: 0,
       coin: 0,
       inspiration: false,
-      currentScene: 0
+      currentScene: 0,
+      choices: []
     };
     save();
   }
@@ -79,6 +86,7 @@ export const StateManager = (() => {
     addCoin,
     toggleInspiration,
     save,
-    reset
+    reset,
+    addChoice
   };
 })();

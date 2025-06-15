@@ -612,3 +612,16 @@ body.dark-mode .modal-content{
     align-items: center;
     color: var(--color-secondary-text);
 }
+
+.tab-contents {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 1rem 0;
+}
+
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+}

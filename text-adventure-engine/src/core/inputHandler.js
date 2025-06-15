@@ -3,52 +3,14 @@
 import { StateManager } from './stateManager.js';
 import { StoryEngine } from './storyEngine.js';
 import { OutputRenderer } from './outputRenderer.js';
-import { Store } from '../modules/store.js';
-
-function bindShopButtons() {
-  document.querySelectorAll('.shop-btn').forEach(button => {
-    button.addEventListener('click', () => {
-      const item = button.getAttribute('data-item');
-      const cost = parseFloat(button.getAttribute('data-cost'));
-      Store.buyItem(item, cost);
-    });
-  });
-}
-
-function setupTabSwitching() {
-  const tabs = document.querySelectorAll('.tab');
-  const contents = document.querySelectorAll('.tab-content');
-
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      // Remove active from all tabs
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-
-      // Hide all tab content
-      contents.forEach(content => {
-        content.classList.remove('active');
-        content.style.display = 'none';
-      });
-
-      // Show selected tab content
-      const targetId = tab.getAttribute('data-tab');
-      const target = document.getElementById(targetId);
-      if (target) {
-        target.classList.add('active');
-        target.style.display = 'block';
-      }
-    });
-  });
-}
-
+import { stores } from '../modules/storeData.js';
+import { renderStore } from '../modules/renderStoreUI.js';
 
 export const InputHandler = (() => {
   let choiceCallback = () => {};
 
   function setup(callback) {
-    bindShopButtons();
-    setupTabSwitching();
+   
     choiceCallback = callback;
 
     // === MAIN MENU FLOW ===
@@ -106,7 +68,15 @@ export const InputHandler = (() => {
     });
 
     document.getElementById('shop-btn')?.addEventListener('click', () => {
-      document.getElementById('store-modal').style.display = 'block';
+      const storeWrapper = document.getElementById('store');
+      const shopId = storeWrapper?.dataset?.shopId;
+      const storeData = stores[shopId];
+
+      if (storeData) {
+        renderStore(storeData);
+      } else {
+        console.warn(`No store data found for ID "${shopId}"`);
+      }
     });
 
     // === DARK MODE TOGGLE ===
@@ -156,8 +126,20 @@ export const InputHandler = (() => {
   }
 
   function handleChoice(type) {
-    if (choiceCallback) {
-      choiceCallback(type);
+    const current = StoryEngine.getCurrentScene();
+    console.log('[CHOICE]', type);
+    console.log('[CURRENT SCENE]', current);
+
+    const nextId = current?.[type]?.next;
+    console.log('[NEXT ID]', nextId);
+
+    if (nextId !== undefined && nextId !== null) {
+      console.log(`[ADVANCE] Moving to scene: ${nextId}`);
+      StateManager.addChoice(type, nextId);
+      StoryEngine.setSceneId(nextId);
+      OutputRenderer.renderScene(StoryEngine.getCurrentScene());
+    } else {
+      console.warn(`No valid 'next' scene for type "${type}"`);
     }
   }
 
